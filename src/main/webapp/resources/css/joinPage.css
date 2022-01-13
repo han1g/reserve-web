@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+body,
+header,
+{
+	margin: 0;
+	padding: 0;
+}
+
+#header {
+	
+	background-color: aqua;
+	padding: 10px; 
+}
+
+
+.arearea {
+	background-color:white;
+	min-height: 500px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+tr.line {
+	border-bottom: 1px solid black;
+}
+td {
+	margin: 10px;
+	padding: 10px;
+}
+
+.table1{
+	margin-left:50%;
+	margin-right:50%;
+	
+}
