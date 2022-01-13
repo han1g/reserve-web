@@ -29,17 +29,13 @@ public class AdminNoticeController {
 	@RequestMapping("/list")
 	public String list(Criteria cri,Model model) {
 		List<NoticeDTO> list = service.getList(cri);
-		
-		log.info("list1 ; " + list.get(0).getCreatedat().toString());
 		model.addAttribute("noticeList",list);
 		model.addAttribute("pageMaker",new PageDTO(cri, service.getTotal(cri)));
-		List<NoticeDTO> list2 = (List<NoticeDTO>) model.getAttribute("noticeList");
-		log.info("list2 ; " + list2.get(0).getCreatedat().toString());
 		return "/admin/URN002L01";
 	}
 	
-	@RequestMapping("")
+	@RequestMapping("/register")
 	public String register() {
-		
+		return "/admin/URN002C01";
 	}
 }

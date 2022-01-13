@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<div class="work-area">
@@ -107,7 +108,7 @@
 			</script>
 		</div>
 		<div>
-			<a href="/board/register" class="btn btn-outline-success">글쓰기</a>
+			<a href="/admin/notice/register" class="btn btn-outline-success">글쓰기</a>
 		</div>
 	</div>
 	
