@@ -17,7 +17,7 @@
           <a class="nav-link ${menu eq 'area' ? 'active' : '' }" aria-current="page" href="/area/">物件を探す</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/notice/">NOTICE。</a>
+          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/notice/list">NOTICE。</a>
         </li>
         <li class="nav-item">
           <a class="nav-link ${menu eq 'office' ? 'active' : '' }" aria-current="page" href="/office/">営業所</a>

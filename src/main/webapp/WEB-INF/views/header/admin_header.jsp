@@ -11,16 +11,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       	<li class="nav-item">
-          <a class="nav-link ${menu eq 'home' ? 'active' : '' }" aria-current="page" href="/admin">Home</a>
+          <a class="nav-link ${menu eq 'home' ? 'active' : '' }" aria-current="page" href="/admin/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'area' ? 'active' : '' }" aria-current="page" href="/admin/area">物件を探す</a>
+          <a class="nav-link ${menu eq 'area' ? 'active' : '' }" aria-current="page" href="/admin/area/">物件を探す</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/admin/notice">NOTICE。</a>
+          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/admin/notice/list">NOTICE。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'office' ? 'active' : '' }" aria-current="page" href="/admin/office">営業所</a>
+          <a class="nav-link ${menu eq 'office' ? 'active' : '' }" aria-current="page" href="/admin/office/">営業所</a>
         </li>
       </ul>
     </div>

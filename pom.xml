@@ -12,6 +12,7 @@
 		<org.springframework-version>5.3.14</org.springframework-version>
 		<org.springsecurity-version>5.6.1</org.springsecurity-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<querydsl.version>4.2.1</querydsl.version>
 		<org.slf4j-version>1.7.32</org.slf4j-version>
 		<apachetiles.version>3.0.5</apachetiles.version>	
 	</properties>
@@ -207,7 +208,18 @@
 			</dependency>
 		<!-- spring-data-jpa가 orm과 tx를 import하는데 현재 스프링 버전과 맞지않아 에러가 발생 할 수 있다 -->
 
-				
+		<dependency>
+		  <groupId>com.querydsl</groupId>
+		  <artifactId>querydsl-apt</artifactId>
+		  <version>${querydsl.version}</version>
+		  <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.querydsl</groupId>
+		  <artifactId>querydsl-jpa</artifactId>
+		  <version>${querydsl.version}</version>
+		</dependency>		
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
@@ -355,6 +367,22 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+		     <groupId>com.mysema.maven</groupId>
+		     <artifactId>apt-maven-plugin</artifactId>
+		     <version>1.0.9</version>
+		     <executions>
+		       <execution>
+		         <goals>
+		           <goal>process</goal>
+		         </goals>
+		         <configuration>
+		           <outputDirectory>target/generated-sources/java</outputDirectory>
+		           <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+		         </configuration>
+		       </execution>
+		     </executions>
+		   </plugin>
         </plugins>
     </build>
 </project>

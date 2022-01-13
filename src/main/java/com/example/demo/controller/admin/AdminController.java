@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/admin*")
 public class AdminController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
