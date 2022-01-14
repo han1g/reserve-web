@@ -15,7 +15,7 @@
 					<h2 class="write-h2">공지 쓰기</h2>
 				</div>
 				<div class="background-white">
-					<form action="/" name="form" id="form" role="form" method="post">
+					<form action="/notice/admin/register" name="form" id="form" role="form" method="post">
 						<div class="mb-3">
 							<label for="title"></label> 
 							<input type="text"
@@ -28,8 +28,7 @@
 						</div>
 					</form>
 					<div>
-						<button type="button" class="btn btn-danger" id="btnList" onclick="toggleReviewForm(false);">취소</button>
-						<button type="button" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
+						<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
 					</div>
 				</div>
 			</div>
@@ -49,16 +48,17 @@
 				//summernote 설정
 				function sendFile(file, el) {
 				   var form_data = new FormData();
-			       form_data.append('file', file);
+			       form_data.append('uploadFile', file);
 			       $.ajax({
 			         data: form_data,
 			         type: "POST",
-			         url: './upload_image.do',
+			         url: '/admin/notice/upload_image',
 			         cache: false,
 			         contentType: false,
 			         enctype: 'multipart/form-data',
 			         processData: false,
 			         success: function(img_name) {
+			        	 console.log(img_name);
 			           $(el).summernote('editor.insertImage', img_name);
 			         }
 			       });
@@ -67,7 +67,6 @@
 				function sendReviewForm(frm) {
 					var title = $('#title').val();
 					var content = $("#summernote").summernote('code');
-					var preview = $($("#summernote").summernote("code")).text().substring(0,80);
 					if (title.trim() == ''){
 						alert("제목을 입력해주세요");
 						return false;
@@ -78,30 +77,8 @@
 						return false;
 					}
 					
-					var sendData = {"title": title,"preview" :preview,"content" : content,"pid" : <%=request.getParameter("pid") %> };
-					$.ajax({
-				        url:'review_create.do'
-				        , method : 'POST'
-				        , data: JSON.stringify(sendData)
-				        , contentType : 'application/json; charset=UTF-8'
-				        , dataType : 'json'
-				        , success : function(resp) {
-							if(resp == null) {
-								alert("등록에 실패했습니다.");
-								return;
-							}
-							alert("등록 되었습니다.");
-							toggleReviewForm(false);
-							loadReview(review_selected_div,1);
-							$('#review-detail').load('review_detail.action',{"rid":resp.id});
-							$('#review-detail').css('display','block');
-							$('#review-form').css('display','none');
-							
-				        }
-					    , error : function(error) {
-							alert("등록에 실패했습니다.");
-						}
-				    });//ajax로 검색	
+					frm.submit();
+					
 				}
 		</script>
 	</body>
