@@ -56,4 +56,9 @@ public class Notice extends BuildingEntity{
     			.title(title)
     			.build();
     }
+    
+    public void update(String title,String contents) {
+    	this.title = title;
+    	this.contents = contents;
+    }
 }

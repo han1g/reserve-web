@@ -17,7 +17,7 @@
 	<link href="/resources/css/paging.css" rel="stylesheet" >
 	
 	
-	<link href="https://www.ur-net.go.jp/commoncms/img/favicon.ico" rel="shortcut icon"/>
+	<link rel="shortcut icon" href="/resources/css/favicon.ico"/>
 	 	
 </head>
 <body>

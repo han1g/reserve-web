@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	home
+	<h2>입국좀 열어라</h2>
+	<img src="/resources/css/favicon.ico"/>
 </body>
 </html>

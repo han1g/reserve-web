@@ -19,10 +19,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.controller.NoticeController;
 import com.example.demo.domain.etc.Criteria;
@@ -38,21 +42,16 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Slf4j
 public class AdminNoticeController extends NoticeController{
 	
-	/*@Autowired
-	NoticeService service;
-	
-	@RequestMapping("")
-	public String root() {
-		return "redirect:./list";//relative path
-	}*/ // 상위(공통기능) 클래스로 넘김
-	
 	@Override
 	@RequestMapping("/list")
 	public String list(Criteria cri,Model model) {
-		List<NoticeDTO> list = service.getList(cri);
-		model.addAttribute("noticeList",list);
-		model.addAttribute("pageMaker",new PageDTO(cri, service.getTotal(cri)));
-		return "/admin/URN002L01";
+		return list(cri,model,"/admin/URN002L01");
+	}
+	
+	@Override
+	@RequestMapping("/get")
+	public String get(@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,Model model) {
+		return get(no,cri,model,"/admin/URN002D01");
 	}
 	
 	@GetMapping("/register")//admin만 가능
@@ -60,8 +59,11 @@ public class AdminNoticeController extends NoticeController{
 		return "/admin/URN002C01";
 	}
 	@PostMapping("/register")
-	public String register(NoticeDTO notice) {
-		return null;
+	public String register(NoticeDTO notice, RedirectAttributes rttr) {
+		service.register(notice);
+		rttr.addFlashAttribute("result", notice.getNo());
+		
+		return "redirect:/admin/notice/list";
 	}
 	
 	@PostMapping(value ="/upload_image")//admin만 가능
@@ -118,5 +120,43 @@ public class AdminNoticeController extends NoticeController{
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	
+	
+	@PostMapping("/modify")
+	public String modify(NoticeDTO notice, Criteria cri, RedirectAttributes rttr) {
+		//request body �Ӹ��ƴ϶� url �Ķ���͵� ���� ����
+		log.info("modifyPost : " + notice);
+		if(service.modify(notice)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		/*rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());*/
+		//redirect attribute�� ��ü�� ���ѱ�
+		return "redirect:/admin/notice/list" + cri.getListLink();
+		
+		//(board/list)��û�� �𵨿� result�� �߰���
+	}
+	
+	@GetMapping("/modify")
+	public String modify(@RequestParam("no") Long no, @ModelAttribute("cri") Criteria cri, Model model) {
+		log.info("modifyGet");
+		model.addAttribute("notice",service.get(no));
+		return "/admin/URN002U01";
+		//(board/list)��û�� �𵨿� result�� �߰���
+	}
+	
+	@PostMapping("/remove")
+	public String remove(@RequestParam("no") Long no,Criteria cri, RedirectAttributes rttr) {
+		
+		if(service.remove(no)) {//delete from db
+			
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/admin/notice/list" + cri.getListLink();
+		//��ũ�� ���� �ҷ�����
+		
 	}
 }
