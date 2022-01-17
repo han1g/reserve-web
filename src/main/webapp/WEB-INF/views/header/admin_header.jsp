@@ -20,7 +20,7 @@
           <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/admin/notice/list">NOTICE。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'office' ? 'active' : '' }" aria-current="page" href="/admin/office/">営業所</a>
+          <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/admin/consultation/list">CONSULTATION。</a>
         </li>
       </ul>
     </div>

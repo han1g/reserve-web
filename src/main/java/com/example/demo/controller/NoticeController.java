@@ -41,12 +41,12 @@ public class NoticeController {
 	
 	@RequestMapping("/list")
 	public String list(Criteria cri,Model model) {
-		return list(cri,model,"URN001L01");
+		return list(cri,false,model,"URN001L01");
 	}
-	public String list(Criteria cri,Model model, String ret) {
-		List<NoticeDTO> list = service.getList(cri);
+	public String list(Criteria cri,boolean deletedList,Model model, String ret) {
+		List<NoticeDTO> list = service.getList(cri,deletedList);
 		model.addAttribute("noticeList",list);
-		model.addAttribute("pageMaker",new PageDTO(cri, service.getTotal(cri)));
+		model.addAttribute("pageMaker",new PageDTO(cri, service.getTotal(cri,deletedList)));
 		return ret;
 	}
 	
@@ -64,26 +64,7 @@ public class NoticeController {
 	
 	
 	
-	@GetMapping("/image") 
-	public @ResponseBody ResponseEntity<byte[]> getThumb(String fileName) {
-		log.info(fileName);
-		fileName = fileName.replace("/", File.separator);
-		File file = new File("C:\\upload",fileName);
-		log.info(fileName);
-		
-		ResponseEntity<byte[]> result = null;
-		try {
-			HttpHeaders header = new HttpHeaders();
-			log.info(Files.probeContentType(file.toPath()));
-			header.add("Content-Type",Files.probeContentType(file.toPath()));//�̹����� MIME
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),header,HttpStatus.OK);
-		} catch (IOException e) {
-			e.printStackTrace();// TODO: handle exception
-		}
 	
-		return result;
-		
-	}
 	
 	
 	

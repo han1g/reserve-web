@@ -12,7 +12,7 @@
 <body>
 	<div class="work-area">
 		<div class="card">
-			<div class="card-header">Notice.</div>
+			<div class="card-header">Deleted Notice.</div>
 			
 			<table class="table table-striped">
 				<thead>
@@ -102,14 +102,13 @@
 				e.preventDefault();
 				actionForm.append('<input type="hidden" name="no" value=""/>');
 				actionForm.find("input[name='no']").val($(this).attr("href"));
-				actionForm.attr("action","/admin/notice/get");
+				actionForm.attr("action","/admin/notice/getDeleted");
 				actionForm.submit();
 			});//제목 클릭하면 게시글로 넘어가기
 			</script>
 		</div>
 		<div>
-			<a href="/admin/notice/register" class="btn btn-outline-success">글쓰기</a>
-			<a href="/admin/notice/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+			<a href="/admin/notice/list" class="btn btn-outline-success">목록</a>
 		</div>
 	</div>
 	
@@ -154,7 +153,7 @@
 				}
 			}
 			
-		});
+		})
 	</script>
 </body>
 </html>

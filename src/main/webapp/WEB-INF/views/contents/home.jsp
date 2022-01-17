@@ -9,6 +9,6 @@
 </head>
 <body>
 	<h2>입국좀 열어라</h2>
-	<img src="/resources/css/favicon.ico"/>
+	<img src="/resources/img/favicon.ico"/>
 </body>
 </html>

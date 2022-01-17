@@ -44,6 +44,14 @@
     <jpa:repositories base-package="com.example.demo.domain"></jpa:repositories>
 
 
+	<!-- queryDSL bean -->
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="jpaQueryFactory" class="com.querydsl.jpa.impl.JPAQueryFactory">
+       <constructor-arg ref="entityManager"/>
+    </bean>
+
     <!-- transaction -->
 	<bean id="transactionManager"
 	class="org.springframework.orm.jpa.JpaTransactionManager">

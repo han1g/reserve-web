@@ -45,13 +45,22 @@ public class AdminNoticeController extends NoticeController{
 	@Override
 	@RequestMapping("/list")
 	public String list(Criteria cri,Model model) {
-		return list(cri,model,"/admin/URN002L01");
+		return list(cri,false,model,"/admin/URN002L01");
+	}
+	
+	@RequestMapping("/deletedList")
+	public String deletedList(Criteria cri,Model model) {
+		return list(cri,true,model,"/admin/URN002L02");
 	}
 	
 	@Override
 	@RequestMapping("/get")
 	public String get(@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,Model model) {
 		return get(no,cri,model,"/admin/URN002D01");
+	}
+	@RequestMapping("getDeleted")
+	public String getDeleted(@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,Model model) {
+		return get(no,cri,model,"/admin/URN002D02");
 	}
 	
 	@GetMapping("/register")//admin만 가능
@@ -66,61 +75,7 @@ public class AdminNoticeController extends NoticeController{
 		return "redirect:/admin/notice/list";
 	}
 	
-	@PostMapping(value ="/upload_image")//admin만 가능
-	public @ResponseBody ResponseEntity<?> uploadFormPost(MultipartFile uploadFile) throws IOException {
-		String datePath = getFolder();
-		File uploadPath = new File("C:\\upload",datePath);
-		if(!uploadPath.exists()) {//����� root�� C
-			log.info("" + uploadPath.mkdirs());//recursive
-		}
-		MultipartFile multipartFile = uploadFile;
-		String ext = multipartFile.getOriginalFilename();
-		ext = ext.substring(ext.lastIndexOf("."));
-		log.info(multipartFile.getName());//<�Ķ���͸�>
-		log.info("" + multipartFile.isEmpty());//������ ����
-		log.info("" + multipartFile.getSize());//����ũ��
-		log.info("" + multipartFile.getBytes().length);//����Ʈ �迭�� ��ȯ
-		log.info("" + multipartFile.getInputStream());//���ϵ����͸� �޴� inputstream
-		log.info(ext);
-		
-		UUID uuid = UUID.randomUUID();
-		String fileName = uuid.toString();
-		fileName += ext;
-		File savefile = new File(uploadPath,fileName);
-		log.info(savefile.getName());
-		
-		boolean isImage = false;
-		try {
-			multipartFile.transferTo(savefile);
-			if(!checkImageType(savefile)) {
-				savefile.delete();
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-			}
-		}catch (Exception e) {
-			log.error(e.getMessage());
-			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<>("/notice/image?fileName=" + datePath.replace(File.separator,"/") + "/" + fileName,HttpStatus.OK);
-	}
-	
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String str = sdf.format(date);
-		return str.replace("-", File.separator);//CrossPlatform
-		
-	}
-	private boolean checkImageType(File file) {
-		String contentType;
-		try {
-			contentType = Files.probeContentType(file.toPath());
-			return contentType.startsWith("image");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
+
 	
 	
 	
@@ -152,6 +107,18 @@ public class AdminNoticeController extends NoticeController{
 	public String remove(@RequestParam("no") Long no,Criteria cri, RedirectAttributes rttr) {
 		
 		if(service.remove(no)) {//delete from db
+			
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/admin/notice/list" + cri.getListLink();
+		//��ũ�� ���� �ҷ�����
+		
+	}
+	
+	@PostMapping("/restore")
+	public String restore(@RequestParam("no") Long no,Criteria cri, RedirectAttributes rttr) {
+		
+		if(service.restore(no)) {//restore from db
 			
 			rttr.addFlashAttribute("result", "success");
 		}

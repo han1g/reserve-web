@@ -7,11 +7,14 @@ import com.example.demo.domain.notice.NoticeDTO;
 
 public interface NoticeService {
 
+	public List<NoticeDTO> getList(Criteria cri,boolean deletedList);
 	public void register(NoticeDTO board);
 	public boolean modify(NoticeDTO board);
 	public boolean remove(Long bno);
 	public NoticeDTO get(Long bno);
-	public List<NoticeDTO> getList(Criteria cri);
-	public int getTotal(Criteria cri);
+	boolean restore(Long no);
+	
+	public int getTotal(Criteria cri,boolean deletedList);
+	
 
 }

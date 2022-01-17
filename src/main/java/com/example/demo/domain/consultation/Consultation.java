@@ -1,5 +1,8 @@
 package com.example.demo.domain.consultation;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.example.demo.domain.base.BuildingEntity;
+import com.example.demo.domain.notice.NoticeDTO;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -47,13 +51,30 @@ public class Consultation extends BuildingEntity{
     @Column(length = 20, nullable = false)
     private String name;
     
-    @Column(length = 20, nullable = true)
+    @Column(length = 255, nullable = true)
     private String passwd;
     
     @Column(length = 1, nullable = true)
     private String lockflg;
     
     
+    public ConsultationDTO toDTO() {
+    	return ConsultationDTO.builder()
+    			.createdat(new Date(Timestamp.valueOf(getCreatedat()).getTime()))//localDateTime -> Timestamp -> long -> Date
+    			.updatedat(new Date(Timestamp.valueOf(getUpdatedat()).getTime()))
+    			.deleteflg(getDeleteflg())
+    			.buildcd(getBuildcd())
+    			.contents(contents)
+    			.depth(depth)
+    			.grgrod(grgrod)
+    			.grno(grno)
+    			.lockflg(lockflg)
+    			.name(name)
+    			.no(no)
+    			.passwd(passwd)
+    			.title(title)
+    			.build();
+    }
     @Builder
 	public Consultation(String deleteFlg, String buildcd, Long grno, Long grgrod, Long depth, String title,
 			String contents, String name, String passwd, String lockflg) {
@@ -67,4 +88,6 @@ public class Consultation extends BuildingEntity{
 		this.passwd = passwd;
 		this.lockflg = lockflg;
 	}
+    
+    
 }

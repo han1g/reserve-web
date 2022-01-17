@@ -12,33 +12,47 @@
 <body>
 	<div class="work-area">
 		<div class="card">
-			<div class="card-header">Notice.</div>
+			<div class="card-header">Consultation.</div>
 			
-			<table class="table table-striped">
+			<table class="table table">
 				<thead>
 					<tr>
 						<th>#번호</th>
 						<th>제목</th>
+						<th>작성자</th>
 						<th>작성일</th>
 						<th>수정일</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="notice" items="${noticeList}">
-						<tr>
-						 <td><c:out value="${notice.no}"></c:out></td>
-						 <td><a class="move" href="<c:out value="${notice.no}"/>">
-						 <!-- 링크로 넘길 파라미터가 많아지면 링크가 복잡 -->
-						 <c:out value="${notice.title}"></c:out></a></td>
-						 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${notice.createdat}"/></td>
-						 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${notice.updatedat}"/></td>
-						 <!-- date받아서 포매팅하기 -->
-						 <!-- cout 을 쓰면 자동으로escape처리되기 때문에 특수문자 오류나 xss에 대응가능 -->
-						</tr>
+					<c:forEach var="consultation" items="${consultationList}">
+						<c:if test="${consultation.depth eq 1}">
+							<tr class="border-bottom border-dark">
+							 <td><c:out value="${consultation.no}"></c:out></td>
+							 <td><a class="move" href="<c:out value="${consultation.no}"/>">
+							 <!-- 링크로 넘길 파라미터가 많아지면 링크가 복잡 -->
+							 <c:out value="${consultation.title}"></c:out></a></td>
+							 <td><c:out value="${consultation.name}"></c:out></td>
+							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.createdat}"/></td>
+							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.updatedat}"/></td>
+							 <!-- date받아서 포매팅하기 -->
+							 <!-- cout 을 쓰면 자동으로escape처리되기 때문에 특수문자 오류나 xss에 대응가능 -->
+							</tr>
+						</c:if>
+						<c:if test="${consultation.depth ne 1}">
+							<tr class="border-bottom border-dark" style="background-color: #E7E9EB;">
+							 <td>&nbsp;&nbsp;<img src="/resources/img/board_icon_reply.gif" alt="reply"/></td>
+							 <td><a class="move" href="<c:out value="${consultation.no}"/>">
+							 <c:out value="${consultation.title}"></c:out></a></td>
+							 <td><c:out value="${consultation.name}"></c:out></td>
+							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.createdat}"/></td>
+							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.updatedat}"/></td>
+							</tr>
+						</c:if>
 					</c:forEach>
 				</tbody>
 			</table>
-			<form id="searchForm" action="/admin/notice/list" method="get">
+			<form id="searchForm" action="/consultation/list" method="get">
 				<input type="hidden" name="pageNum" value="1"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<select name="type">
@@ -46,8 +60,12 @@
 					<c:out value="${pageMaker.cri.type == 'T' ? 'selected' : ''}"></c:out>>제목</option>
 					<option value="C" 
 					<c:out value="${pageMaker.cri.type == 'C' ? 'selected' : ''}"></c:out>>내용</option>
+					<option value="W" 
+					<c:out value="${pageMaker.cri.type == 'W' ? 'selected' : ''}"></c:out>>작성자</option>
 					<option value="TC" 
 					<c:out value="${pageMaker.cri.type == 'TC' ? 'selected' : ''}"></c:out>>제목 + 내용</option>
+					<option value="TCW" 
+					<c:out value="${pageMaker.cri.type == 'TCW' ? 'selected' : ''}"></c:out>>제목 + 내용 + 작성자</option>
 				</select>
 				<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
 				<button class="btn btn-outline-secondary">Search</button>
@@ -81,7 +99,7 @@
 					</c:if>
 				</ul>
 			</nav>
-			<form id="actionForm" action="/admin/notice/list" method="get">
+			<form id="actionForm" action="/consultation/list" method="get">
 				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<input type="hidden" name="type" value="<c:out value="${pageMaker.cri.type}"/>"/>
@@ -102,14 +120,13 @@
 				e.preventDefault();
 				actionForm.append('<input type="hidden" name="no" value=""/>');
 				actionForm.find("input[name='no']").val($(this).attr("href"));
-				actionForm.attr("action","/admin/notice/get");
+				actionForm.attr("action","/consultation/get");
 				actionForm.submit();
 			});//제목 클릭하면 게시글로 넘어가기
 			</script>
 		</div>
 		<div>
-			<a href="/admin/notice/register" class="btn btn-outline-success">글쓰기</a>
-			<a href="/admin/notice/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+			<a href="/consultation/register" class="btn btn-outline-success">글쓰기</a>
 		</div>
 	</div>
 	
@@ -154,7 +171,7 @@
 				}
 			}
 			
-		});
+		})
 	</script>
 </body>
 </html>

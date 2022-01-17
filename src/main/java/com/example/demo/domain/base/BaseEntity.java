@@ -30,6 +30,13 @@ public abstract class BaseEntity {
     public BaseEntity(String deleteflg) {
 		this.deleteflg = deleteflg;
 	}
+    
+    public void delete() {
+    	deleteflg = "1";
+    }
+    public void restore() {
+    	deleteflg = "0";
+    }
 
 	@PrePersist
     public void createdAt() {

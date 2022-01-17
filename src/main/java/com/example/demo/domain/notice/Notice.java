@@ -52,6 +52,7 @@ public class Notice extends BuildingEntity{
     			.createdat(new Date(Timestamp.valueOf(getCreatedat()).getTime()))//localDateTime -> Timestamp -> long -> Date
     			.updatedat(new Date(Timestamp.valueOf(getUpdatedat()).getTime()))
     			.deleteflg(getDeleteflg())
+    			.buildcd(getBuildcd())
     			.no(no)
     			.title(title)
     			.build();

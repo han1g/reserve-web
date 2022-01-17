@@ -10,7 +10,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 //Caused by: java.io.FileNotFoundException: class path resource [WEB-INF/spring/database.properties] cannot be opened because it does not exist
 //Caused by: java.io.FileNotFoundException: Could not open ServletContext resource [/WEB-INF/spring/database.propertiess]
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/spring/root-context.xml"
+		"file:src/main/webapp/WEB-INF/spring/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
 public abstract class BaseConfiguration {
 	

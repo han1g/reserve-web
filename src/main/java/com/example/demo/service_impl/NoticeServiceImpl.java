@@ -54,9 +54,28 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
+	@Transactional
 	public boolean remove(Long no) {
 		// TODO Auto-generated method stub
-		repo.deleteById(no);
+		Notice en = repo.findById(no).get();
+		if(en == null)
+			return false;
+		
+		en.delete();
+		repo.saveAndFlush(en);
+		return true;
+	}
+	
+	@Override
+	@Transactional
+	public boolean restore(Long no) {
+		// TODO Auto-generated method stub
+		Notice en = repo.findById(no).get();
+		if(en == null)
+			return false;
+		
+		en.restore();
+		repo.saveAndFlush(en);
 		return true;
 	}
 
@@ -68,10 +87,10 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public List<NoticeDTO> getList(Criteria cri) {
+	public List<NoticeDTO> getList(Criteria cri,boolean deletedList) {
 		// TODO Auto-generated method stub
 		Pageable pageable = PageRequest.of(cri.getPageNum() - 1,cri.getAmount(),Sort.by("no").descending());
-		BooleanBuilder builder = searchCondition(cri);
+		BooleanBuilder builder = searchCondition(cri,deletedList);
     	
     	Page<Notice> result = repo.findAll(builder,pageable);
     	List<NoticeDTO> ret = result.stream().map(s->s.toDTO()).collect(Collectors.toList());
@@ -80,13 +99,13 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public int getTotal(Criteria cri) {
+	public int getTotal(Criteria cri,boolean deletedList) {
 		// TODO Auto-generated method stub
-		BooleanBuilder builder = searchCondition(cri);
+		BooleanBuilder builder = searchCondition(cri,deletedList);
 		return (int) repo.count(builder);
 	}
 	
-	private BooleanBuilder searchCondition(Criteria cri) {
+	private BooleanBuilder searchCondition(Criteria cri,boolean deletedList) {
 		QNotice qNotice = QNotice.notice; //querydsl 객체
 		
 		String keyword = cri.getKeyword();
@@ -106,7 +125,12 @@ public class NoticeServiceImpl implements NoticeService{
 	    	}
     	}
     	builder.and(conditionBuilder);
-    	builder.and(qNotice.deleteflg.eq("0"));//not deleted
+    	if(deletedList) {
+    		builder.and(qNotice.deleteflg.eq("1"));//deleted
+    	}
+    	else {
+    		builder.and(qNotice.deleteflg.eq("0"));//not deleted
+    	}
     	builder.and(qNotice.buildcd.eq("4"));//(buildcd = 4) &&(exTitle || exContents)
 		return builder;
 		

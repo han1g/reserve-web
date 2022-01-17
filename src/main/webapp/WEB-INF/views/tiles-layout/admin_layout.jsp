@@ -17,7 +17,7 @@
 	<link href="/resources/css/paging.css" rel="stylesheet" >
 	
 	
-	<link rel="shortcut icon" href="/resources/css/favicon.ico"/>
+	<link rel="shortcut icon" href="/resources/img/favicon.ico"/>
 	 	
 </head>
 <body>
