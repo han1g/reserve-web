@@ -24,7 +24,7 @@
 		<property name="driverClassName"
 			value="${jdbc.driver}" />
 		<property name="jdbcUrl"
-				value="jdbc:log4jdbc:oracle:thin:@${jdbc.host}:1521:XE">
+				value="jdbc:log4jdbc:oracle:thin:@${jdbc.host}:1521:ORCL">
 			</property>
 			<property name="username" value='${jdbc.username}'></property>
 			<property name="password" value="${jdbc.password}"></property>

@@ -4,10 +4,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,16 +69,18 @@ public class ConsultationController {
 		return "URC001A01";
 	}
 	@PostMapping("/get")
-	public String get(@RequestParam("no") Long no,@RequestParam("pw") String pw, @ModelAttribute("cri") Criteria cri, Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
+	public String get(HttpServletRequest request,@RequestParam("no") Long no,@RequestParam("pw") String pw, @ModelAttribute("cri") Criteria cri, Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		ConsultationDTO dto = service.get(no);
+		
+	    String referer = request.getHeader("Referer");
 		if(SHA256Util.encrypt(pw).equals(dto.getPasswd())) {
 			rttr.addFlashAttribute("consultation", dto);
-			return "redirect:/consultation/get" + cri.getListLink() + "&no=" + no;
+			return "redirect:" + referer;
 		}
 		//unlocked
 		
-		rttr.addFlashAttribute("result","패스워드 오류");
-		return "redirect:/consultation/get" + cri.getListLink() + "&no=" + no;
+		model.addAttribute("result","패스워드 오류");
+		return "URC001A02";
 	}
 	
 	
