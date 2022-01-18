@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.SqlResultSetMapping;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.domain.BaseConfiguration;
 import com.example.demo.domain.etc.Criteria;
 import com.example.demo.domain.notice.QNotice;
+import com.example.demo.service.ConsultationService;
 import com.example.demo.utils.SHA256Util;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryFactory;
@@ -35,6 +37,9 @@ public class ConsultationTests extends BaseConfiguration {
 	 
 	 @Autowired
 	 ConsultationRepositorySupport p2;
+	 
+	 @Autowired
+	 ConsultationService service;
 	 
 	QConsultation qConsultation = QConsultation.consultation; //querydsl 객체
 
@@ -127,6 +132,11 @@ public class ConsultationTests extends BaseConfiguration {
     }
     
     @Test
+    public void deleteAll() {
+    	p.deleteAllInBatch();
+    }
+    
+    @Test
     public void queryDSLTest() {
     	List<Consultation> postsList = p2.findByTitle("title");
     	Consultation posts = postsList.get(0);  
@@ -161,6 +171,46 @@ public class ConsultationTests extends BaseConfiguration {
     	p2.searchGroups(cri, false).forEach(el -> log.info("gr:" + el.toString()));
     	
     	
+    }
+    
+    @Test
+    public void getMaxGrnoTest() {
+    	log.info(p2.getMaxGrno().toString());
+    }
+    
+    @Test
+    public void getMaxGrgrodTest() {
+    	log.info(p2.getMaxGrgrod(1L).toString());
+    	log.info(p2.getMaxGrgrod(2L).toString());
+    	log.info(p2.getMaxGrgrod(3L).toString());
+    	log.info(p2.getMaxGrgrod(4L).toString());
+    	log.info(p2.getMaxGrgrod(5L).toString());
+    }
+    @Test
+    public void existByGrnodTest() {
+    	log.info("" + p.existsByGrno(4L));
+    	log.info("" + p.existsByGrno(5L));
+    }
+    
+    @Test
+    @Transactional
+    public void reisterTest() throws NoSuchAlgorithmException {
+    	String pw = SHA256Util.encrypt("password");
+    	
+    	ConsultationDTO dto = ConsultationDTO.builder()
+    	.title("locked")
+    	.contents("cont")
+        .name("name")
+        .passwd(pw)
+        .lockflg("1")
+        .build();
+    	
+    	service.register(dto);
+    }
+    @Test
+    @Transactional
+    public void removeTest()  {
+    	service.remove(219L);
     }
     
     @Test

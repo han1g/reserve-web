@@ -29,26 +29,25 @@
 						<c:if test="${consultation.depth eq 1}">
 							<tr class="border-bottom border-dark">
 							 <td><c:out value="${consultation.no}"></c:out></td>
-							 <td><a class="move" href="<c:out value="${consultation.no}"/>">
+						</c:if>
+						<c:if test="${consultation.depth ne 1}">
+							<tr class="border-bottom border-dark" style="background-color: #E7E9EB;">
+							 <td>&nbsp;&nbsp;<img src="/resources/img/board_icon_reply.gif" alt="reply"/></td>
+						</c:if>
+							 <td>
+								 <a class="move" href="<c:out value="${consultation.no}"/>">
+								 <c:out value="${consultation.title}"></c:out></a>
+								 <c:if test="${consultation.lockflg eq '1'}">
+								  &nbsp;&nbsp;<img src="/resources/img/lock_icon.png" alt="lock"/>
+								 </c:if>
+							 </td>
 							 <!-- 링크로 넘길 파라미터가 많아지면 링크가 복잡 -->
-							 <c:out value="${consultation.title}"></c:out></a></td>
 							 <td><c:out value="${consultation.name}"></c:out></td>
 							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.createdat}"/></td>
 							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.updatedat}"/></td>
 							 <!-- date받아서 포매팅하기 -->
 							 <!-- cout 을 쓰면 자동으로escape처리되기 때문에 특수문자 오류나 xss에 대응가능 -->
 							</tr>
-						</c:if>
-						<c:if test="${consultation.depth ne 1}">
-							<tr class="border-bottom border-dark" style="background-color: #E7E9EB;">
-							 <td>&nbsp;&nbsp;<img src="/resources/img/board_icon_reply.gif" alt="reply"/></td>
-							 <td><a class="move" href="<c:out value="${consultation.no}"/>">
-							 <c:out value="${consultation.title}"></c:out></a></td>
-							 <td><c:out value="${consultation.name}"></c:out></td>
-							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.createdat}"/></td>
-							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.updatedat}"/></td>
-							</tr>
-						</c:if>
 					</c:forEach>
 				</tbody>
 			</table>

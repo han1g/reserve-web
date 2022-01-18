@@ -24,7 +24,7 @@
 		<property name="driverClassName"
 			value="${jdbc.driver}" />
 		<property name="jdbcUrl"
-				value="jdbc:log4jdbc:oracle:thin:@${jdbc.host}:1521:ORCL">
+				value="jdbc:log4jdbc:oracle:thin:@${jdbc.host}:1521:${jdbc.sid}">
 			</property>
 			<property name="username" value='${jdbc.username}'></property>
 			<property name="password" value="${jdbc.password}"></property>
@@ -51,7 +51,8 @@
     <bean id="jpaQueryFactory" class="com.querydsl.jpa.impl.JPAQueryFactory">
        <constructor-arg ref="entityManager"/>
     </bean>
-
+    
+    
     <!-- transaction -->
 	<bean id="transactionManager"
 	class="org.springframework.orm.jpa.JpaTransactionManager">

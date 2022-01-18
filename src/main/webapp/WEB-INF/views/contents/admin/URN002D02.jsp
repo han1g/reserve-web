@@ -39,6 +39,7 @@
 						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
 						<input type="hidden" name="no" value="${notice.no}"/>
 						<div>
+							<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/notice/deletedList';">목록</button>
 							<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnRestore">복구</a>
 						</div>
 					</form>

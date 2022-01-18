@@ -19,6 +19,7 @@ import com.example.demo.domain.notice.QNotice;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,25 @@ public class ConsultationRepositorySupport extends QuerydslRepositorySupport{
 				.from(qConsultation)
 				.where(searchCondition(cri, deletedList)).fetch();
 				
+	}
+	public Long getMaxGrno() {
+		BooleanBuilder exp = new BooleanBuilder(qConsultation.depth.eq(1L));
+		exp.and(qConsultation.buildcd.eq("4"));
+		if(queryFactory.selectFrom(qConsultation).fetchCount() == 0L) {
+			return 0L;
+		}
+		return queryFactory.select(qConsultation.grno).from(qConsultation).where(exp).orderBy(qConsultation.grno.desc()).fetchFirst();
+	}
+	public Long getMaxGrgrod(Long grno) {
+		BooleanBuilder exp = new BooleanBuilder(qConsultation.grno.eq(grno)); 
+		exp.and(qConsultation.buildcd.eq("4"));
+		return queryFactory.select(qConsultation.grgrod).from(qConsultation).where(exp).orderBy(qConsultation.grgrod.desc()).fetchFirst();
+	}
+	
+	public Long deleteGroup(Long grno) {
+		BooleanBuilder exp = new BooleanBuilder(qConsultation.grno.eq(grno)); 
+		exp.and(qConsultation.buildcd.eq("4"));
+		return queryFactory.update(qConsultation).where(exp).set(qConsultation.deleteflg,"1").execute();
 	}
 
 	public static BooleanBuilder searchCondition(Criteria cri,boolean deletedList) {
@@ -84,26 +104,6 @@ public class ConsultationRepositorySupport extends QuerydslRepositorySupport{
 		
 	}
 	
-//	@Override
-//	public List<NoticeDTO> getList(Criteria cri,boolean deletedList) {
-//		// TODO Auto-generated method stub
-//		Pageable pageable = PageRequest.of(cri.getPageNum() - 1,cri.getAmount(),Sort.by("no").descending());
-//		BooleanBuilder builder = searchCondition(cri,deletedList);
-//    	
-//    	Page<Notice> result = repo.findAll(builder,pageable);
-//    	List<NoticeDTO> ret = result.stream().map(s->s.toDTO()).collect(Collectors.toList());
-//    	
-//		return ret;
-//	}
-
-//	@Override
-//	public int getTotal(Criteria cri,boolean deletedList) {
-//		// TODO Auto-generated method stub
-//		BooleanBuilder builder = searchCondition(cri,deletedList);
-//		return (int) repo.count(builder);
-//	}
-	
-
 	
 
 }

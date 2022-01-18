@@ -32,13 +32,17 @@
 							${consultation.contents}
 						</div>
 					</form>
-					<form id="actionForm" action="" method="get">			
+					<form id="actionForm" action="" method="get">
+							
+						
 						<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
 						<input type="hidden" name="amount" value="${cri.amount}"/>
 						<input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
 						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
+						
 						<input type="hidden" name="no" value="${consultation.no}"/>
 						<div>
+							<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/consultation/list';">목록</button>
 							<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
 							<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
 						</div>
@@ -58,6 +62,7 @@
 										if(!confirm("삭제하시겠습니까?")) {
 											return;
 										}
+										form.append('<input type="hidden" name="lockflg_bef" value="${consultation.lockflg}"/>');
 										form.attr("action","/consultation/remove");
 										form.attr("method","post");
 										break;

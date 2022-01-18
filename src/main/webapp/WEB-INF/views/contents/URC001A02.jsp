@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Auth</title>
+<title>인증오류 페이지</title>
 </head>
 	<body>
 	<div class="modal" id="myModal" tabindex="-1">
@@ -17,7 +17,7 @@
 	            <div class="modal-body">
 	            </div>
 	            <div class="modal-footer">
-	                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+	                <button id="okButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
 	            </div>
 	        </div>
 	        <!-- /.modal-content -->
@@ -44,9 +44,10 @@
 
 				$(".modal-body").html(result);
 				$("#myModal").modal("show");
+				$("#okButton").focus();
 			}
 			
-			$("button").on("click",function(event) {
+			$("#myModal").on("hidden.bs.modal",function(event) {
 				history.back();
 			})
 			

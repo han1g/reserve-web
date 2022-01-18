@@ -1,5 +1,6 @@
 package com.example.demo.service_impl;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.example.demo.domain.consultation.Consultation;
 import com.example.demo.domain.consultation.ConsultationDTO;
@@ -18,10 +21,16 @@ import com.example.demo.domain.consultation.ConsultationRepository;
 import com.example.demo.domain.consultation.ConsultationRepositorySupport;
 import com.example.demo.domain.consultation.QConsultation;
 import com.example.demo.domain.etc.Criteria;
+import com.example.demo.domain.etc.GetListDTO;
+import com.example.demo.domain.notice.Notice;
 import com.example.demo.service.ConsultationService;
+import com.example.demo.utils.SHA256Util;
 import com.querydsl.core.BooleanBuilder;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class ConsultationServiceImpl implements ConsultationService {
 	
 	@Autowired
@@ -33,7 +42,8 @@ public class ConsultationServiceImpl implements ConsultationService {
 	QConsultation qConsultation = QConsultation.consultation; //querydsl 객체
 
 	@Override
-	public Map<String,Object> getList(Criteria cri, boolean deletedList) {
+	@Transactional
+	public GetListDTO<ConsultationDTO> getList(Criteria cri, boolean deletedList) {
 		// TODO Auto-generated method stub
 		
 		List<Long> grnos = repo2.searchGroups(cri, false);
@@ -51,40 +61,84 @@ public class ConsultationServiceImpl implements ConsultationService {
 		List<ConsultationDTO> list = pageInfo.get().map(s -> s.toDTO()).collect(Collectors.toList());
 		Long total = pageInfo.getTotalElements();
 		
-		Map<String, Object> ret = new HashMap<String, Object>();
-		ret.put("list", list);
-		ret.put("total",total);
+		GetListDTO<ConsultationDTO> ret = new GetListDTO<ConsultationDTO>(list,total.intValue());
 		return ret;
 	}
 
 	@Override
-	public void register(ConsultationDTO board) {
+	@Transactional
+	public void register(ConsultationDTO dto) throws NoSuchAlgorithmException {
+		Consultation en = Consultation.builder()
+				.grno(repo2.getMaxGrno() + 1)//sequence하나 새로 만드는게 나음
+				.grgrod(1L)
+				.depth(1L)
+				.title(dto.getTitle())
+				.contents(dto.getContents())
+				.name(dto.getName())
+				.passwd(dto.getLockflg().equals("0") ? null : SHA256Util.encrypt(dto.getPasswd()))
+				.lockflg(dto.getLockflg())
+				.buildcd("4")
+				.build();
+				
+		repo1.saveAndFlush(en);
+		
+		dto.setNo(en.getNo());
+	}
+
+	@Override
+	@Transactional
+	public boolean modify(ConsultationDTO board) throws NoSuchAlgorithmException {
 		// TODO Auto-generated method stub
+		Consultation en = repo1.findById(board.getNo()).get();
+		if(en == null)
+			return false;
+		
+		en.update(board.getTitle(), board.getContents(),board.getName(),board.getPasswd(),board.getLockflg());
+		repo1.saveAndFlush(en);
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean remove(Long no) {
+		log.info("remove start");
+		Consultation en = repo1.findById(no).get();
+		if(en == null)
+			return false;
+		
+		log.info("depth : " + en.getDepth());
+		log.info("grno  : " + en.getGrno());
+		if(en.getDepth() != 1L) {
+			log.info("no");
+			en.delete();
+			repo1.saveAndFlush(en);
+			return true;
+		} else {
+			log.info("deletegroup");
+			repo2.deleteGroup(en.getGrno());
+			return true; 
+		}
+		
 		
 	}
 
 	@Override
-	public boolean modify(ConsultationDTO board) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean remove(Long bno) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
+	@Transactional
 	public ConsultationDTO get(Long no) {
 		// TODO Auto-generated method stub
 		return repo1.findById(no).get().toDTO();
 	}
 
 	@Override
+	@Transactional
 	public boolean restore(Long no) {
-		// TODO Auto-generated method stub
-		return false;
+		Consultation en = repo1.findById(no).get();
+		if(en == null)
+			return false;
+		
+		en.restore();
+		repo1.saveAndFlush(en);
+		return true;
 	}
 	
 }

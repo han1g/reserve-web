@@ -1,5 +1,6 @@
 package com.example.demo.domain.consultation;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -15,6 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.example.demo.domain.base.BuildingEntity;
 import com.example.demo.domain.notice.NoticeDTO;
+import com.example.demo.utils.SHA256Util;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -87,6 +89,14 @@ public class Consultation extends BuildingEntity{
 		this.name = name;
 		this.passwd = passwd;
 		this.lockflg = lockflg;
+	}
+	public void update(String title, String contents,String name,String passwd,String lockflg) throws NoSuchAlgorithmException {
+		this.title = title;
+		this.contents = contents;
+		this.name = name;
+		this.passwd = lockflg.equals("0") ? null : SHA256Util.encrypt(passwd);
+		this.lockflg = lockflg;
+		
 	}
     
     

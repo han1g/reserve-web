@@ -39,6 +39,7 @@
 						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
 						<input type="hidden" name="no" value="${notice.no}"/>
 						<div>
+							<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/notice/list';">목록</button>
 							<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
 							<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
 						</div>
