@@ -58,7 +58,7 @@ public class AdminNoticeController extends NoticeController{
 	public String get(@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,Model model) {
 		return get(no,cri,model,"/admin/URN002D01");
 	}
-	@RequestMapping("getDeleted")
+	@RequestMapping("/getDeleted")
 	public String getDeleted(@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,Model model) {
 		return get(no,cri,model,"/admin/URN002D02");
 	}
@@ -122,7 +122,7 @@ public class AdminNoticeController extends NoticeController{
 			
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/admin/notice/list" + cri.getListLink();
+		return "redirect:/admin/notice/list";
 		//��ũ�� ���� �ҷ�����
 		
 	}

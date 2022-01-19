@@ -94,14 +94,22 @@ public class Consultation extends BuildingEntity{
 		this.title = title;
 		this.contents = contents;
 		this.name = name;
-		this.passwd = lockflg.equals("0") ? null : SHA256Util.encrypt(passwd);
+		this.passwd = SHA256Util.encrypt(passwd);
 		this.lockflg = lockflg;
 	}
 	
-	public void updateAdmin(String title, String contents,String name) {
+	public void updateAdmin(String title, String contents,String name, String passwd, String lockflg) throws NoSuchAlgorithmException {
 		this.title = title;
 		this.contents = contents;
 		this.name = name;
+		this.lockflg = lockflg;
+		if(passwd != null && !passwd.equals(""))
+			this.passwd = SHA256Util.encrypt(passwd);
+		//null이면 pw 유지
+		if(name.contains("운영자"))
+			this.passwd = null;
+		
+			
 	}
     
     

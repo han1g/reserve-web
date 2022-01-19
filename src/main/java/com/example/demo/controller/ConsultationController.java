@@ -76,15 +76,18 @@ public class ConsultationController {
 	}
 	
 	@PostMapping("/auth")
-	public String get(HttpServletRequest request,@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,
+	public String auth(HttpServletRequest request,@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,
 			@RequestParam("passwd") String passwd,@RequestParam("method") String method, Model model,RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		ConsultationDTO dto = service.get(no);
 		
 		if(SHA256Util.encrypt(passwd).equals(dto.getPasswd())) {
-			request.getSession().setAttribute(no + "auth", "auth");
+			if(method.equals("remove")) {
+				return "redirect:/consultation/list" + cri.getListLink();
+			}
 			
+			request.getSession().setAttribute(no + "auth", "auth");
 			rttr.addFlashAttribute("consultation", dto);
-			return "redirect:/consultation/"+ method  + cri.getListLink() + "&no=" + no;
+			return "redirect:/consultation/"+ method  + cri.getListLink() + "&no=" + no;//get,modify
 		}
 		//unlocked
 		
@@ -109,7 +112,7 @@ public class ConsultationController {
 	public String modify(HttpServletRequest request,@RequestParam("lockflg_bef") String lockflg_bef ,ConsultationDTO dto,Criteria cri,Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		//request body �Ӹ��ƴ϶� url �Ķ���͵� ���� ����
 		Object auth = request.getSession().getAttribute(dto.getNo() + "auth");
-		if(lockflg_bef.equals("0") || (auth != null && auth.equals("auth"))) {
+		if((auth != null && auth.equals("auth"))) {
 			log.info("modifyPost : " + dto);
 			if(service.modify(dto)) {
 				rttr.addFlashAttribute("result", "success");
@@ -129,7 +132,7 @@ public class ConsultationController {
 		
 		ConsultationDTO dto = service.get(no);
 		Object auth = request.getSession().getAttribute(no + "auth");
-		if(dto.getLockflg().equals("0") || (auth != null && auth.equals("auth"))) {
+		if((auth != null && auth.equals("auth"))) {
 			model.addAttribute("consultation", dto);
 			return "URC001U01";
 		}
@@ -157,19 +160,16 @@ public class ConsultationController {
 
 
 	@PostMapping("/remove")
-	public String remove(HttpServletRequest request,@RequestParam("lockflg_bef") String lockflg_bef,@RequestParam("no") Long no,
-			Criteria cri, Model model, RedirectAttributes rttr) {
+	public String remove(HttpServletRequest request,@RequestParam("lockflg_bef") String lockflg_bef,@RequestParam("no") Long no,@RequestParam("passwd") String passwd,
+			Criteria cri, Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
+		String authRet = this.auth(request,no,cri,passwd,"remove",model,rttr);
 		
-		Object auth = request.getSession().getAttribute(no + "auth");
-		if(lockflg_bef.equals("0") || (auth != null && auth.equals("auth"))) {
+		if(authRet != null && authRet.equals("URC001A02")) {
 			if(service.remove(no)) {
 				rttr.addFlashAttribute("result", "success");
 			}
-			return "redirect:/consultation/list" + cri.getListLink();
 		}
-		
-		model.addAttribute("result","세션이 없거나 만료되었습니다.");
-		return "URC001A02";
+		return authRet;
 	}
 	
 }

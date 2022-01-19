@@ -41,11 +41,7 @@
 								  &nbsp;&nbsp;<img src="/resources/img/lock_icon.png" alt="lock"/>
 								 </c:if>
 							 </td>
-							 <!-- 링크로 넘길 파라미터가 많아지면 링크가 복잡 -->
-							 <td><span class="align-middle">
-							 <c:if test="${consultation.name eq '운영자'}"><img src="/resources/img/admin_badge.png" alt="admin"/>&nbsp;</c:if>
-							 <c:out value="${consultation.name}"></c:out>
-							 </span></td>
+							 <td><span class="align-middle"><c:if test="${consultation.name eq '운영자'}"><img src="/resources/img/admin_badge.png" alt="admin"/>&nbsp;</c:if><c:out value="${consultation.name}"></c:out></span></td>
 							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.createdat}"/></td>
 							 <td><fmt:formatDate pattern="yyyy/MM/dd" value="${consultation.updatedat}"/></td>
 							 <!-- date받아서 포매팅하기 -->
@@ -54,7 +50,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<form id="searchForm" action="/consultation/list" method="get">
+			<form id="searchForm" action="/admin/consultation/list" method="get">
 				<input type="hidden" name="pageNum" value="1"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<select name="type">
@@ -101,7 +97,7 @@
 					</c:if>
 				</ul>
 			</nav>
-			<form id="actionForm" action="/consultation/list" method="get">
+			<form id="actionForm" action="/admin/consultation/list" method="get">
 				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<input type="hidden" name="type" value="<c:out value="${pageMaker.cri.type}"/>"/>
@@ -122,13 +118,14 @@
 				e.preventDefault();
 				actionForm.append('<input type="hidden" name="no" value=""/>');
 				actionForm.find("input[name='no']").val($(this).attr("href"));
-				actionForm.attr("action","/consultation/get");
+				actionForm.attr("action","/admin/consultation/get");
 				actionForm.submit();
 			});//제목 클릭하면 게시글로 넘어가기
 			</script>
 		</div>
 		<div>
-			<a href="/consultation/register" class="btn btn-outline-success">글쓰기</a>
+			<a href="/admin/consultation/register" class="btn btn-outline-success">글쓰기</a>
+			<a href="/admin/consultation/deletedList" class="btn btn-outline-warning">삭제 목록</a>
 		</div>
 	</div>
 	

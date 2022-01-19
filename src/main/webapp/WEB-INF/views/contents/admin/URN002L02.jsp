@@ -38,7 +38,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<form id="searchForm" action="/admin/notice/list" method="get">
+			<form id="searchForm" action="/admin/notice/deletedList" method="get">
 				<input type="hidden" name="pageNum" value="1"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<select name="type">
@@ -81,7 +81,7 @@
 					</c:if>
 				</ul>
 			</nav>
-			<form id="actionForm" action="/admin/notice/list" method="get">
+			<form id="actionForm" action="/admin/notice/deletedList" method="get">
 				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<input type="hidden" name="type" value="<c:out value="${pageMaker.cri.type}"/>"/>

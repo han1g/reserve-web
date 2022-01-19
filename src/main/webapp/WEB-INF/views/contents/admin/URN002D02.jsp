@@ -32,7 +32,7 @@
 							${notice.contents}
 						</div>
 					</form>
-					<form id="actionForm" action="" method="post">			
+					<form id="actionForm" action="" method="get">			
 						<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
 						<input type="hidden" name="amount" value="${cri.amount}"/>
 						<input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
@@ -56,6 +56,7 @@
 											return;
 										}
 										form.attr("action","/admin/notice/restore");
+										form.attr("method","post");
 										break;
 									case "list":
 										var pageNum = form.append($("input[name='pageNum']").clone());
@@ -68,7 +69,7 @@
 										form.append(type);
 										form.append(keyword);
 										form.attr("action","/admin/notice/deletedList");
-										form.attr("method","get");
+										
 										break;
 									default : return;
 								

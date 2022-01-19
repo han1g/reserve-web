@@ -44,10 +44,9 @@
 						
 						<input type="hidden" name="no" value="${consultation.no}"/>
 						<div>
+							<div>
 							<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
-							<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
-							<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
-							<a href="" role="button" class="btn btn-primary" data-oper="reply" id="btnReply">답글</a>
+							<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnRestore">복구</a>
 						</div>
 					</form>
 					<script>
@@ -58,33 +57,25 @@
 								var operation = $(this).data("oper");
 								console.log(operation);
 								switch(operation) {
-									case "modify":
-										form.attr("action","/consultation/modify");
-										break;
-									case "delete":
-										var passwd = prompt("비밀번호를 입력하세요","");
-										form.append('<input type="hidden" name="lockflg_bef" value="${consultation.lockflg}"/>');
-										form.append('<input type="hidden" name="passwd" value="'+ passwd +'"/>');
-										form.attr("action","/consultation/remove");
+									case "restore":
+										if(!confirm("복구하시겠습니까?")) {
+											return;
+										}
+										form.attr("action","/admin/consultation/restore");
 										form.attr("method","post");
 										break;
-									case "reply":
-										form.attr("action","/consultation/registerReply");
-										break;
 									case "list":
-										var pageNum = $("input[name='pageNum']").clone();
-										var amount = $("input[name='amount']").clone();
-										var type = $("input[name='type']").clone();
-										var keyword = $("input[name='keyword']").clone();
+										var pageNum = form.append($("input[name='pageNum']").clone());
+										var amount = form.append($("input[name='amount']").clone());
+										var type = form.append($("input[name='type']").clone());
+										var keyword = form.append($("input[name='keyword']").clone());
 										form.empty();
 										form.append(pageNum);
 										form.append(amount);
 										form.append(type);
 										form.append(keyword);
-										form.attr("action","/consultation/list");
-										form.attr("method","get");
+										form.attr("action","/admin/consultation/deletedList");
 										break;
-									
 									default : return;
 								
 								}

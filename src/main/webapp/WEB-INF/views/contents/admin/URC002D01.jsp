@@ -59,17 +59,18 @@
 								console.log(operation);
 								switch(operation) {
 									case "modify":
-										form.attr("action","/consultation/modify");
+										form.attr("action","/admin/consultation/modify");
 										break;
 									case "delete":
-										var passwd = prompt("비밀번호를 입력하세요","");
+										if(!confirm("삭제하시겠습니까?")) {
+											return;
+										}
 										form.append('<input type="hidden" name="lockflg_bef" value="${consultation.lockflg}"/>');
-										form.append('<input type="hidden" name="passwd" value="'+ passwd +'"/>');
-										form.attr("action","/consultation/remove");
+										form.attr("action","/admin/consultation/remove");
 										form.attr("method","post");
 										break;
 									case "reply":
-										form.attr("action","/consultation/registerReply");
+										form.attr("action","/admin/consultation/registerReply");
 										break;
 									case "list":
 										var pageNum = $("input[name='pageNum']").clone();
@@ -81,7 +82,7 @@
 										form.append(amount);
 										form.append(type);
 										form.append(keyword);
-										form.attr("action","/consultation/list");
+										form.attr("action","/admin/consultation/list");
 										form.attr("method","get");
 										break;
 									

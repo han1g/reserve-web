@@ -209,7 +209,7 @@ public class ConsultationTests extends BaseConfiguration {
     }
     @Test
     @Transactional
-    public void removeTest()  {
+    public void removeTest() throws NoSuchAlgorithmException  {
     	service.remove(219L);
     }
     

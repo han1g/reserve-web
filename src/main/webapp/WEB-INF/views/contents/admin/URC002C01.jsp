@@ -17,7 +17,7 @@
 					<h2 class="write-h2">상담글 등록</h2>
 				</div>
 				<div class="background-white">
-					<form action="/consultation/register" name="form" id="form" role="form" method="post">
+					<form action="/admin/consultation/register" name="form" id="form" role="form" method="post">
 						<div class="mb-3">
 							<label for="title">Title</label> 
 							<input type="text"
@@ -27,23 +27,21 @@
 						<div class="mb-3">
 							<label for="name">Name</label> 
 							<input type="text"
-								class="form-control" name="name" id="name"
-								placeholder="이름을 입력해 주세요">
+								class="form-control" name="name" id="name" value="운영자"
+								placeholder="이름을 입력해 주세요" readonly="readonly">
 						</div>
 						<div id="div_lock" class="form-check mb-3">
 							<input type="hidden" class="form-check-input" name="lockflg" value="0" id="chk_lock_hidden"/><!-- checkbox가 언체크드면 이게 감-->
 							<label for="chk_lock" class="form-check-label">비밀글</label>
 							<input type="checkbox" class="" name="lockflg" id="chk_lock"
 								value="1">
-							<label for="passwd"> &nbsp;&nbsp;pw: </label> 
-							<input type="password" id="passwd" name="passwd" value="">
 						</div>
 						<div class="mb-3">
 							<textarea id="summernote" name="contents"></textarea>
 						</div>
 					</form>
 					<div>
-						<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/consultation/list';">목록</button>
+						<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/consultation/list';">목록</button>
 						<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
 					</div>
 				</div>
@@ -104,7 +102,6 @@
 					var contents = $("#summernote").summernote('code');
 					console.log(contents);
 					var writer = $("#name").val();
-					var passwd = $("#passwd").val();
 					if (title.trim() == ''){
 						alert("제목을 입력해주세요");
 						return false;
@@ -116,14 +113,6 @@
 					}
 					if (writer.trim() =='') {
 						alert("이름을 입력해주세요");
-						return false;
-					}
-					if (writer.trim().includes('운영자')) {
-						alert("이 이름은 사용 할 수 없습니다.");
-						return false;
-					}
-					if(passwd.trim() == '') {
-						alert("비밀번호를 입력하세요");
 						return false;
 					}
 					

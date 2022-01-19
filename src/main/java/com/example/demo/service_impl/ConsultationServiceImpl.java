@@ -46,12 +46,19 @@ public class ConsultationServiceImpl implements ConsultationService {
 	public GetListDTO<ConsultationDTO> getList(Criteria cri, boolean deletedList) {
 		// TODO Auto-generated method stub
 		
-		List<Long> grnos = repo2.searchGroups(cri, false);
+		List<Long> grnos = repo2.searchGroups(cri, deletedList);
     	//키워드가 있는 그룹번호만 뽑아서 가져옴
     	
     	
     	BooleanBuilder exp = new BooleanBuilder();
     	exp.and(qConsultation.grno.in(grnos));
+    	if(deletedList) {
+    		exp.and(qConsultation.deleteflg.eq("1"));
+    	}
+    	else {
+    		exp.and(qConsultation.deleteflg.eq("0"));
+    	}
+    		
     	Pageable pageable = PageRequest.of(cri.getPageNum() - 1, cri.getAmount(),
     			Sort.by("grno").descending()
     			.and(Sort.by("grgrod").ascending()));
@@ -75,7 +82,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 				.title(dto.getTitle())
 				.contents(dto.getContents())
 				.name(dto.getName())
-				.passwd(dto.getLockflg().equals("0") ? null : SHA256Util.encrypt(dto.getPasswd()))
+				.passwd(SHA256Util.encrypt(dto.getPasswd()))
 				.lockflg(dto.getLockflg())
 				.buildcd("4")
 				.build();
@@ -84,6 +91,26 @@ public class ConsultationServiceImpl implements ConsultationService {
 		
 		dto.setNo(en.getNo());
 	}
+	
+	@Override
+	@Transactional
+	public void registerAdmin(ConsultationDTO dto) {
+		Consultation en = Consultation.builder()
+				.grno(repo2.getMaxGrno() + 1)//sequence하나 새로 만드는게 나음
+				.grgrod(1L)
+				.depth(1L)
+				.title(dto.getTitle())
+				.contents(dto.getContents())
+				.name(dto.getName())
+				.lockflg(dto.getLockflg())
+				.buildcd("4")
+				.build();
+				
+		repo1.saveAndFlush(en);
+		
+		dto.setNo(en.getNo());
+	}
+	
 	@Override
 	@Transactional
 	public void registerReply(Long ref_no, ConsultationDTO dto) throws NoSuchAlgorithmException {
@@ -98,6 +125,29 @@ public class ConsultationServiceImpl implements ConsultationService {
 				.name(dto.getName())
 				.passwd(dto.getLockflg().equals("0") ? null : SHA256Util.encrypt(dto.getPasswd()))
 				.lockflg(dto.getLockflg())
+				.buildcd("4")
+				.build();
+				
+		repo1.saveAndFlush(en);
+		
+		dto.setNo(en.getNo());
+		
+	}
+	
+	@Override
+	@Transactional
+	public void registerReplyAdmin(Long ref_no, ConsultationDTO dto) {
+		ConsultationDTO refDTO = get(ref_no);
+		
+		Consultation en = Consultation.builder()
+				.grno(refDTO.getGrno())//sequence하나 새로 만드는게 나음
+				.grgrod(repo2.getMaxGrgrod(refDTO.getGrno()) + 1)
+				.depth(2L)
+				.title(dto.getTitle())
+				.contents(dto.getContents())
+				.name(dto.getName())
+				.passwd(refDTO.getPasswd())
+				.lockflg(refDTO.getLockflg())
 				.buildcd("4")
 				.build();
 				
@@ -122,13 +172,13 @@ public class ConsultationServiceImpl implements ConsultationService {
 	
 	@Override
 	@Transactional
-	public boolean modifyAdmin(ConsultationDTO board) {
+	public boolean modifyAdmin(ConsultationDTO board) throws NoSuchAlgorithmException {
 		// TODO Auto-generated method stub
 		Consultation en = repo1.findById(board.getNo()).get();
 		if(en == null)
 			return false;
 		
-		en.updateAdmin(board.getTitle(), board.getContents(),board.getName());
+		en.updateAdmin(board.getTitle(), board.getContents(),board.getName(),board.getPasswd(),board.getLockflg());
 		repo1.saveAndFlush(en);
 		return true;
 	}

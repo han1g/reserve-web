@@ -42,7 +42,7 @@
 							<input type="checkbox" class="" name="lockflg" id="chk_lock"
 								value="1">
 							<label for="passwd"> &nbsp;&nbsp;pw: </label> 
-							<input type="password" id="passwd" name="passwd" value="" disabled>
+							<input type="password" id="passwd" name="passwd" value="">
 						</div>
 						<div class="mb-3">
 							<textarea id="summernote" name="contents"></textarea>
@@ -91,20 +91,16 @@
 				$(document).ready(function() {
 					if($("#chk_lock").is(":checked")) {
 						$("#chk_lock_hidden").attr('disabled','disabled');
-						$("#passwd").removeAttr('disabled');
 					} else {
 						$("#chk_lock_hidden").removeAttr('disabled');
-						$("#passwd").attr('disabled','disabled');
 					}
 					
 					$("#chk_lock").on('change',function() {
 						
 						if($("#chk_lock").is(":checked")) {
 							$("#chk_lock_hidden").attr('disabled','disabled');
-							$("#passwd").removeAttr('disabled');
 						} else {
 							$("#chk_lock_hidden").removeAttr('disabled');
-							$("#passwd").attr('disabled','disabled');
 						}
 					});
 				});//비밀글 관련 div 설정
@@ -132,7 +128,7 @@
 						alert("이 이름은 사용 할 수 없습니다.");
 						return false;
 					}
-					if($("#chk_lock").is(":checked") && passwd.trim() == '') {
+					if(passwd.trim() == '') {
 						alert("비밀번호를 입력하세요");
 						return false;
 					}
