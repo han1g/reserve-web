@@ -84,6 +84,28 @@ public class ConsultationServiceImpl implements ConsultationService {
 		
 		dto.setNo(en.getNo());
 	}
+	@Override
+	@Transactional
+	public void registerReply(Long ref_no, ConsultationDTO dto) throws NoSuchAlgorithmException {
+		ConsultationDTO refDTO = get(ref_no);
+		
+		Consultation en = Consultation.builder()
+				.grno(refDTO.getGrno())//sequence하나 새로 만드는게 나음
+				.grgrod(repo2.getMaxGrgrod(refDTO.getGrno()) + 1)
+				.depth(2L)
+				.title(dto.getTitle())
+				.contents(dto.getContents())
+				.name(dto.getName())
+				.passwd(dto.getLockflg().equals("0") ? null : SHA256Util.encrypt(dto.getPasswd()))
+				.lockflg(dto.getLockflg())
+				.buildcd("4")
+				.build();
+				
+		repo1.saveAndFlush(en);
+		
+		dto.setNo(en.getNo());
+		
+	}
 
 	@Override
 	@Transactional
@@ -94,6 +116,19 @@ public class ConsultationServiceImpl implements ConsultationService {
 			return false;
 		
 		en.update(board.getTitle(), board.getContents(),board.getName(),board.getPasswd(),board.getLockflg());
+		repo1.saveAndFlush(en);
+		return true;
+	}
+	
+	@Override
+	@Transactional
+	public boolean modifyAdmin(ConsultationDTO board) {
+		// TODO Auto-generated method stub
+		Consultation en = repo1.findById(board.getNo()).get();
+		if(en == null)
+			return false;
+		
+		en.updateAdmin(board.getTitle(), board.getContents(),board.getName());
 		repo1.saveAndFlush(en);
 		return true;
 	}
@@ -140,5 +175,9 @@ public class ConsultationServiceImpl implements ConsultationService {
 		repo1.saveAndFlush(en);
 		return true;
 	}
+
+	
+
+
 	
 }

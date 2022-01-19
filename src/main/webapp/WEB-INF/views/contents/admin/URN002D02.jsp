@@ -39,7 +39,7 @@
 						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
 						<input type="hidden" name="no" value="${notice.no}"/>
 						<div>
-							<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/notice/deletedList';">목록</button>
+							<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
 							<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnRestore">복구</a>
 						</div>
 					</form>
@@ -56,6 +56,19 @@
 											return;
 										}
 										form.attr("action","/admin/notice/restore");
+										break;
+									case "list":
+										var pageNum = form.append($("input[name='pageNum']").clone());
+										var amount = form.append($("input[name='amount']").clone());
+										var type = form.append($("input[name='type']").clone());
+										var keyword = form.append($("input[name='keyword']").clone());
+										form.empty();
+										form.append(pageNum);
+										form.append(amount);
+										form.append(type);
+										form.append(keyword);
+										form.attr("action","/admin/notice/deletedList");
+										form.attr("method","get");
 										break;
 									default : return;
 								

@@ -94,7 +94,6 @@ public class AdminNoticeController extends NoticeController{
 		
 		//(board/list)��û�� �𵨿� result�� �߰���
 	}
-	
 	@GetMapping("/modify")
 	public String modify(@RequestParam("no") Long no, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("modifyGet");
@@ -102,6 +101,7 @@ public class AdminNoticeController extends NoticeController{
 		return "/admin/URN002U01";
 		//(board/list)��û�� �𵨿� result�� �߰���
 	}
+	
 	
 	@PostMapping("/remove")
 	public String remove(@RequestParam("no") Long no,Criteria cri, RedirectAttributes rttr) {

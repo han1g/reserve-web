@@ -14,45 +14,43 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">상담글 수정</h2>
+					<h2 class="write-h2">답글 등록</h2>
 				</div>
 				<div class="background-white">
-					<form action="/consultation/modify" name="form" id="form" role="form" method="post">
-						<input type="hidden" name="lockflg_bef" value="${consultation.lockflg}"/>
-						
-						
+					<form action="/consultation/registerReply" name="form" id="form" role="form" method="post">
 						<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
 						<input type="hidden" name="amount" value="${cri.amount}"/>
 						<input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
 						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
-						<input type="hidden" name="no" value="${consultation.no}"/>
+						
+						<input type="hidden" name="ref_no" value="${consultation.no}"/>
 						<div class="mb-3">
 							<label for="title">Title</label> 
 							<input type="text"
-								class="form-control" name="title" id="title" value="${consultation.title}"
+								class="form-control" name="title" id="title" value="Re: ${consultation.title}"
 								placeholder="제목을 입력해 주세요">
 						</div>
 						<div class="mb-3">
 							<label for="name">Name</label> 
 							<input type="text"
-								class="form-control" name="name" id="name" value="${consultation.name}"
+								class="form-control" name="name" id="name"
 								placeholder="이름을 입력해 주세요">
 						</div>
 						<div id="div_lock" class="form-check mb-3">
 							<input type="hidden" class="form-check-input" name="lockflg" value="0" id="chk_lock_hidden"/><!-- checkbox가 언체크드면 이게 감-->
 							<label for="chk_lock" class="form-check-label">비밀글</label>
 							<input type="checkbox" class="" name="lockflg" id="chk_lock"
-								value="1" ${consultation.lockflg eq '0' ? '' : 'checked'}>
+								value="1">
 							<label for="passwd"> &nbsp;&nbsp;pw: </label> 
 							<input type="password" id="passwd" name="passwd" value="" disabled>
 						</div>
 						<div class="mb-3">
-							<textarea id="summernote" name="contents">${consultation.contents}</textarea>
+							<textarea id="summernote" name="contents"></textarea>
 						</div>
 					</form>
 					<div>
 						<button type="button" class="btn btn-secondary" id="btnList" onclick="backToList($('#form'));">목록</button>
-						<button type="submit" class="btn btn-warning" id="btnSave" onclick="sendReviewForm($('#form'));">수정</button>
+						<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
 					</div>
 				</div>
 			</div>
@@ -142,14 +140,15 @@
 					if(!confirm("등록하시겠습니까?")) {
 						return false;
 					}
+					
 					frm.submit();
 				}
 				
 				function backToList(form) {
-					var pageNum = $("input[name='pageNum']").clone();
-					var amount = $("input[name='amount']").clone();
-					var type = $("input[name='type']").clone();
-					var keyword = $("input[name='keyword']").clone();
+					var pageNum = form.append($("input[name='pageNum']").clone());
+					var amount = form.append($("input[name='amount']").clone());
+					var type = form.append($("input[name='type']").clone());
+					var keyword = form.append($("input[name='keyword']").clone());
 					form.empty();
 					form.append(pageNum);
 					form.append(amount);
@@ -160,7 +159,6 @@
 					
 					form.submit();
 				}
-				
 				
 		</script>
 	</body>

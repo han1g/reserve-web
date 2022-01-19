@@ -93,12 +93,11 @@ public class ConsultationController {
 	}
 	
 	
-	@GetMapping("/register") //Todo
+	@GetMapping("/register") //registerpage
 	public String register() {
 		return "URC001C01";
 	}
-	
-	@PostMapping("/register") //Todo
+	@PostMapping("/register") //registermethod
 	public String register(ConsultationDTO dto,RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		service.register(dto);
 		rttr.addFlashAttribute("result", dto.getNo());
@@ -122,7 +121,6 @@ public class ConsultationController {
 		model.addAttribute("result","세션이 없거나 만료되었습니다.");
 		return "URC001A02";
 	}
-	
 	@GetMapping("/modify")
 	public String modify(HttpServletRequest request,@RequestParam("no") Long no, @ModelAttribute("cri") Criteria cri, Model model) {
 		if(model.getAttribute("consultation") != null) {
@@ -142,11 +140,22 @@ public class ConsultationController {
 	}
 	
 	
-	@GetMapping("/registerReply") //Todo
-	public String reply() {
-		return null;
+	@PostMapping("/registerReply")
+	public String reply(@RequestParam("ref_no") Long ref_no,ConsultationDTO dto,Criteria cri,RedirectAttributes rttr) throws NoSuchAlgorithmException {
+		service.registerReply(ref_no,dto);
+		rttr.addFlashAttribute("result", dto.getNo());
+		
+		return "redirect:/consultation/list" + cri.getListLink();
+		
 	}
-	
+	@GetMapping("/registerReply")
+	public String reply(@RequestParam("no") Long no, @ModelAttribute("cri") Criteria cri, Model model) {
+		ConsultationDTO dto = service.get(no);
+		model.addAttribute("consultation", dto);
+		return "URC001C02";
+	}
+
+
 	@PostMapping("/remove")
 	public String remove(HttpServletRequest request,@RequestParam("lockflg_bef") String lockflg_bef,@RequestParam("no") Long no,
 			Criteria cri, Model model, RedirectAttributes rttr) {

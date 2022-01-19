@@ -89,10 +89,10 @@
 					
 				}
 				function backToList(form) {
-					var pageNum = form.append($("input[name='pageNum']").clone());
-					var amount = form.append($("input[name='amount']").clone());
-					var type = form.append($("input[name='type']").clone());
-					var keyword = form.append($("input[name='keyword']").clone());
+					var pageNum = $("input[name='pageNum']").clone();
+					var amount = $("input[name='amount']").clone();
+					var type = $("input[name='type']").clone();
+					var keyword = $("input[name='keyword']").clone();
 					form.empty();
 					form.append(pageNum);
 					form.append(amount);

@@ -13,7 +13,9 @@ public interface ConsultationService {
 	public GetListDTO<ConsultationDTO> getList(Criteria cri,boolean deletedList);
 	public void register(ConsultationDTO board) throws NoSuchAlgorithmException;
 	public boolean modify(ConsultationDTO board) throws NoSuchAlgorithmException;
+	public boolean modifyAdmin(ConsultationDTO board);
 	public boolean remove(Long bno);
 	public ConsultationDTO get(Long no);
 	boolean restore(Long no);
+	public void registerReply(Long ref_no, ConsultationDTO dto) throws NoSuchAlgorithmException;
 }

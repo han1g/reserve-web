@@ -32,6 +32,45 @@
 							${notice.contents}
 						</div>
 					</form>
+					<form id="actionForm" action="" method="get">			
+						<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
+						<input type="hidden" name="amount" value="${cri.amount}"/>
+						<input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
+						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
+						<input type="hidden" name="no" value="${notice.no}"/>
+						<div>
+							<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
+						</div>
+					</form>
+					<script>
+						$(document).ready(function() {
+							var form = $("#actionForm");
+							$("a[role='button']").on("click",function(event) {
+								event.preventDefault();
+								var operation = $(this).data("oper");
+								console.log(operation);
+								switch(operation) {
+									case "list":
+										var pageNum = $("input[name='pageNum']").clone();
+										var amount = $("input[name='amount']").clone();
+										var type = $("input[name='type']").clone();
+										var keyword = $("input[name='keyword']").clone();
+										form.empty();
+										form.append(pageNum);
+										form.append(amount);
+										form.append(type);
+										form.append(keyword);
+										form.attr("action","/notice/list");
+										form.attr("method","get");
+										break;
+										
+									default : return;
+								
+								}
+								form.submit();
+							})
+						})
+					</script>
 				</div>
 			</div>
 		</article>

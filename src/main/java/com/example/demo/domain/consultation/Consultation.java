@@ -96,7 +96,12 @@ public class Consultation extends BuildingEntity{
 		this.name = name;
 		this.passwd = lockflg.equals("0") ? null : SHA256Util.encrypt(passwd);
 		this.lockflg = lockflg;
-		
+	}
+	
+	public void updateAdmin(String title, String contents,String name) {
+		this.title = title;
+		this.contents = contents;
+		this.name = name;
 	}
     
     

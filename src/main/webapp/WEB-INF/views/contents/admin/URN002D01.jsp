@@ -39,7 +39,7 @@
 						<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
 						<input type="hidden" name="no" value="${notice.no}"/>
 						<div>
-							<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/notice/list';">목록</button>
+							<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
 							<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
 							<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
 						</div>
@@ -55,12 +55,27 @@
 									case "modify":
 										form.attr("action","/admin/notice/modify");
 										break;
+										
 									case "delete":
 										if(!confirm("삭제하시겠습니까?")) {
 											return;
 										}
 										form.attr("action","/admin/notice/remove");
 										form.attr("method","post");
+										break;
+										
+									case "list":
+										var pageNum = $("input[name='pageNum']").clone();
+										var amount = $("input[name='amount']").clone();
+										var type = $("input[name='type']").clone();
+										var keyword = $("input[name='keyword']").clone();
+										form.empty();
+										form.append(pageNum);
+										form.append(amount);
+										form.append(type);
+										form.append(keyword);
+										form.attr("action","/admin/notice/list");
+										form.attr("method","get");
 										break;
 										
 									default : return;
