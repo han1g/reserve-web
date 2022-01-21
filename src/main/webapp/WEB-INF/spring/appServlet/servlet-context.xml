@@ -38,7 +38,11 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**" />
+			<mvc:mapping path="/" />
+			<mvc:mapping path="/admin/**" />
+	        <mvc:mapping path="/roominfo/**" />
+	        <mvc:mapping path="/notice/**" />
+	        <mvc:mapping path="/consultation/**" />
 			<beans:bean class="com.example.demo.interceptor.MenuInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -45,7 +45,7 @@ public class MenuInterceptor implements HandlerInterceptor {
 		//when page is admin
 		
 		request.setAttribute("menu",menu);
-		
+		logger.info("current menu is : " + menu);
 		// TODO Auto-generated method stub
 		return true;
 	}

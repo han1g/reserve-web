@@ -1,6 +1,9 @@
 package com.example.demo.domain.roominfo;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,26 +48,46 @@ public class Roominfo extends BuildingEntity implements Serializable{
     @Column(length = 10,nullable = true)
     private String maxpeople;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long adultcost;
     
+    @Column(nullable = false)
+    private Long childcost;
+    
     @Column(length = 2000, nullable = true)
-    private Long images;
+    private String images;
     
     @Column(length = 7,nullable = true)
-    private Long colorcd;
+    private String colorcd;
 
     @Builder
     public Roominfo(String deleteFlg, String buildcd, String roomnum, String roomtitle, String explanation,
-			String maxpeople, Long adultcost, Long images, Long colorcd) {
+			String maxpeople, Long adultcost,Long childcost, String images, String colorcd) {
 		super(deleteFlg, buildcd);
 		this.roomnum = roomnum;
 		this.roomtitle = roomtitle;
 		this.explanation = explanation;
 		this.maxpeople = maxpeople;
 		this.adultcost = adultcost;
+		this.childcost = childcost;
 		this.images = images;
 		this.colorcd = colorcd;
 	}
+    public RoominfoDTO toDTO() {
+    	return new RoominfoDTO(
+    			no,
+    			this.getDeleteflg(),
+    			this.getBuildcd(),
+    			new Date(Timestamp.valueOf(getCreatedat()).getTime()),
+    			new Date(Timestamp.valueOf(getUpdatedat()).getTime()),
+    			roomnum,
+    			roomtitle,
+    			explanation,
+    			maxpeople, 
+    			adultcost,
+    			childcost, 
+    			images, 
+    			colorcd);
+    }
 
 }

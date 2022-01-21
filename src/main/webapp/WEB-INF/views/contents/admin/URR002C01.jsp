@@ -19,6 +19,12 @@
 				<div class="background-white">
 					<form action="/admin/roominfo/register" name="form" id="form" role="form" method="post">
 						<div class="mb-3">
+							<label for="roomnum">Room Num.</label> 
+							<input type="number"
+								class="form-control required" name="roomnum" id="roomnum" max="9999"
+								placeholder="방 번호를 입력해 주세요" required>
+						</div>
+						<div class="mb-3">
 							<label for="roomtitle">Room Title</label> 
 							<input type="text"
 								class="form-control required" name="roomtitle" id="roomtitle"
@@ -66,7 +72,6 @@
 					    	사진 업로드
 					  </div>
 					  <div class="card-body">
-						<button id="registerButton" onclick="register()">등록</button>
 						<div id="uploadForm">
 							<form id="uploadForm">
 								<button id="uploadFileButton" class="btn btn-success">사진 추가</button>
@@ -76,20 +81,6 @@
 						<ul class="uploadResult">
 						</ul>
 						<script>
-						function register() {
-							var images = "";
-							$(".target").each(function (index,item) {
-								console.log(item);
-								var str = $(item).attr("src");
-								console.log("str:" + str);
-								str = str.replace("&thumb=true","");
-								console.log("str:" + str);
-								images += str;
-								images += ";";
-							});
-							images = images.substring(0, images.length - 1);
-							console.log("images:" + images);
-						};
 						function showImage(src) {
 							console.log(src);
 							
@@ -159,10 +150,6 @@
 							$(".bigPictureWrapper").on("click", function(e) {
 								$(this).hide();
 							});
-							
-							
-							
-							
 							function afterUpload(result) {
 								var arr = result.split("\n");
 								arr.forEach((el) => {
@@ -264,40 +251,21 @@
 			</div>
 		</article>
 		<script type="text/javascript">
-				function sendFile(file, el) {
-				   var form_data = new FormData();
-			       form_data.append('uploadFile', file);
-			       $.ajax({
-			         data: form_data,
-			         type: "POST",
-			         url: '/upload_image',
-			         cache: false,
-			         contentType: false,
-			         enctype: 'multipart/form-data',
-			         processData: false,
-			         success: function(img_name) {
-			        	 console.log(img_name);
-			           $(el).summernote('editor.insertImage', img_name);
-			         }
-			       });
-				}
-				$(document).ready(function() {
-					if($("#chk_lock").is(":checked")) {
-						$("#chk_lock_hidden").attr('disabled','disabled');
-					} else {
-						$("#chk_lock_hidden").removeAttr('disabled');
-					}
-					
-					$("#chk_lock").on('change',function() {
-						
-						if($("#chk_lock").is(":checked")) {
-							$("#chk_lock_hidden").attr('disabled','disabled');
-						} else {
-							$("#chk_lock_hidden").removeAttr('disabled');
-						}
+				function fillImageField() {
+					var images = "";
+					$(".target").each(function (index,item) {
+						console.log(item);
+						var str = $(item).attr("src");
+						console.log("str:" + str);
+						str = str.replace("&thumb=true","");
+						console.log("str:" + str);
+						images += str;
+						images += ";";
 					});
-				});//비밀글 관련 div 설정
-				
+					images = images.substring(0, images.length - 1);
+					console.log("images:" + images);
+					return images;
+				};
 				function sendReviewForm(frm) {
 					var required = $("input.required");
 					console.log(required);
@@ -312,6 +280,8 @@
 					if(!confirm("등록하시겠습니까?")) {
 						return false;
 					}
+					var images = fillImageField();
+					frm.append(`<input type="hidden" name="images" id="images" value="${'${images}'}">`);
 					
 					frm.submit();
 				}

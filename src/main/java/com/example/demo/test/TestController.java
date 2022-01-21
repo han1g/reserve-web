@@ -17,4 +17,9 @@ public class TestController {
 		return "/test/fileUploadTest";
 	}
 	
+	@RequestMapping(value = "/carouselTest", method = RequestMethod.GET)
+	public String carousel() {
+		return "/test/carouselTest";
+	}
+	
 }

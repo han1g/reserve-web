@@ -16,5 +16,4 @@ public class BuildingDTO extends BaseDTO{
 		this.buildcd = buildcd;
 	}
 	
-	
 }
