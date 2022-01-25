@@ -173,8 +173,7 @@
 										
 							<div>
 								<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
-								<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
-								<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
+								<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnUpdate">복구</a>
 							</div>
 						</form>
 				</div>
@@ -188,20 +187,16 @@
 				var operation = $(this).data("oper");
 				console.log(operation);
 				switch(operation) {
-					case "modify":
-						form.append(`<input type="hidden" name="no" value="${roominfo.no}"/>`);
-						form.attr("action","/admin/roominfo/modify");
-						break;
-					case "delete":
-						if(!confirm("삭제하시겠습니까?")) {
+					case "restore":
+						if(!confirm("복구하시겠습니까?")) {
 							return;
 						}
 						form.append(`<input type="hidden" name="no" value="${roominfo.no}"/>`);
-						form.attr("action","/admin/roominfo/remove");
+						form.attr("action","/admin/roominfo/restore");
 						form.attr("method","post");
 						break;
 					case "list":
-						form.attr("action","/admin/roominfo/list");
+						form.attr("action","/admin/roominfo/deletedList");
 						form.attr("method","get");
 						break;
 					default : return;

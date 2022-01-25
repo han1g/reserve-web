@@ -116,10 +116,12 @@ public class ConsultationServiceImpl implements ConsultationService {
 	public void registerReply(Long ref_no, ConsultationDTO dto) throws NoSuchAlgorithmException {
 		ConsultationDTO refDTO = get(ref_no);
 		
+		Long grgrod = repo2.getReplyPosition(refDTO.getDepth(), ref_no, refDTO.getGrgrod());
+		
 		Consultation en = Consultation.builder()
 				.grno(refDTO.getGrno())//sequence하나 새로 만드는게 나음
-				.grgrod(repo2.getMaxGrgrod(refDTO.getGrno()) + 1)
-				.depth(2L)
+				.grgrod(grgrod)
+				.depth(refDTO.getDepth() + 1)
 				.title(dto.getTitle())
 				.contents(dto.getContents())
 				.name(dto.getName())
@@ -127,6 +129,8 @@ public class ConsultationServiceImpl implements ConsultationService {
 				.lockflg(dto.getLockflg())
 				.buildcd("4")
 				.build();
+		
+		
 				
 		repo1.saveAndFlush(en);
 		
@@ -138,11 +142,18 @@ public class ConsultationServiceImpl implements ConsultationService {
 	@Transactional
 	public void registerReplyAdmin(Long ref_no, ConsultationDTO dto) {
 		ConsultationDTO refDTO = get(ref_no);
+		log.info("ref_no : " + ref_no);
+		log.info("refDTO : " + refDTO);
+		Long grgrod = repo2.getReplyPosition(refDTO.getDepth(), refDTO.getGrno(), refDTO.getGrgrod());
+		repo2.updateGrgrod(grgrod, refDTO.getGrno());
+		//-------------------------------------------------------------------------사전준비
+		
+		
 		
 		Consultation en = Consultation.builder()
 				.grno(refDTO.getGrno())//sequence하나 새로 만드는게 나음
-				.grgrod(repo2.getMaxGrgrod(refDTO.getGrno()) + 1)
-				.depth(2L)
+				.grgrod(grgrod)
+				.depth(refDTO.getDepth() + 1)
 				.title(dto.getTitle())
 				.contents(dto.getContents())
 				.name(dto.getName())
@@ -224,10 +235,5 @@ public class ConsultationServiceImpl implements ConsultationService {
 		en.restore();
 		repo1.saveAndFlush(en);
 		return true;
-	}
-
-	
-
-
-	
+	}	
 }

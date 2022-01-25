@@ -14,32 +14,45 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">방 등록</h2>
+					<h2 class="write-h2">방 수정</h2>
 				</div>
 				<div class="background-white">
-					<form action="/admin/roominfo/register" name="form" id="form" role="form" method="post">
+					<form action="/admin/roominfo/modify" name="form" id="form" role="form" method="post">
+							<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
+							<input type="hidden" name="amount" value="${cri.amount}"/>
+							<input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
+							<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
+							
+							<input type="hidden" name="maxpeople_min" value="<c:out value="${cri.maxpeople_min}"/>"/>
+							<input type="hidden" name="maxpeople_max" value="<c:out value="${cri.maxpeople_max}"/>"/>
+							<input type="hidden" name="adultcost_min" value="<c:out value="${cri.adultcost_min}"/>"/>
+							<input type="hidden" name="adultcost_max" value="<c:out value="${cri.adultcost_max}"/>"/>
+							<input type="hidden" name="childcost_min" value="<c:out value="${cri.childcost_min}"/>"/>
+							<input type="hidden" name="childcost_max" value="<c:out value="${cri.childcost_max}"/>"/>
+							<!-- criteria to return to previous list -->
+							
 						<div class="mb-3">
 							<label for="roomnum">Room Num.</label> 
 							<input type="number"
-								class="form-control required" name="roomnum"  min="0" id="roomnum" max="9999"
+								class="form-control required" name="roomnum" min="0" id="roomnum" max="9999" value="${roominfo.roomnum}"
 								placeholder="방 번호를 입력해 주세요" required>
 						</div>
 						<div class="mb-3">
 							<label for="roomtitle">Room Title</label> 
 							<input type="text"
-								class="form-control required" name="roomtitle" id="roomtitle"
+								class="form-control required" name="roomtitle" id="roomtitle" value="${roominfo.roomtitle}"
 								placeholder="방 이름을 입력해 주세요" required>
 						</div>
 						<div class="mb-3">
 							<label for="explanation">Explanation</label> 
 							<textarea 
 								class="form-control required" name="explanation" id="explanation"
-								placeholder="설명을 입력해 주세요" rows="3" required></textarea>
+								placeholder="설명을 입력해 주세요" rows="3" required>${roominfo.explanation}</textarea>
 						</div>
 						<div class="mb-3">
 							<label for="maxpeople">Maxpeople</label> 
 							<input type="number"
-								class="form-control w-25 required" name="maxpeople" id="maxpeople" min="0" value="" max="100"
+								class="form-control w-25 required" name="maxpeople" id="maxpeople" min="0" value="${roominfo.maxpeople}" max="100"
 								placeholder="최대 인원수를 입력해주세요" required>
 						</div>
 						<div class="mb-3">
@@ -47,7 +60,7 @@
 							<div class="input-group w-25"> 
 								<span class="input-group-text">￥</span>
 								<input type="number"
-									class="form-control w-25 required" name="adultcost" id="adultcost" min="0" value="" max="100000"
+									class="form-control w-25 required" name="adultcost" id="adultcost" min="0" value="${roominfo.adultcost}" max="100000"
 									placeholder="어른 1명당 가격" required>
 							</div>
 						</div>
@@ -56,14 +69,14 @@
 							<div class="input-group w-25"> 
 								<span class="input-group-text">￥</span>
 								<input type="number"
-									class="form-control required" name="childcost" id="childcost" min="0"  value="" max="100000"
+									class="form-control required" name="childcost" id="childcost" min="0" value="${roominfo.childcost}" max="100000"
 									placeholder="어린이 1명당 가격" required>
 							</div>
 						</div>
 						<div class="mb-3">
 							<label for="colorcd">Colorcd(색을 선택해주세요)</label> 
 							<input type="color"
-								class="form-control form-control-color required" name="colorcd" id="colorcd" value="#000000"
+								class="form-control form-control-color required" name="colorcd" id="colorcd" value="${roominfo.colorcd}"
 								placeholder="" required>
 						</div>
 					</form>
@@ -79,6 +92,18 @@
 							</form>
 						</div>
 						<ul class="uploadResult">
+							<c:forEach var="image" items="${roominfo.imagesList}" varStatus="status">
+								<li class ="rounded border border-1" style="display: flex; align-items:center">
+										<img class="img-thumbnail" src="/resources/img/sort-icon.png"style="width:60px;height:60px" alt="...">
+										<img src="${image}&thumb=true" class="img-thumbnail target" style="object-fit: contain; width:100px;height:100px" alt="..."
+										onclick="showImage('${image}')">
+										<form>
+											<button class="btn btn-warning" onclick="changeFileButtonClick(event)">변경</button>
+											<input type='file' name='uploadFile' onchange="changeFileListener(event)" style="display:none"><!-- 화면에서 숨기기  style="display:none"-->
+											<button class="btn btn-danger" onclick="deleteImageClick(event)" >삭제</button>
+										</form>
+								</li>
+							</c:forEach>
 						</ul>
 						<script>
 						function showImage(src) {
@@ -244,13 +269,13 @@
 					</div>
 					
 					<div>
-						<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/consultation/list';">목록</button>
-						<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
+						<button type="button" class="btn btn-secondary" id="btnList" onclick="backToList($('#actionForm'));">목록</button>
+						<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">수정</button>
 					</div>
 				</div>
 			</div>
 		</article>
-		<script type="text/javascript">
+		<script type="text/javascript" >
 				function fillImageField() {
 					var images = "";
 					$(".target").each(function (index,item) {
@@ -310,7 +335,25 @@
 					
 					frm.submit();
 				}
-				
+				function backToList(form) {
+					form.attr("action","/admin/roominfo/list");
+					form.attr("method","get");
+					
+					form.submit();
+				}
 		</script>
+		<form id="actionForm" action="" method="get">
+			<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
+			<input type="hidden" name="amount" value="${cri.amount}"/>
+			<input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
+			<input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
+			
+			<input type="hidden" name="maxpeople_min" value="<c:out value="${cri.maxpeople_min}"/>"/>
+			<input type="hidden" name="maxpeople_max" value="<c:out value="${cri.maxpeople_max}"/>"/>
+			<input type="hidden" name="adultcost_min" value="<c:out value="${cri.adultcost_min}"/>"/>
+			<input type="hidden" name="adultcost_max" value="<c:out value="${cri.adultcost_max}"/>"/>
+			<input type="hidden" name="childcost_min" value="<c:out value="${cri.childcost_min}"/>"/>
+			<input type="hidden" name="childcost_max" value="<c:out value="${cri.childcost_max}"/>"/>
+		</form>
 	</body>
 </html>

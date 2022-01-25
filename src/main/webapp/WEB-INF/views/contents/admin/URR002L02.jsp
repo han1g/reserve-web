@@ -55,7 +55,7 @@
 			    </h2>
 			    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 			      <div class="accordion-body">
-			        <form id="searchForm" action="/admin/roominfo/list" method="get">
+			        <form id="searchForm" action="/admin/roominfo/deletedList" method="get">
 						<input type="hidden" name="pageNum" value="1"/>
 						<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 						<div class="search-element">
@@ -180,7 +180,7 @@
 					</c:if>
 				</ul>
 			</nav>
-			<form id="actionForm" action="/admin/roominfo/list" method="get">
+			<form id="actionForm" action="/admin/roominfo/deletedList" method="get">
 				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"/>
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 				<input type="hidden" name="type" value="<c:out value="${pageMaker.cri.type}"/>"/>
@@ -209,14 +209,13 @@
 				e.preventDefault();
 				actionForm.append('<input type="hidden" name="no" value=""/>');
 				actionForm.find("input[name='no']").val($(this).attr("href"));
-				actionForm.attr("action","/admin/roominfo/get");
+				actionForm.attr("action","/admin/roominfo/getDeleted");
 				actionForm.submit();
 			});//제목 클릭하면 게시글로 넘어가기
 			</script>
 		</div>
 		<div>
-			<a href="/admin/roominfo/register" class="btn btn-outline-success">글쓰기</a>
-			<a href="/admin/roominfo/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+			<a href="/admin/roominfo/list" class="btn btn-outline-warning">목록</a>
 		</div>
 	</div>
 	

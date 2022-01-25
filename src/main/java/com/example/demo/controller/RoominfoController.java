@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.domain.etc.Criteria;
 import com.example.demo.domain.etc.GetListDTO;
 import com.example.demo.domain.etc.PageDTO;
+import com.example.demo.domain.etc.RoomSearchCriteria;
 import com.example.demo.domain.notice.NoticeDTO;
 import com.example.demo.domain.roominfo.RoominfoDTO;
 import com.example.demo.service.NoticeService;
@@ -30,22 +31,22 @@ public class RoominfoController {
 
 	
 	@RequestMapping("/list")
-	public String list(Criteria cri,Model model) {
+	public String list(RoomSearchCriteria cri,Model model) {
 		return list(cri,false,model,"URR001L01");
 	}
-	public String list(Criteria cri,boolean deletedList,Model model, String ret) {
+	public String list(RoomSearchCriteria cri,boolean deletedList,Model model, String ret) {
 		GetListDTO<RoominfoDTO> list = service.getList(cri,deletedList);
 		model.addAttribute("roominfoList",list.getList());
-		model.addAttribute("pageMaker",new PageDTO(cri, list.getTotal()));
+		model.addAttribute("pageMaker",new PageDTO<>(cri, list.getTotal()));
 		return ret;
 	}
 	
 	@RequestMapping("/get")
-	public String get(@RequestParam("no") Long no,@ModelAttribute("cri") Criteria cri,Model model) {
+	public String get(@RequestParam("no") Long no,@ModelAttribute("cri") RoomSearchCriteria cri,Model model) {
 		// TODO Auto-generated method stub
 		return get(no,cri,model,"URR001D01");
 	}
-	public String get(Long no,Criteria cri,Model model,String ret) {
+	public String get(Long no,RoomSearchCriteria cri,Model model,String ret) {
 		model.addAttribute("roominfo",service.get(no));
 		return ret;
 	}

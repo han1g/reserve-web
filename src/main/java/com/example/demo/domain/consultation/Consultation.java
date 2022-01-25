@@ -3,12 +3,14 @@ package com.example.demo.domain.consultation;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -90,12 +92,20 @@ public class Consultation extends BuildingEntity{
 		this.passwd = passwd;
 		this.lockflg = lockflg;
 	}
+    
+    @Override
+    @PreUpdate
+    public void updatedAt() {
+    	//자동업데이트 ㄴㄴ
+    }
+    
 	public void update(String title, String contents,String name,String passwd,String lockflg) throws NoSuchAlgorithmException {
 		this.title = title;
 		this.contents = contents;
 		this.name = name;
 		this.passwd = SHA256Util.encrypt(passwd);
 		this.lockflg = lockflg;
+		super.updatedAt();
 	}
 	
 	public void updateAdmin(String title, String contents,String name, String passwd, String lockflg) throws NoSuchAlgorithmException {
@@ -108,9 +118,10 @@ public class Consultation extends BuildingEntity{
 		//null이면 pw 유지
 		if(name.contains("운영자"))
 			this.passwd = null;
-		
+		super.updatedAt();
 			
 	}
+	
     
     
 }

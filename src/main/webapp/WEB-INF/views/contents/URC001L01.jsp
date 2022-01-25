@@ -27,21 +27,22 @@
 				<tbody>
 					<c:forEach var="consultation" items="${consultationList}">
 						<c:if test="${consultation.depth eq 1}">
-							<tr class="border-bottom border-dark">
-							 <td><c:out value="${consultation.no}"></c:out></td>
+							<tr class="border-bottom border-dark"> 
 						</c:if>
 						<c:if test="${consultation.depth ne 1}">
 							<tr class="border-bottom border-dark" style="background-color: #E7E9EB;">
-							 <td>&nbsp;&nbsp;<img src="/resources/img/board_icon_reply.gif" alt="reply"/></td>
 						</c:if>
+							<td><c:out value="${consultation.no}"></c:out></td>
 							 <td>
+							 	 <c:if test="${consultation.depth gt 1}">
+								 	<c:forEach begin="3" end="${consultation.depth}" step="1" varStatus="status" >&nbsp;&nbsp;&nbsp;</c:forEach><img src="/resources/img/board_icon_reply.gif" alt="reply"/>
+								 </c:if>
 								 <a class="move" href="<c:out value="${consultation.no}"/>">
 								 <c:out value="${consultation.title}"></c:out></a>
 								 <c:if test="${consultation.lockflg eq '1'}">
 								  &nbsp;&nbsp;<img src="/resources/img/lock_icon.png" alt="lock"/>
 								 </c:if>
 							 </td>
-							 <!-- 링크로 넘길 파라미터가 많아지면 링크가 복잡 -->
 							 <td><span class="align-middle">
 							 <c:if test="${consultation.name eq '운영자'}"><img src="/resources/img/admin_badge.png" alt="admin"/>&nbsp;</c:if>
 							 <c:out value="${consultation.name}"></c:out>

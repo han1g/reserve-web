@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.SqlResultSetMapping;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.BaseConfiguration;
 import com.example.demo.domain.etc.Criteria;
+import com.example.demo.domain.etc.RoomSearchCriteria;
 import com.example.demo.domain.notice.QNotice;
 import com.example.demo.service.ConsultationService;
 import com.example.demo.utils.SHA256Util;
@@ -95,7 +97,7 @@ public class ConsultationTests extends BaseConfiguration {
 	
     @Test
     public void insertDummy() {
-    	for(long i = 1 ;i <= 2;i++) {
+    	/*for(long i = 1 ;i <= 2;i++) {
 	        p.save(Consultation.builder()
 	                .title("title" + i)
 	                .grno(i)
@@ -128,7 +130,20 @@ public class ConsultationTests extends BaseConfiguration {
 	                .name("name2")
 	                .buildcd("4")
 	                .build());
-		} 
+		} */
+    	
+    	Long[] depth = {1L,2L,3L,3L,2L,3L,4L,5L,5L,3L,3L,4L};
+    	for(Long i  = 0L ;i < depth.length;i++) {
+    		p.save(Consultation.builder()
+	                .title("wow" + (i + 1))
+	                .grno(1L)
+	                .grgrod(i + 1)
+	                .depth(depth[i.intValue()])
+	                .contents("cont")
+	                .name("name2")
+	                .buildcd("4")
+	                .build());
+    	}
     }
     
     @Test
@@ -216,6 +231,26 @@ public class ConsultationTests extends BaseConfiguration {
     @Test
     public void encryptTest() throws NoSuchAlgorithmException {
     	log.info("digest;" + SHA256Util.encrypt(""));
+    }
+    
+    @Test
+    @Transactional
+    public void getReplyPositionTest() {
+    	List<Consultation> list  = p.findAll(Sort.by("grgrod").ascending());
+    	List<ConsultationDTO> dtoList = list.stream().map(el -> el.toDTO()).collect(Collectors.toList());
+    	for(ConsultationDTO el : dtoList) {
+    		log.info("el : " +  el);
+    		log.info("elReplyPosition :" + p2.getReplyPosition(el.getDepth(), el.getGrno(), el.getGrgrod()));
+    	}
+    
+    	
+    }
+    @Test
+    public void getListLinkTest() {
+    	RoomSearchCriteria cri = new RoomSearchCriteria();
+    	log.info(cri.toString());
+    	log.info(cri.getListLink());
+    	
     }
     
 }

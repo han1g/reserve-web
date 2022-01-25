@@ -45,6 +45,7 @@ public class Criteria {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("");
 		for(Field field : fields) {
 			try {
+				field.setAccessible(true);
 				builder.queryParam(field.getName(), field.get(this));
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block

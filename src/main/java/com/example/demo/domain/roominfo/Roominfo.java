@@ -89,5 +89,16 @@ public class Roominfo extends BuildingEntity implements Serializable{
     			images, 
     			colorcd);
     }
+    
+    public void update(RoominfoDTO dto) {
+    	this.roomnum = dto.getRoomnum();
+		this.roomtitle = dto.getRoomtitle();
+		this.explanation = dto.getExplanation();
+		this.maxpeople = dto.getMaxpeople();
+		this.adultcost = dto.getAdultcost();
+		this.childcost = dto.getChildcost();
+		this.images = dto.getImages();
+		this.colorcd = dto.getColorcd();
+    }
 
 }

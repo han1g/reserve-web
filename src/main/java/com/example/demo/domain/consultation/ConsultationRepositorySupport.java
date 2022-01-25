@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.etc.Criteria;
 import com.example.demo.domain.notice.Notice;
@@ -24,7 +25,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Repository
+@Transactional
 @Slf4j
 public class ConsultationRepositorySupport extends QuerydslRepositorySupport{
 	
@@ -53,15 +56,19 @@ public class ConsultationRepositorySupport extends QuerydslRepositorySupport{
 	public Long getMaxGrno() {
 		BooleanBuilder exp = new BooleanBuilder(qConsultation.depth.eq(1L));
 		exp.and(qConsultation.buildcd.eq("4"));
-		if(queryFactory.selectFrom(qConsultation).fetchCount() == 0L) {
+
+		//Long ret = queryFactory.select(qConsultation.grno).from(qConsultation).where(exp).orderBy(qConsultation.grno.desc()).fetchFirst();
+		Long ret = queryFactory.select(qConsultation.grno.max()).from(qConsultation).where(exp).fetchOne();
+		if(ret == null) {
 			return 0L;
 		}
-		return queryFactory.select(qConsultation.grno).from(qConsultation).where(exp).orderBy(qConsultation.grno.desc()).fetchFirst();
+		return ret;
+		
 	}
 	public Long getMaxGrgrod(Long grno) {
 		BooleanBuilder exp = new BooleanBuilder(qConsultation.grno.eq(grno)); 
 		exp.and(qConsultation.buildcd.eq("4"));
-		return queryFactory.select(qConsultation.grgrod).from(qConsultation).where(exp).orderBy(qConsultation.grgrod.desc()).fetchFirst();
+		return queryFactory.select(qConsultation.grgrod.max()).from(qConsultation).where(exp).fetchOne();
 	}
 	
 	public Long deleteGroup(Long grno) {
@@ -69,6 +76,34 @@ public class ConsultationRepositorySupport extends QuerydslRepositorySupport{
 		exp.and(qConsultation.buildcd.eq("4"));
 		return queryFactory.update(qConsultation).where(exp).set(qConsultation.deleteflg,"1").execute();
 	}
+	
+	public Long getReplyPosition(Long ref_depth, Long ref_grno, Long ref_grgrod) {
+		Long grgrod;
+		BooleanBuilder exp = new BooleanBuilder(qConsultation.grno.eq(ref_grno));
+		exp.and(qConsultation.depth.loe(ref_depth));
+		exp.and(qConsultation.grgrod.gt(ref_grgrod));
+		exp.and(qConsultation.buildcd.eq("4"));
+		
+		Long ret = queryFactory.select(qConsultation.grgrod.min()).from(qConsultation).where(exp).fetchOne();
+		if(ret == null) {
+			BooleanBuilder exp2 = new BooleanBuilder(qConsultation.grno.eq(ref_grno));
+			exp2.and(qConsultation.buildcd.eq("4"));
+			ret = queryFactory.select(qConsultation.grgrod.max()).from(qConsultation).where(exp2).fetchOne() + 1L;
+			/*rollback when ret is null -> null + 1 makes exception */
+			/*select max(grgrod) from Consultation where grno= ref_grno and buildcd = "4"*/
+		}	
+		return ret;
+		
+	}//insert될 reply의 grgrod를 구함
+	
+	public Long updateGrgrod(Long newReplyPosition,Long grno ) {
+		BooleanBuilder exp = new BooleanBuilder(qConsultation.grno.eq(grno));
+		exp.and(qConsultation.buildcd.eq("4"));
+		exp.and(qConsultation.grgrod.goe(newReplyPosition));
+		
+		return queryFactory.update(qConsultation).where(exp).set(qConsultation.grgrod, qConsultation.grgrod.add(1L)).execute();
+		
+	}// 끼워넣으면서 영향받는 row들의 grgrod를 바꿔줌
 
 	public static BooleanBuilder searchCondition(Criteria cri,boolean deletedList) {
 

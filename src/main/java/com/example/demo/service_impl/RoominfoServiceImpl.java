@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.etc.Criteria;
 import com.example.demo.domain.etc.GetListDTO;
+import com.example.demo.domain.etc.RoomSearchCriteria;
 import com.example.demo.domain.notice.Notice;
 import com.example.demo.domain.notice.NoticeDTO;
 import com.example.demo.domain.notice.QNotice;
@@ -36,7 +37,7 @@ public class RoominfoServiceImpl implements RoominfoService{
 	RoominfoRepository repo1;
 	
 	@Override
-	public GetListDTO<RoominfoDTO> getList(Criteria cri, boolean deletedList) {
+	public GetListDTO<RoominfoDTO> getList(RoomSearchCriteria cri, boolean deletedList) {
 		Pageable pageable = PageRequest.of(cri.getPageNum() - 1,cri.getAmount(),Sort.by("no").descending());
 		BooleanBuilder builder = searchCondition(cri,deletedList);
 		
@@ -69,16 +70,45 @@ public class RoominfoServiceImpl implements RoominfoService{
 
 
 	@Override
-	public boolean modify(RoominfoDTO board) {
+	@Transactional
+	public boolean modify(RoominfoDTO dto) {
 		// TODO Auto-generated method stub
-		return false;
+		Roominfo en = repo1.findById(dto.getNo()).get();
+		if(en == null)
+			return false;
+		
+		en.update(dto);
+		repo1.saveAndFlush(en);
+		
+		return true;
 	}
 
 	@Override
-	public boolean remove(Long bno) {
+	@Transactional
+	public boolean remove(Long no) {
 		// TODO Auto-generated method stub
-		return false;
+		Roominfo en = repo1.findById(no).get();
+		if(en == null)
+			return false;
+		
+		en.delete();
+		repo1.saveAndFlush(en);
+		return true;
 	}
+	
+	@Override
+	@Transactional
+	public boolean restore(Long no) {
+		// TODO Auto-generated method stub
+		Roominfo en = repo1.findById(no).get();
+		if(en == null)
+			return false;
+		
+		en.restore();
+		repo1.saveAndFlush(en);
+		return true;
+	}
+
 
 	@Override
 	public RoominfoDTO get(Long bno) {
@@ -86,23 +116,15 @@ public class RoominfoServiceImpl implements RoominfoService{
 		return repo1.findById(bno).get().toDTO();
 	}
 
-	@Override
-	public boolean restore(Long no) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getTotal(Criteria cri, boolean deletedList) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
-	public static BooleanBuilder searchCondition(Criteria cri,boolean deletedList) {
+	public static BooleanBuilder searchCondition(RoomSearchCriteria cri,boolean deletedList) {
 		QRoominfo qRoominfo = QRoominfo.roominfo; //querydsl 객체
 		
     	BooleanBuilder builder = new BooleanBuilder();
     	
+    	builder.and(qRoominfo.maxpeople.castToNum(Long.class).between(cri.getMaxpeople_min(), cri.getMaxpeople_max()));
+    	builder.and(qRoominfo.adultcost.between(cri.getAdultcost_min(), cri.getAdultcost_max()));
+    	builder.and(qRoominfo.childcost.between(cri.getChildcost_min(), cri.getChildcost_max()));
     	if(deletedList) {
     		builder.and(qRoominfo.deleteflg.eq("1"));//deleted
     	}

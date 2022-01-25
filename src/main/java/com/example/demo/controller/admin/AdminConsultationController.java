@@ -106,6 +106,7 @@ public class AdminConsultationController extends ConsultationController{
 	@Override
 	@PostMapping("/registerReply")
 	public String reply(@RequestParam("ref_no") Long ref_no,ConsultationDTO dto,Criteria cri,RedirectAttributes rttr) throws NoSuchAlgorithmException {
+		log.info("registerRelpy : refno = " + ref_no);
 		service.registerReplyAdmin(ref_no,dto);
 		rttr.addFlashAttribute("result", dto.getNo());
 		
