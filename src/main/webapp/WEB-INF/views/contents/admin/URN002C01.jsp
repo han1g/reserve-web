@@ -29,14 +29,13 @@
 							<textarea id="summernote" name="contents"></textarea>
 						</div>
 					</form>
-					<div>
-						<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '/admin/notice/list';">목록</button>
-						<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
-					</div>
+					<jsp:include page="/WEB-INF/views/includes/URN/validation_js.jsp"/>
+					<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/upload_form.jsp">
+						<jsp:param value="01" name="C"/>
+					</jsp:include>
 				</div>
 			</div>
 		</article>
-		<jsp:include page="/WEB-INF/views/includes/URN/validation_js.jsp"/>
-		<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/upload_js.jsp"/>
+
 	</body>
 </html>

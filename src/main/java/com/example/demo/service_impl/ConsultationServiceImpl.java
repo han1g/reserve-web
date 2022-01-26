@@ -57,8 +57,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     	}
     	else {
     		exp.and(qConsultation.deleteflg.eq("0"));
-    	}
-    		
+    	}	
     	Pageable pageable = PageRequest.of(cri.getPageNum() - 1, cri.getAmount(),
     			Sort.by("grno").descending()
     			.and(Sort.by("grgrod").ascending()));
@@ -115,8 +114,8 @@ public class ConsultationServiceImpl implements ConsultationService {
 	@Transactional
 	public void registerReply(Long ref_no, ConsultationDTO dto) throws NoSuchAlgorithmException {
 		ConsultationDTO refDTO = get(ref_no);
-		
-		Long grgrod = repo2.getReplyPosition(refDTO.getDepth(), ref_no, refDTO.getGrgrod());
+		log.info("registerReply.dto : " + dto);
+		Long grgrod = repo2.getReplyPosition(refDTO.getDepth(), refDTO.getGrno(), refDTO.getGrgrod());
 		
 		Consultation en = Consultation.builder()
 				.grno(refDTO.getGrno())//sequence하나 새로 만드는게 나음
@@ -125,7 +124,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 				.title(dto.getTitle())
 				.contents(dto.getContents())
 				.name(dto.getName())
-				.passwd(dto.getLockflg().equals("0") ? null : SHA256Util.encrypt(dto.getPasswd()))
+				.passwd(SHA256Util.encrypt(dto.getPasswd()))
 				.lockflg(dto.getLockflg())
 				.buildcd("4")
 				.build();

@@ -8,8 +8,18 @@
 		<c:out value="${pageMaker.cri.type == 'T' ? 'selected' : ''}"></c:out>>제목</option>
 		<option value="C" 
 		<c:out value="${pageMaker.cri.type == 'C' ? 'selected' : ''}"></c:out>>내용</option>
+		<c:if test="${menu  eq 'consultation'}">
+			<option value="W" 
+			<c:out value="${pageMaker.cri.type == 'W' ? 'selected' : ''}"></c:out>>작성자</option>
+		</c:if>
 		<option value="TC" 
 		<c:out value="${pageMaker.cri.type == 'TC' ? 'selected' : ''}"></c:out>>제목 + 내용</option>
+		
+		
+		<c:if test="${menu  eq 'consultation'}">
+			<option value="TCW" 
+			<c:out value="${pageMaker.cri.type == 'TCW' ? 'selected' : ''}"></c:out>>제목 + 내용 + 작성자</option>
+		</c:if>
 	</select>
 	<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
 	<button class="btn btn-outline-secondary">Search</button>

@@ -1,27 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/includes/commons/variables.jsp" %>
-<c:set  value="${param.no}" var="no"/>
-<form id="actionForm" action="" method="get">
-	<jsp:include page="/WEB-INF/views/includes/commons/criteria.jsp">
-		<jsp:param value="${cri}" name="cri"/>
-	</jsp:include>	
-	<div>
-		<c:choose>
-			<c:when test="${D eq '01'}"> <!-- undeleted list-->
-				<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
-				<c:if test="${admin eq 'admin'}">
-					<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
-					<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
-				</c:if>
-			</c:when>
-			<c:otherwise> <!-- deleted list -->
-				<a href="" role="button" class="btn btn-secondary" data-oper="deletedList" id="btnList">목록</a>
-				<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnRestore">복구</a>
-			</c:otherwise>
-		</c:choose>
-	</div>
-</form>
+<c:set value="${param.no}" var="no"/>
 <script>
 	$(document).ready(function() {
 		var form = $("#actionForm");
@@ -44,10 +24,16 @@
 					form.attr("method","post");
 					break;
 					
+				case "reply":
+					form.append(`<input type="hidden" name="no" value="${no}"/>`);
+					form.attr("action",adminURL + "/${menu}/register02"); // only for consultation
+					break;
+					
 				case "restore":
 					if(!confirm("복구하시겠습니까?")) {
 						return;
 					}
+					form.append(`<input type="hidden" name="no" value="${no}"/>`);
 					form.attr("action",adminURL + "/${menu}/restore");
 					form.attr("method","post");
 					break;

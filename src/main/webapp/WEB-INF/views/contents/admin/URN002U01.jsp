@@ -30,18 +30,14 @@
 							<textarea id="summernote" name="contents">${notice.contents}</textarea>
 						</div>
 					</form>
-					<div>
-						<button type="button" class="btn btn-secondary" id="btnList" onclick="backToList($('#form'));">목록</button>
-						<button type="button" class="btn btn-warning" id="btnSave" onclick="sendReviewForm($('#form'));">수정</button>
-					</div>
+					<jsp:include page="/WEB-INF/views/includes/URN/validation_js.jsp"/>
+					<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/upload_form.jsp">
+						<jsp:param value="01" name="U"/>
+						<jsp:param value="${notice.no}" name="no"/>
+					</jsp:include>
 				</div>
 			</div>
 		</article>
-		<jsp:include page="/WEB-INF/views/includes/URN/validation_js.jsp"/>
-		<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/upload_js.jsp">
-			<jsp:param value="admin" name="admin"/>
-			<jsp:param value="01" name="U"/>
-			<jsp:param value="${notice.no}" name="no"/>
-		</jsp:include>
+		
 	</body>
 </html>

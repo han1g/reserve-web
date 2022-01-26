@@ -1,3 +1,4 @@
+<%@page import="com.example.demo.domain.etc.RoomSearchCriteria"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.demo.domain.etc.PageDTO" %>
 <%@include file="/WEB-INF/views/includes/commons/variables.jsp"%>
@@ -22,7 +23,14 @@
 	</ul>
 </nav>
 <form id="actionForm" action="${listAction}" method="get">
-	<%request.setAttribute("cri", ((PageDTO) request.getAttribute("pageMaker")).getCri()); %> <!-- cannnot send Object by <jsp;param> -->
+	<c:choose>
+		<c:when test="${menu eq 'roominfo'}">
+			<%request.setAttribute("cri", ((PageDTO<RoomSearchCriteria>) request.getAttribute("pageMaker")).getCri()); %>
+		</c:when>
+		<c:otherwise>
+			<%request.setAttribute("cri", ((PageDTO) request.getAttribute("pageMaker")).getCri()); %> <!-- cannnot send Object by <jsp;param> -->
+		</c:otherwise> 
+	</c:choose>
 	<jsp:include page="/WEB-INF/views/includes/commons/criteria.jsp"/>
 </form>
 <script type="text/javascript">

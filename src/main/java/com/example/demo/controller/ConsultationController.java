@@ -63,6 +63,7 @@ public class ConsultationController {
 		}//redirected from auth
 		
 		ConsultationDTO dto = service.get(no);
+		log.info("get.dto:" + dto);
 		log.info("dto.getLockflg():" + dto.getLockflg());
 		Object auth = request.getSession().getAttribute(no + "auth");
 		if(dto.getLockflg().equals("0") || (auth != null && auth.equals("auth"))) {
@@ -145,6 +146,7 @@ public class ConsultationController {
 	
 	@PostMapping("/register02")
 	public String reply(@RequestParam("ref_no") Long ref_no,ConsultationDTO dto,Criteria cri,RedirectAttributes rttr) throws NoSuchAlgorithmException {
+		log.info("reply.dto : " + dto.toString());
 		service.registerReply(ref_no,dto);
 		rttr.addFlashAttribute("result", dto.getNo());
 		
@@ -164,7 +166,7 @@ public class ConsultationController {
 			Criteria cri, Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		String authRet = this.auth(request,no,cri,passwd,"remove",model,rttr);
 		
-		if(authRet != null && authRet.equals("URC001A02")) {
+		if(authRet != null && !authRet.equals("URC001A02")) {
 			if(service.remove(no)) {
 				rttr.addFlashAttribute("result", "success");
 			}
