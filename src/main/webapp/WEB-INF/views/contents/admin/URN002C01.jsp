@@ -36,56 +36,7 @@
 				</div>
 			</div>
 		</article>
-		<script type="text/javascript">
-				$(document).ready(function() {
-				  $('#summernote').summernote({  
-					  callbacks: {
-						  onImageUpload: function(files, editor, welEditable) {
-						              for (var i = files.length - 1; i >= 0; i--) {
-						               sendFile(files[i], this);
-						              }
-						          }
-						  }
-						  });
-				  });
-				//summernote 설정
-				function sendFile(file, el) {
-				   var form_data = new FormData();
-			       form_data.append('uploadFile', file);
-			       $.ajax({
-			         data: form_data,
-			         type: "POST",
-			         url: '/upload_image',
-			         cache: false,
-			         contentType: false,
-			         enctype: 'multipart/form-data',
-			         processData: false,
-			         success: function(img_name) {
-			        	 console.log(img_name);
-			           $(el).summernote('editor.insertImage', img_name);
-			         }
-			       });
-				}
-				
-				function sendReviewForm(frm) {
-					var title = $('#title').val();
-					var contents = $("#summernote").summernote('code');
-					if (title.trim() == ''){
-						alert("제목을 입력해주세요");
-						return false;
-					}
-					
-					if (contents.trim() == ''){
-						alert("내용을 입력해주세요");
-						return false;
-					}
-					if(!confirm("등록하시겠습니까?")) {
-						return false;
-					}
-					
-					frm.submit();
-					
-				}
-		</script>
+		<jsp:include page="/WEB-INF/views/includes/URN/validation_js.jsp"/>
+		<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/upload_js.jsp"/>
 	</body>
 </html>

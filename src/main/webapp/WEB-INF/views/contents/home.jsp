@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>입국좀 열어라123</h2>
+	<h2>입국좀 열어라</h2>
 	<img src="/resources/img/favicon.ico"/>
 </body>
 </html>

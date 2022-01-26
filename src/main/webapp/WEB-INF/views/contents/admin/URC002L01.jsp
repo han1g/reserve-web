@@ -126,7 +126,7 @@
 			</script>
 		</div>
 		<div>
-			<a href="/admin/consultation/register" class="btn btn-outline-success">글쓰기</a>
+			<a href="/admin/consultation/register01" class="btn btn-outline-success">글쓰기</a>
 			<a href="/admin/consultation/deletedList" class="btn btn-outline-warning">삭제 목록</a>
 		</div>
 	</div>

@@ -70,13 +70,13 @@ public class AdminConsultationController extends ConsultationController{
 	}
 	
 	@Override
-	@GetMapping("/register") //registerpage
+	@GetMapping("/register01") //registerpage
 	public String register() {
 		return "/admin/URC002C01";
 	}
 	
 	@Override
-	@PostMapping("/register") //registermethod
+	@PostMapping("/register01") //registermethod
 	public String register(ConsultationDTO dto,RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		service.registerAdmin(dto);
 		rttr.addFlashAttribute("result", dto.getNo());
@@ -104,7 +104,7 @@ public class AdminConsultationController extends ConsultationController{
 	}
 	
 	@Override
-	@PostMapping("/registerReply")
+	@PostMapping("/register02")
 	public String reply(@RequestParam("ref_no") Long ref_no,ConsultationDTO dto,Criteria cri,RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		log.info("registerRelpy : refno = " + ref_no);
 		service.registerReplyAdmin(ref_no,dto);
@@ -114,7 +114,7 @@ public class AdminConsultationController extends ConsultationController{
 		
 	}
 	@Override
-	@GetMapping("/registerReply")
+	@GetMapping("/register02")
 	public String reply(@RequestParam("no") Long no, @ModelAttribute("cri") Criteria cri, Model model) {
 		ConsultationDTO dto = service.get(no);
 		model.addAttribute("consultation", dto);

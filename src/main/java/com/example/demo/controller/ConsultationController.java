@@ -96,11 +96,11 @@ public class ConsultationController {
 	}
 	
 	
-	@GetMapping("/register") //registerpage
+	@GetMapping("/register01") //registerpage
 	public String register() {
 		return "URC001C01";
 	}
-	@PostMapping("/register") //registermethod
+	@PostMapping("/register01") //registermethod
 	public String register(ConsultationDTO dto,RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		service.register(dto);
 		rttr.addFlashAttribute("result", dto.getNo());
@@ -143,7 +143,7 @@ public class ConsultationController {
 	}
 	
 	
-	@PostMapping("/registerReply")
+	@PostMapping("/register02")
 	public String reply(@RequestParam("ref_no") Long ref_no,ConsultationDTO dto,Criteria cri,RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		service.registerReply(ref_no,dto);
 		rttr.addFlashAttribute("result", dto.getNo());
@@ -151,7 +151,7 @@ public class ConsultationController {
 		return "redirect:/consultation/list" + cri.getListLink();
 		
 	}
-	@GetMapping("/registerReply")
+	@GetMapping("/register02")
 	public String reply(@RequestParam("no") Long no, @ModelAttribute("cri") Criteria cri, Model model) {
 		ConsultationDTO dto = service.get(no);
 		model.addAttribute("consultation", dto);

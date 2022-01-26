@@ -70,7 +70,7 @@
 										form.attr("method","post");
 										break;
 									case "reply":
-										form.attr("action","/admin/consultation/registerReply");
+										form.attr("action","/admin/consultation/register02");
 										break;
 									case "list":
 										var pageNum = $("input[name='pageNum']").clone();

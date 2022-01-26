@@ -129,7 +129,7 @@
 			</script>
 		</div>
 		<div>
-			<a href="/consultation/register" class="btn btn-outline-success">글쓰기</a>
+			<a href="/consultation/register01" class="btn btn-outline-success">글쓰기</a>
 		</div>
 	</div>
 	

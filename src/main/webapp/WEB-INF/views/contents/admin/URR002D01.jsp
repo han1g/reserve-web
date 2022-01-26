@@ -6,8 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/lib/summernote-0.8.18-dist/summernote-lite.css">
-<script src="/resources/lib/summernote-0.8.18-dist/summernote-lite.js"></script>
 <title>Home</title>
 <style>
 	.carousel-indicators {
