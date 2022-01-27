@@ -38,6 +38,9 @@
 				} else if(result === "success") {
 					$(".modal-body").html("처리 완료");
 					$("#myModal").modal("show");
+				} else {
+					$(".modal-body").html(result);
+					$("#myModal").modal("show");
 				}
 			}
 			

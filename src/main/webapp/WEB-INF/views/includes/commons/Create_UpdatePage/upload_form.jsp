@@ -28,7 +28,6 @@
 				  }
 				  });
 		  });
-		//summernote 설정
 		function sendFile(file, el) {
 		   var form_data = new FormData();
 	       form_data.append('uploadFile', file);
@@ -46,8 +45,10 @@
 	         }
 	       });
 		}
+		//summernote 설정
 		
 		function sendReviewForm(frm) {
+			
 			if(validation !== undefined) {
 				if(!validation()) {
 					return false
@@ -62,8 +63,20 @@
 				return false;
 			}
 			<c:if test="${menu eq 'roominfo'}">
-				var images = fillImageField();
+				var images = "";
+				$(".carousel-image-target").each(function (index,item) {
+					console.log(item);
+					var str = $(item).attr("src");
+					console.log("str:" + str);
+					str = str.replace("&thumb=true","");
+					console.log("str:" + str);
+					images += str;
+					images += ";";
+				});
+				images = images.substring(0, images.length - 1);
+				console.log("images:" + images);
 				frm.append(`<input type="hidden" name="images" id="images" value="${'${images}'}">`);
+				//ROOMINFO.IMAGES Column
 			</c:if>
 			
 			frm.submit();	

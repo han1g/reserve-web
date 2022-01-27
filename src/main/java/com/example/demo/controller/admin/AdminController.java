@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.domain.etc.Criteria;
+
 /**
  * Handles requests for the application home page.
  */
@@ -27,5 +29,7 @@ public class AdminController {
 	public String home2() {
 		return "/admin/index";
 	}
+	
+	
 	
 }

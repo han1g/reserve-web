@@ -22,6 +22,9 @@
         <li class="nav-item">
           <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/admin/consultation/list">CONSULTATION。</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link ${menu eq 'options' ? 'active' : '' }" aria-current="page" href="/admin/options/list">OPTIONS。</a>
+        </li>
       </ul>
     </div>
   </div>

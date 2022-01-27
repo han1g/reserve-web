@@ -1,5 +1,8 @@
 package com.example.demo.domain.options;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +14,12 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.example.demo.domain.base.BaseEntity;
+import com.example.demo.domain.roominfo.RoominfoDTO;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import oracle.jdbc.proxy.annotation.SetDelegate;
 
 
 @DynamicInsert//null인 경우 삽입할 때 insert문에서 빼버림
@@ -47,5 +52,27 @@ public class Options extends BaseEntity{
 		this.cost = cost;
 		this.activity = activity;	
 	}
+    
+    public OptionsDTO toDTO() {
+    	return new OptionsDTO(
+    			no,
+    			this.getDeleteflg(),
+    			new Date(Timestamp.valueOf(getCreatedat()).getTime()),
+    			new Date(Timestamp.valueOf(getUpdatedat()).getTime()),
+    			item,
+    			cost,
+    			activity);
+    }
+    public void update(OptionsDTO dto) {
+    	this.item = dto.getItem();
+		this.cost = dto.getCost();
+		this.activity = dto.getActivity();
+		if(dto.getDeleteflg().equals("1")) {
+			delete();
+		}
+		else {
+			restore();
+		}
+    }
 
 }

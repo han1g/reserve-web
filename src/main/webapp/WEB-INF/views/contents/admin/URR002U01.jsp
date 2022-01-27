@@ -72,29 +72,12 @@
 						</div>
 					</form>
 					<%request.setAttribute("imagesList", ((RoominfoDTO) request.getAttribute("roominfo")).getImagesList());%>
-					<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/images_carousel.jsp"/>
+					<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/carousel_image_upload.jsp"/>
 					
 					<jsp:include page="/WEB-INF/views/includes/URR/validation_js.jsp"/>
 					<jsp:include page="/WEB-INF/views/includes/commons/Create_UpdatePage/upload_form.jsp">
 						<jsp:param value="01" name="U"/>
 					</jsp:include>
-					<script type="text/javascript" >
-						function fillImageField() {
-							var images = "";
-							$(".carousel-image-target").each(function (index,item) {
-								console.log(item);
-								var str = $(item).attr("src");
-								console.log("str:" + str);
-								str = str.replace("&thumb=true","");
-								console.log("str:" + str);
-								images += str;
-								images += ";";
-							});
-							images = images.substring(0, images.length - 1);
-							console.log("images:" + images);
-							return images;
-						};
-					</script>
 				</div>
 			</div>
 		</article>
