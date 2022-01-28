@@ -7,12 +7,13 @@ import com.example.demo.domain.etc.Criteria;
 import com.example.demo.domain.etc.GetListDTO;
 import com.example.demo.domain.notice.NoticeDTO;
 import com.example.demo.domain.options.OptionsDTO;
+import com.example.demo.domain.sliderimages.SliderimagesDTO;
 
-public interface OptionsService {
+public interface SliderimagesService {
 
 
-	List<OptionsDTO> getList(boolean deleted);
+	List<SliderimagesDTO> getList(boolean deleted);
 
-	void register(List<OptionsDTO> options);
+	void register(List<SliderimagesDTO> images);
 
 }

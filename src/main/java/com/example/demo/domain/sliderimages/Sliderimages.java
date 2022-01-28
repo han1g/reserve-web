@@ -1,5 +1,8 @@
 package com.example.demo.domain.sliderimages;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,4 +48,27 @@ public class Sliderimages extends BuildingEntity{
 		this.sortno = sortno;
 		this.activity = activity;
 	}
+    
+    
+    public SliderimagesDTO toDTO() {
+    	return new SliderimagesDTO(
+    			no,
+    			this.getDeleteflg(),
+    			new Date(Timestamp.valueOf(getCreatedat()).getTime()),
+    			new Date(Timestamp.valueOf(getUpdatedat()).getTime()),
+    			filename,
+    			sortno,
+    			activity);
+    }
+    public void update(SliderimagesDTO dto) {
+    	this.filename = dto.getFilename();
+		this.sortno = dto.getSortno();
+		this.activity = dto.getActivity();
+		if(dto.getDeleteflg().equals("1")) {
+			delete();
+		}
+		else {
+			restore();
+		}
+    }
 }

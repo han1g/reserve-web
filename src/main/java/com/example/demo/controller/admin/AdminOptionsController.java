@@ -49,10 +49,14 @@ public class AdminOptionsController {
 	
 	@RequestMapping("/list")
 	public String list(Model model) {
-		return list(model,"/admin/URO002L01");
+		return list(false,model,"/admin/URO002L01");
 	}
-	public String list(Model model, String ret) {
-		List<OptionsDTO> options = service.getList();
+	@RequestMapping("/deletedList")
+	public String deletedList(Model model) {
+		return list(true,model,"/admin/URO002L02");
+	}
+	public String list(boolean deleted,Model model, String ret) {
+		List<OptionsDTO> options = service.getList(deleted);
 		model.addAttribute("options",options);
 		return ret;
 	}

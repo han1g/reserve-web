@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class BuildingDTO extends BaseDTO{
 	private String buildcd;
 

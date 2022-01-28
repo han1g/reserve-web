@@ -15,9 +15,9 @@ ${imagesList}
 	</div>
 	<ul class="uploadResult">
 		<c:forEach var="image" items="${imagesList}" varStatus="status">
-			<li class ="rounded border border-1" style="display: flex; align-items:center">
+			<li class ="rounded border border-1" style="display: flex; align-items:center; cursor: grab;">
 					<img class="img-thumbnail" src="/resources/img/sort-icon.png"style="width:60px;height:60px" alt="...">
-					<img src="${image}&thumb=true" class="img-thumbnail carousel-image-target" style="object-fit: contain; width:100px;height:100px" alt="..."
+					<img src="${image}&thumb=true" class="img-thumbnail carousel-image-target" style="object-fit: contain; width:100px;height:100px;cursor: zoom-in;" alt="..."
 					onclick="showImage('${image}')">
 					<form>
 						<button class="btn btn-warning" onclick="changeFileButtonClick(event)">변경</button>
@@ -106,7 +106,7 @@ ${imagesList}
 				console.log("el:" + el);
 				var str ="";
 				str +=`<li class ="rounded border border-1" style="display: flex; align-items:center">
-				<img class="img-thumbnail" src="/resources/img/sort-icon.png"style="width:60px;height:60px" alt="...">
+				<img class="img-thumbnail" src="/resources/img/sort-icon.png"style="width:60px;height:60px;cursor: zoom-in;" alt="...">
 				<img src="${'${el}'}&thumb=true" class="img-thumbnail carousel-image-target" style="object-fit: contain; width:100px;height:100px" alt="..."
 				onclick="showImage('${'${el}'}')">
 				<form>

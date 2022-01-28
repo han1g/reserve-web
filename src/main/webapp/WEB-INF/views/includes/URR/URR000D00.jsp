@@ -96,29 +96,6 @@
 							    	Preview.
 							  </div>
 							  <div class="card-body">
-							  	<c:choose>
-								<c:when test="${empty roominfo.imagesList}">
-								<div id="carouselExampleIndicators" class="carousel carousel-dark carousel-thumbnail slide" data-bs-ride="carousel">
-								    <div class="carousel-inner">
-									        <div class="carousel-item active">
-									            <img src="/resources/img/logo_icon.png" class="d-block carousel-border-round  w-100">
-									        </div>
-								    </div>
-								    <div class="carousel-indicators">
-									        <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" 
-									        class="carousel-thumbnail active" src="/resources/img/logo_icon.png" class="w-100">
-									</div>
-									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-									    <span class="visually-hidden">Previous</span>
-									</button>
-									<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-										<span class="carousel-control-next-icon" aria-hidden="true"></span>
-										<span class="visually-hidden">Next</span>
-									</button>
-								</div>
-								</c:when>
-								<c:otherwise>
 								<div id="carouselExampleIndicators" class="carousel carousel-dark carousel-thumbnail slide" data-bs-ride="carousel">
 								    <div class="carousel-inner">
 								    	<c:forEach var="image" items="${roominfo.imagesList}" varStatus="status">
@@ -126,12 +103,21 @@
 									            <img src="${image}" class="d-block carousel-border-round  w-100">
 									        </div>
 								        </c:forEach>
+								        <c:if test="${empty roominfo.imagesList}">
+								        	<div class="carousel-item active">
+									            <img src="/resources/img/logo_icon.png" class="d-block carousel-border-round  w-100">
+									        </div>
+								        </c:if>
 								    </div>
 								    <div class="carousel-indicators">
 									    <c:forEach var="image" items="${roominfo.imagesList}" varStatus="status">
 									        <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" 
 									        class="carousel-thumbnail ${status.first ? 'active' : ''}" src="${image}&thumb=true" class="w-100">
 									    </c:forEach>
+									    <c:if test="${empty roominfo.imagesList}">
+									    	<img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" 
+									        class="carousel-thumbnail active" src="/resources/img/logo_icon.png" class="w-100">
+									    </c:if>
 									</div>
 									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
 									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -142,8 +128,6 @@
 										<span class="visually-hidden">Next</span>
 									</button>
 								</div>
-								</c:otherwise>
-								</c:choose>
 							  </div>
 							</div>
 						</div>

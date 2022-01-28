@@ -17,36 +17,42 @@ import com.example.demo.domain.options.Options;
 import com.example.demo.domain.options.OptionsDTO;
 import com.example.demo.domain.options.OptionsRepository;
 import com.example.demo.domain.options.QOptions;
+import com.example.demo.domain.sliderimages.QSliderimages;
+import com.example.demo.domain.sliderimages.Sliderimages;
+import com.example.demo.domain.sliderimages.SliderimagesDTO;
+import com.example.demo.domain.sliderimages.SliderimagesRepository;
 import com.example.demo.service.OptionsService;
+import com.example.demo.service.SliderimagesService;
 import com.querydsl.core.BooleanBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service//서비스는 dto를 받아 처리함,querydsl도 서비스에서 처리함
 @Slf4j
-public class OptionsServiceImpl implements OptionsService{
+public class SliderimagesServiceImpl implements SliderimagesService{
 
 	@Autowired
-	OptionsRepository repo1;
+	SliderimagesRepository repo1;
 	
 	@Override
 	@Transactional
-	public void register(List<OptionsDTO> options) {
+	public void register(List<SliderimagesDTO> options) {
 		log.info("" + options);
 		log.info("" + options.size());
-		for(OptionsDTO option : options) {
+		for(SliderimagesDTO option : options) {
 			if(option.getNo() == null) {
 				//insert
 				log.info("insert");
-				repo1.save(Options.builder()
-						.item(option.getItem())
-						.cost(option.getCost())
+				repo1.save(Sliderimages.builder()
+						.filename(option.getFilename())
+						.sortno(option.getSortno())
 						.activity(option.getActivity())
+						.buildcd("4")
 						.build());
 			} else {
 				//update
 				log.info("update");
-				Options en = repo1.findById(option.getNo()).get();
+				Sliderimages en = repo1.findById(option.getNo()).get();
 				en.update(option);
 				repo1.save(en);
 			}
@@ -54,8 +60,8 @@ public class OptionsServiceImpl implements OptionsService{
 	}
 
 	@Override
-	public List<OptionsDTO> getList(boolean deleted) {
-		QOptions qOptions = QOptions.options;
+	public List<SliderimagesDTO> getList(boolean deleted) {
+		QSliderimages qOptions = QSliderimages.sliderimages;
 		// TODO Auto-generated method stub
 		BooleanBuilder builder = new BooleanBuilder();
 		if(deleted) {
@@ -65,8 +71,8 @@ public class OptionsServiceImpl implements OptionsService{
     		builder.and(qOptions.deleteflg.eq("0"));//not deleted
     	}
 		
-		List<OptionsDTO> ret = new ArrayList<OptionsDTO>();
-		repo1.findAll(builder,Sort.by("no").ascending()).forEach(el -> ret.add(el.toDTO()));
+		List<SliderimagesDTO> ret = new ArrayList<SliderimagesDTO>();
+		repo1.findAll(builder,Sort.by("sortno").ascending()).forEach(el -> ret.add(el.toDTO()));
 		return ret;
 				
 				

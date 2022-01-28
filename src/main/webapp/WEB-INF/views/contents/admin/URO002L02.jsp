@@ -19,7 +19,6 @@
 			<div class="card-header">
 				<span>Options.</span>
 				<span>
-					<button class="btn btn-sm btn-success" onclick="addOption()">+</button>
 					<button class="btn btn-sm btn-primary" onclick="submit()">저장</button>
 				</span>
 			</div>
@@ -47,7 +46,7 @@
 							 		<input id="radio[${status.index}]1" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="1" ${option.activity eq '1' ? 'checked' : ''}><label for="radio[${status.index}]1">&nbsp; ON</label>
 							 		&nbsp;
 							 		<input id="radio[${status.index}]2" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="0" ${option.activity eq '0' ? 'checked' : ''}><label for="radio[${status.index}]2">&nbsp; OFF</label> </div></td>
-							<td><button class="btn btn-danger" onclick="deleteOptionClick(event,true)" >삭제</button><td>
+							<td><button class="btn btn-warning" onclick="deleteOptionClick(event,false)" >복구</button><td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -55,7 +54,7 @@
 			</form>
 		</div>
 		<div>
-			<a href="/admin/options/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+			<a href="/admin/options/list" class="btn btn-outline-success">목록</a>
 		</div>
 	</div>
 	<script>
@@ -105,24 +104,6 @@
 					console.log($(this).attr('name'));
 				});
 			});
-		}
-		function addOption() {
-			console.log('addOption');
-			console.log('length : ' + length);
-			$('#optionsTable > tbody').append(`
-					<tr class="new-tr">
-					 <td>
-					 <input type="hidden" class="form-control" name="options[${'${length}'}].deleteflg" value="<c:out value="0"/>">
-					 <input class="form-control" name="options[${'${length}'}].item" value="item"></td>
-					 <td><input class="form-control" name="options[${'${length}'}].cost" value="0"></td>
-					 <td><div class="input-group-text">
-					 		<input id="radio[${'${length}'}]1" class="form-check-input mt-0" type="radio" name="options[${'${length}'}].activity" value="1" checked><label for="radio[${'${length}'}]1">&nbsp; ON</label>
-					 		&nbsp;
-					 		<input id="radio[${'${length}'}]2" class="form-check-input mt-0" type="radio" name="options[${'${length}'}].activity" value="0"><label for="radio[${'${length}'}]2">&nbsp; OFF</label> </div></td>
-					 <td><button class="btn btn-danger" onclick="deleteOptionClick(event)" >삭제</button><td>
-					</tr>
-			`);
-			length++;
 		}
 		function submit() {
 			giveArrIndex();

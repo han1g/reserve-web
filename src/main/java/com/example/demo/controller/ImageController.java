@@ -68,7 +68,7 @@ public class ImageController {
 //		return new ResponseEntity<>("/image?fileName=" + datePath.replace(File.separator,"/") + "/" + fileName,HttpStatus.OK);
 //	}
 	
-	@PostMapping(value ="/upload_image")//admin만 가능
+	@PostMapping(value ="/upload_image")
 	public @ResponseBody ResponseEntity<?> uploadFormPost(MultipartFile[] uploadFile) throws IOException {
 		String datePath = getFolder();
 		File uploadPath = new File("C:\\upload",datePath);
@@ -96,7 +96,6 @@ public class ImageController {
 			File savefile = new File(uploadPath,fileName);
 			log.info(savefile.getName());
 			
-			boolean isImage = false;
 			try {
 				multipartFile.transferTo(savefile);
 				if(!checkImageType(savefile)) {

@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>입국좀 열어라 admin</h2>
-	<img src="/resources/css/favicon.ico"/>
+	<a href="/admin/sliderimages" role="button" class="btn btn-warning" id="btnList">슬라이더 수정</a>
+	<jsp:include page="/WEB-INF/views/includes/URS/URS000D00.jsp"></jsp:include>
 </body>
 </html>

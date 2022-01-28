@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>입국좀 열어라</h2>
-	<img src="/resources/img/favicon.ico"/>
+	<jsp:include page="/WEB-INF/views/includes/URS/URS000D00.jsp"></jsp:include>
 </body>
 </html>
