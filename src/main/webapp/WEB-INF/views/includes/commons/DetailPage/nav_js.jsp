@@ -29,6 +29,12 @@
 					form.attr("action",adminURL + "/${menu}/register02"); // only for consultation
 					break;
 					
+				case "reserve" :
+					form.append(`<input type="hidden" name="roomno" value="${no}"/>`);
+					form.attr("action","/reserve/register"); // only for roominfo
+					form.attr("method","get");
+					break;
+					
 				case "restore":
 					if(!confirm("복구하시겠습니까?")) {
 						return;

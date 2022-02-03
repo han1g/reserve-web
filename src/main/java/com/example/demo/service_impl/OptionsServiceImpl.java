@@ -54,7 +54,7 @@ public class OptionsServiceImpl implements OptionsService{
 	}
 
 	@Override
-	public List<OptionsDTO> getList(boolean deleted) {
+	public List<OptionsDTO> getList(boolean deleted,boolean activated) {
 		QOptions qOptions = QOptions.options;
 		// TODO Auto-generated method stub
 		BooleanBuilder builder = new BooleanBuilder();
@@ -64,6 +64,10 @@ public class OptionsServiceImpl implements OptionsService{
     	else {
     		builder.and(qOptions.deleteflg.eq("0"));//not deleted
     	}
+		
+		if(activated) {
+			builder.and(qOptions.activity.eq("1"));
+		}
 		
 		List<OptionsDTO> ret = new ArrayList<OptionsDTO>();
 		repo1.findAll(builder,Sort.by("no").ascending()).forEach(el -> ret.add(el.toDTO()));

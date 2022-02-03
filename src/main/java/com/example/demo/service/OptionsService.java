@@ -11,7 +11,7 @@ import com.example.demo.domain.options.OptionsDTO;
 public interface OptionsService {
 
 
-	List<OptionsDTO> getList(boolean deleted);
+	List<OptionsDTO> getList(boolean deleted,boolean activated);
 
 	void register(List<OptionsDTO> options);
 

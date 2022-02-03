@@ -1,5 +1,8 @@
 package com.example.demo.domain.reserve;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -98,4 +101,12 @@ public class Reserve extends BuildingEntity{
 		this.bankbranchcd = bankbranchcd;
 		this.bankno = bankno;
 	}
+    
+    public ReserveDTO toDTO() {
+		return new ReserveDTO(getDeleteflg(), "4",
+    			new Date(Timestamp.valueOf(getCreatedat()).getTime()),
+    			new Date(Timestamp.valueOf(getUpdatedat()).getTime()),
+				roomno, name, phone, adult, child, startdate, enddate, options, paymentflg, totalcost, cancelflg, bankname, bankbranchcd, bankno);
+    	
+    }
 }

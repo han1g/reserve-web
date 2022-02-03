@@ -145,6 +145,10 @@
 									<c:if test="${admin eq 'admin'}">
 										<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
 										<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
+										<a href="" role="button" class="btn btn-success" data-oper="reservelist" id="btnReserveList">예약 리스트</a>
+									</c:if>
+									<c:if test="${admin ne 'admin'}">
+										<a href="" role="button" class="btn btn-success" data-oper="reserve" id="btnReserve">예약</a>
 									</c:if>
 								</c:when>
 								<c:otherwise> <!-- deleted list -->

@@ -8,7 +8,7 @@
 <input type="hidden" name="type" value="<c:out value="${cri.type}"/>"/>
 <input type="hidden" name="keyword" value="<c:out value="${cri.keyword}"/>"/>
 
-<c:if test="${menu eq 'roominfo'}">
+<c:if test="${menu eq 'roominfo' or menu eq 'reserve'}">
 <input type="hidden" name="maxpeople_min" value="<c:out value="${cri.maxpeople_min}"/>"/>
 <input type="hidden" name="maxpeople_max" value="<c:out value="${cri.maxpeople_max}"/>"/>
 <input type="hidden" name="adultcost_min" value="<c:out value="${cri.adultcost_min}"/>"/>

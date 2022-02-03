@@ -56,7 +56,7 @@ public class AdminOptionsController {
 		return list(true,model,"/admin/URO002L02");
 	}
 	public String list(boolean deleted,Model model, String ret) {
-		List<OptionsDTO> options = service.getList(deleted);
+		List<OptionsDTO> options = service.getList(deleted,false);
 		model.addAttribute("options",options);
 		return ret;
 	}
