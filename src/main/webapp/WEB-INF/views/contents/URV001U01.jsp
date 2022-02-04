@@ -78,7 +78,23 @@
 						          showOn: "both",
 						          buttonImage: "/resources/img/calendar.png",
 						          buttonImageOnly: true,
-						          buttonText: "Select date"
+						          buttonText: "Select date",
+						          beforeShowDay: function(date){
+						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
+						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
+						              var flag = true;
+						              var startdates = ${startdates};
+						              var enddates = ${enddates};
+						              const nineHours = 32400000;
+						              for(var i = 0;i < startdates.length ;i++) {
+						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
+						            		  console.log(date + "   cannnot select this date!!!!!!");
+						            		  flag = false;
+						            		  break;
+						            	  }
+						              }
+						              return [ flag ];
+						          }
 						        })
 						        .on( "change", function() {
 						          console.log("from change " + getDate( this ) );
@@ -95,7 +111,23 @@
 						        showOn: "both",
 						          buttonImage: "/resources/img/calendar.png",
 						          buttonImageOnly: true,
-						          buttonText: "Select date"
+						          buttonText: "Select date",
+						          beforeShowDay: function(date){
+						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
+						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
+						              var flag = true;
+						              var startdates = ${startdates};
+						              var enddates = ${enddates};
+						              const nineHours = 32400000;
+						              for(var i = 0;i < startdates.length ;i++) {
+						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
+						            		  console.log(date + "   cannnot select this date!!!!!!");
+						            		  flag = false;
+						            		  break;
+						            	  }
+						              }
+						              return [ flag ];
+						          }
 						      })
 						      .on( "change", function() {
 						    	  console.log("to change");
@@ -115,6 +147,32 @@
 						    }
 						  } );
 						</script>
+						
+						<div class="mb-3">
+							<div class="card">
+							  <div class="card-header">
+							    	Options.
+							  </div>
+							  <div class="card-body">
+								<div class="mb-3">
+									<input type="hidden" name="options" id="options" value="">
+									<c:forEach var="option" items="${options}" varStatus="status">
+										<span>
+											<input class="form-check-input options" type="checkbox" value="${option.cost}" id="option-${status.index}" onchange="updateCost()" disabled>
+											<label class="form-check-label" for="option-${status.index}">
+											    ${option.item}
+											</label>
+											<input class="optionNo" type="hidden" value="${option.no}">
+										</span>
+									</c:forEach>
+								</div>
+								<div id="optionsHelp" class="mb-3">
+									* 인원수,날짜를 입력하세요
+								</div>
+								<!-- script for options -->
+							  </div>
+							</div>
+						</div>
 						
 						<div class="mb-3">
 							<div class="card">
@@ -162,7 +220,7 @@
 								<div class="mb-3">
 									<button id="backToListBtn" class="btn btn-danger" onclick="backToList(event);">돌아가기</button>
 									<button id="paymentBtn" class="btn btn-success" onclick="pay(event);">결제하기</button>
-									<button id="registerBtn" class="btn btn-secondary" onclick="reigster(event);">나중에 결제하기</button>
+									<button id="registerBtn" class="btn btn-secondary" onclick="register(event);">나중에 결제하기</button>
 								</div>
 								<!-- script for payment -->
 								<script type="text/javascript"> 
@@ -173,9 +231,11 @@
 											var child = parseInt($("#child").val());
 											var adultCost = ${roominfo.adultcost};
 											var childCost = ${roominfo.childcost};
+											
 											if(isNaN(adult) || isNaN(child)) {
 												throw 'error';
 											}
+											
 											var startdate = new Date($('#startdate').val()).getTime()/86400000;
 											var enddate = new Date($('#enddate').val()).getTime()/86400000;
 											cost = (enddate - startdate + 1) * (adult*adultCost + child*childCost);
@@ -185,15 +245,32 @@
 												throw 'error';
 											}
 											
+											$('.options').each(function(index) {
+												console.log( index + ": " + $( this ).val());
+												$(this).removeAttr("disabled");
+												if($(this).prop("checked")) {
+													if(!isNaN(parseInt($(this).val()))) {
+														cost += parseInt($(this).val());
+													}
+												}
+											});
+											
 											$("#totalcost").val("" + cost);
+											$("#optionsHelp").text("");
 											
 										} catch(error) {
 											console.log("error");
 											$("#totalcost").val("");
+											$('.options').each(function(index) {
+												console.log( index + ": " + $( this ).val());
+												$(this).attr("disabled","disabled");
+											});
+											$("#optionsHelp").text("* 인원수,날짜를 확인하세요");
 										}
 									}
 									function pay(event) {
 										event.preventDefault();
+										
 										console.log("bankbranch : " + $("#bankbranchcd").val());
 										if($("#bankbranchcd").val() === "" || $("#bankno").val() === "" ) {
 											alert("계좌정보를 확인하세요");
@@ -203,38 +280,41 @@
 											alert("인원수, 날짜를 확인하세요");
 											return;
 										}
-										
-										if($("#paymentflg").val() === "0") {
-											$("#adult").attr("readonly","readonly");
-											$("#child").attr("readonly","readonly");
-											$( "#startdate" ).datepicker( "option", "disabled", true );
-											$( "#enddate" ).datepicker( "option", "disabled", true );
-											$("#paymentflg").val("1");
-											$("#paymentBtn").toggleClass("btn-success",false);
-											$("#paymentBtn").toggleClass("btn-danger",true);
-											$("#paymentBtn").text("결제취소");
-											register(event);
-											alert("결제 완료");
-										} else {
-											$("#adult").removeAttr("readonly");
-											$("#child").removeAttr("readonly");
-											$( "#startdate" ).datepicker( "option", "disabled", false );
-											$( "#enddate" ).datepicker( "option", "disabled", false );
-											$("#paymentflg").val("0");
-											$("#paymentBtn").toggleClass("btn-success",true);
-											$("#paymentBtn").toggleClass("btn-danger",false);
-											$("#paymentBtn").text("결제하기");
-											alert("결제 취소 완료");
-										}
+										$("#paymentflg").val("1");
+										register(event);
 									}
 									function register(event) {
 										event.preventDefault();
+										if($("#name").val() === "") {
+											alert("이름을 확인하세요");
+											return;
+										}
+										
+										if($("#phone").val() === "") {
+											alert("전화번호를 확인하세요");
+											return;
+										}
 										
 										if($("#totalcost").val() === "") {
 											alert("인원수, 날짜를 확인하세요");
 											return;
 										}
 										
+										var options = "";
+										$('.options').each(function(index) {
+											console.log( index + ": " + $( this ).val());
+											if($(this).prop("checked") && !$(this).prop("disabled")) {
+													options += $(this).siblings("input.optionNo").val().trim();
+													options += ";";
+											}
+										});
+										if(options !== "") {
+											options = options.substring(0,options.length - 1);
+										}
+										$("#options").val(options);
+										console.log(options);
+										
+										alert("submit");
 										form.submit();
 									}
 								</script>

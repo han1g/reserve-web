@@ -78,7 +78,23 @@
 						          showOn: "both",
 						          buttonImage: "/resources/img/calendar.png",
 						          buttonImageOnly: true,
-						          buttonText: "Select date"
+						          buttonText: "Select date",
+						          beforeShowDay: function(date){
+						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
+						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
+						              var flag = true;
+						              var startdates = ${startdates};
+						              var enddates = ${enddates};
+						              const nineHours = 32400000;
+						              for(var i = 0;i < startdates.length ;i++) {
+						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
+						            		  console.log(date + "   cannnot select this date!!!!!!");
+						            		  flag = false;
+						            		  break;
+						            	  }
+						              }
+						              return [ flag ];
+						          }
 						        })
 						        .on( "change", function() {
 						          console.log("from change " + getDate( this ) );
@@ -95,7 +111,23 @@
 						        showOn: "both",
 						          buttonImage: "/resources/img/calendar.png",
 						          buttonImageOnly: true,
-						          buttonText: "Select date"
+						          buttonText: "Select date",
+						          beforeShowDay: function(date){
+						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
+						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
+						              var flag = true;
+						              var startdates = ${startdates};
+						              var enddates = ${enddates};
+						              const nineHours = 32400000;
+						              for(var i = 0;i < startdates.length ;i++) {
+						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
+						            		  console.log(date + "   cannnot select this date!!!!!!");
+						            		  flag = false;
+						            		  break;
+						            	  }
+						              }
+						              return [ flag ];
+						          }
 						      })
 						      .on( "change", function() {
 						    	  console.log("to change");
@@ -130,6 +162,7 @@
 											<label class="form-check-label" for="option-${status.index}">
 											    ${option.item}
 											</label>
+											<input class="optionNo" type="hidden" value="${option.no}">
 										</span>
 									</c:forEach>
 								</div>
@@ -151,7 +184,7 @@
 									<label for="bankbranchcd">Bank.</label> 
 									<div class="input-group w-25">
 										<input type="hidden" class="required" name="bankname" id="bankname" value="">
-										<select name="bankbranchcd" id="bankbranchcd" class="form-select" aria-label="Default select example">
+										<select name="bankbranchcd" id="bankbranchcd" class="form-select" aria-label="Default select example" onchange="bankSelect(event);">
 										  <option value="" selected>은행 선택</option>
 										  <option value="001">한국은행</option>
 										  <option value="002">산업은행</option>
@@ -164,7 +197,6 @@
 										  <option value="090">카카오뱅크</option>
 										</select>
 									</div>
-									
 								</div>
 								<div class="mb-3">
 									<label for="bankbranchcd">계좌번호.</label>
@@ -172,6 +204,18 @@
 								</div>
 								<script>
 									//script for bankname and branch
+									function bankSelect() {
+										$('#bankbranchcd > option').each(function() {
+											if($(this).prop("selected")) {
+												if($(this).val() === "") {
+													$("#bankname").val("");
+												} else {
+													$("#bankname").val($(this).text());
+												}
+											}
+										});
+										console.log("bankname : " + $("#bankname").val());
+									}
 								</script>
 								
 								<div class="mb-3">
@@ -237,15 +281,6 @@
 									}
 									function pay(event) {
 										event.preventDefault();
-										if($("#name").val() === "") {
-											alert("이름을 확인하세요");
-											return;
-										}
-										
-										if($("#phone").val() === "") {
-											alert("전화번호를 확인하세요");
-											return;
-										}
 										
 										console.log("bankbranch : " + $("#bankbranchcd").val());
 										if($("#bankbranchcd").val() === "" || $("#bankno").val() === "" ) {
@@ -280,7 +315,7 @@
 										$('.options').each(function(index) {
 											console.log( index + ": " + $( this ).val());
 											if($(this).prop("checked") && !$(this).prop("disabled")) {
-													options += $(this).siblings("label").text().trim();
+													options += $(this).siblings("input.optionNo").val().trim();
 													options += ";";
 											}
 										});
@@ -302,5 +337,4 @@
 			</div>
 		</article>
 	</body>
-	
 </html>

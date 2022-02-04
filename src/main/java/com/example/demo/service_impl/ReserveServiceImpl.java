@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.reserve.QReserve;
 import com.example.demo.domain.reserve.Reserve;
@@ -18,6 +19,7 @@ import com.querydsl.core.BooleanBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Transactional
 @Slf4j
 public class ReserveServiceImpl implements ReserveService{
 	
@@ -76,6 +78,7 @@ public class ReserveServiceImpl implements ReserveService{
 		}
 		Reserve en = builder.build();
 		repo1.save(en);
+		dto.setNo(en.getNo());
 	}
 
 	@Override
@@ -93,13 +96,51 @@ public class ReserveServiceImpl implements ReserveService{
 	@Override
 	public ReserveDTO get(Long bno) {
 		// TODO Auto-generated method stub
-		return null;
+		return repo1.findById(bno).get().toDTO();
 	}
 
 	@Override
 	public boolean restore(Long no) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<String> getStartdates(Long roomno) {
+		// TODO Auto-generated method stub
+		QReserve qReserve = QReserve.reserve;
+		
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		builder.and(qReserve.buildcd.eq("4"));
+		builder.and(qReserve.deleteflg.eq("0"));
+		
+		if(roomno != null) {
+			builder.and(qReserve.roomno.eq(roomno));
+		}
+		
+		List<String> list = new ArrayList<>();
+		repo1.findAll(builder).forEach(el -> list.add("'" + el.toDTO().getStartdate() + "'"));
+		return list;
+	}
+
+	@Override
+	public List<String> getEnddates(Long roomno) {
+		// TODO Auto-generated method stub
+		QReserve qReserve = QReserve.reserve;
+		
+		
+		BooleanBuilder builder = new BooleanBuilder();
+		builder.and(qReserve.buildcd.eq("4"));
+		builder.and(qReserve.deleteflg.eq("0"));
+		
+		if(roomno != null) {
+			builder.and(qReserve.roomno.eq(roomno));
+		}
+		
+		List<String> list = new ArrayList<>();
+		repo1.findAll(builder).forEach(el -> list.add("'" + el.toDTO().getEnddate() + "'"));
+		return list;
 	}
 	
 }

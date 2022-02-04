@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import com.example.demo.domain.base.BuildingDTO;
 import com.example.demo.domain.reserve.Reserve.ReserveBuilder;
 import com.example.demo.domain.roominfo.Roominfo;
+import com.example.demo.domain.roominfo.RoominfoDTO;
 
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class ReserveDTO extends BuildingDTO{
 
 	    private Long roomno;
 	    
-	    private Roominfo roominfo;
+	    private RoominfoDTO roominfo;
 	    
 	    private String name;
 	    
@@ -53,13 +54,15 @@ public class ReserveDTO extends BuildingDTO{
 	    private String bankno;
 	    
 	    @Builder
-		public ReserveDTO(String deleteFlg, String buildcd,Date createdAt,Date updatedAt, Long roomno, String name, String phone,
+		public ReserveDTO(String deleteFlg, String buildcd,Date createdAt,Date updatedAt,Long no, Long roomno,Roominfo roominfo, String name, String phone,
 				String adult, String child, String startdate, String enddate, String options, String paymentflg,
 				Long totalcost, String cancelflg, String bankname, String bankbranchcd, String bankno) {
 	    	
 			super(deleteFlg,createdAt,updatedAt, buildcd);
+			this.no = no;
 			this.name = name;
 			this.roomno = roomno;
+			this.roominfo = (roominfo == null) ? null :  roominfo.toDTO();
 			this.phone = phone;
 			this.adult = adult;
 			this.child = child;

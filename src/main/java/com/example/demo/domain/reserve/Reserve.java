@@ -72,13 +72,13 @@ public class Reserve extends BuildingEntity{
     @Column(length = 1,nullable = true)
     private String cancelflg;
     
-    @Column(length = 100,nullable = false)
+    @Column(length = 100,nullable = true)
     private String bankname;
     
-    @Column(length = 3,nullable = false)
+    @Column(length = 3,nullable = true)
     private String bankbranchcd;
     
-    @Column(length = 1,nullable = false)
+    @Column(length = 1,nullable = true)
     private String bankno;
     
     @Builder
@@ -106,7 +106,7 @@ public class Reserve extends BuildingEntity{
 		return new ReserveDTO(getDeleteflg(), "4",
     			new Date(Timestamp.valueOf(getCreatedat()).getTime()),
     			new Date(Timestamp.valueOf(getUpdatedat()).getTime()),
-				roomno, name, phone, adult, child, startdate, enddate, options, paymentflg, totalcost, cancelflg, bankname, bankbranchcd, bankno);
+				no,roomno,roominfo, name, phone, adult, child, startdate, enddate, options, paymentflg, totalcost, cancelflg, bankname, bankbranchcd, bankno);
     	
     }
 }
