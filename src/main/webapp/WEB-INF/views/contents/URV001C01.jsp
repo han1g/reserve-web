@@ -296,12 +296,12 @@
 									}
 									function register(event) {
 										event.preventDefault();
-										if($("#name").val() === "") {
+										if($("#form #name").val() === "") {
 											alert("이름을 확인하세요");
 											return;
 										}
 										
-										if($("#phone").val() === "") {
+										if($("#form #phone").val() === "") {
 											alert("전화번호를 확인하세요");
 											return;
 										}

@@ -24,6 +24,17 @@
 					form.attr("method","post");
 					break;
 					
+				case "delete-consult":
+					var passwd = prompt("비밀번호 입력: ");
+					if (passwd === null) {
+				        return;
+				    }
+					form.append(`<input type="hidden" name="no" value="${no}"/>`);
+					form.append(`<input type="hidden" name="passwd" value="${'${passwd}'}"/>`);
+					form.attr("action",adminURL + "/${menu}/remove");
+					form.attr("method","post");
+					break;
+					
 				case "reply":
 					form.append(`<input type="hidden" name="no" value="${no}"/>`);
 					form.attr("action",adminURL + "/${menu}/register02"); // only for consultation

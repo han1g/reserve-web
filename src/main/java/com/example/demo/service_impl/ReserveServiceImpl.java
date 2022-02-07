@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.etc.ReserveSearchCriteria;
 import com.example.demo.domain.reserve.QReserve;
 import com.example.demo.domain.reserve.Reserve;
 import com.example.demo.domain.reserve.Reserve.ReserveBuilder;
@@ -27,30 +29,42 @@ public class ReserveServiceImpl implements ReserveService{
 	ReserveRepository repo1;
 	
 	@Override
-	public List<ReserveDTO> getList(Long roomno, String phone, String name, boolean deletedList) {
+	public List<ReserveDTO> getList(ReserveSearchCriteria cri) {
 		// TODO Auto-generated method stub
 		QReserve qReserve = QReserve.reserve;
 		
-	
+		log.info("roomtitle : " + cri.getRoomtitle());
+		log.info("name : " + cri.getName());
+		log.info("phone : " + cri.getPhone());
+		log.info("cancel : " + cri.getPhone());
+		log.info("payment : " + cri.getPhone());
+		log.info("delete : " + cri.getPhone());
+		
 		BooleanBuilder builder = new BooleanBuilder();
 		builder.and(qReserve.buildcd.eq("4"));
-		if(deletedList) {
-			builder.and(qReserve.deleteflg.eq("1"));
-		} else {
-			builder.and(qReserve.deleteflg.eq("0"));
+		if(cri.getRoomtitle() != null) {
+			builder.and(qReserve.roominfo.roomtitle.eq(cri.getRoomtitle()));
 		}
-		if(roomno != null) {
-			builder.and(qReserve.roomno.eq(roomno));
+		if(cri.getName() != null) {
+			builder.and(qReserve.name.eq(cri.getName()));
 		}
-		if(phone != null) {
-			builder.and(qReserve.name.eq(name));
+		if(cri.getPhone()  != null) {
+			builder.and(qReserve.phone.eq(cri.getPhone()));
 		}
-		if(name != null) {
-			builder.and(qReserve.phone.eq(phone));
+		if(cri.getCancelflg()  != null) {
+			builder.and(qReserve.cancelflg.eq(cri.getCancelflg()));
 		}
+		if(cri.getPaymentflg()  != null) {
+			builder.and(qReserve.paymentflg.eq(cri.getPaymentflg()));
+		}
+		if(cri.getDeleteflg()  != null) {
+			builder.and(qReserve.deleteflg.eq(cri.getDeleteflg()));
+		}
+		//안적어서 보내면 null, 파라미터 적어놓고 밸류 안넣으면 ""
+		
 		
 		List<ReserveDTO> list = new ArrayList<>();
-		repo1.findAll(builder).forEach(el -> list.add(el.toDTO()));
+		repo1.findAll(builder,Sort.by("startdate")).forEach(el -> list.add(el.toDTO()));
 		return list;
 	}
 

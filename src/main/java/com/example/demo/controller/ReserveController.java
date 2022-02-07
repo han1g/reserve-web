@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.domain.etc.Criteria;
 import com.example.demo.domain.etc.GetListDTO;
 import com.example.demo.domain.etc.PageDTO;
+import com.example.demo.domain.etc.ReserveSearchCriteria;
 import com.example.demo.domain.etc.RoomSearchCriteria;
 import com.example.demo.domain.notice.NoticeDTO;
 import com.example.demo.domain.reserve.ReserveDTO;
@@ -71,11 +72,18 @@ public class ReserveController {
 		
 		
 	}
+	
 	@GetMapping("modify")
 	public String modify(ReserveDTO dto,Model model) {
-		
-		ReserveDTO ret = reserveService.get(dto.getNo());
-		if(!ret.getName().equals(dto.getName()) || !ret.getPhone().equals(dto.getPhone())) {
+		return modify(dto,model,"URV001U01");
+	}
+	
+	public String modify(ReserveDTO dto,Model model,String ret) {
+		if(dto.getNo() == null) {
+			return "redirect:/";
+		}
+		ReserveDTO retDTO = reserveService.get(dto.getNo());
+		if(!retDTO.getName().equals(dto.getName()) || !retDTO.getPhone().equals(dto.getPhone())) {
 			return "redirect:/";
 		}
 		
@@ -84,9 +92,24 @@ public class ReserveController {
 		model.addAttribute("options", optionsService.getList(false, true));
 		model.addAttribute("startdates", reserveService.getStartdates(dto.getRoomno()));
 		model.addAttribute("enddates", reserveService.getEnddates(dto.getRoomno()));
-		
-		return "URV001U01";
-		
+		return ret;
 	}
+	
+	@GetMapping("/list")
+	public String list(ReserveSearchCriteria cri,Model model) {
+		if(cri.getPhone() == null)
+			cri.setPhone("");
+		if(cri.getName() == null)
+			cri.setName("");
+		
+		cri.setDeleteflg("0");
+		
+		return list(cri,model,"URV001L01");
+	}
+	public String list(ReserveSearchCriteria cri,Model model,String ret) {
+		model.addAttribute("reserveList", reserveService.getList(cri));
+		return ret;
+	}
+	
 	
 }

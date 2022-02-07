@@ -123,7 +123,7 @@ public class AdminConsultationController extends ConsultationController{
 	
 	@Override
 	@PostMapping("/remove")
-	public String remove(HttpServletRequest request,@RequestParam("lockflg_bef") String lockflg_bef,@RequestParam("no") Long no,@RequestParam(required = false, name="passwd") String passwd,
+	public String remove(HttpServletRequest request,@RequestParam("no") Long no,@RequestParam(required = false, name="passwd") String passwd,
 			Criteria cri, Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
 	
 			if(service.remove(no)) {

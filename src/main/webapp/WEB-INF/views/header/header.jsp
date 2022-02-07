@@ -22,8 +22,39 @@
         <li class="nav-item">
           <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/consultation/list">CONSULTATION。</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link ${menu eq 'reserve' ? 'active' : '' }" aria-current="page" href="/"  data-bs-toggle="modal" data-bs-target="#reserveModal">MY RESERVATION。</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 </header>
+<!-- Modal -->
+<div class="modal fade" id="reserveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            	예약자 정보 입력
+            </div>
+            <form action="/reserve/list" id="reserve-modal-form" method="get">
+	            <div class="modal-body">
+	                <div class="mb-3">
+					  <label for="name" class="form-label">Name.</label>
+					  <input type="text" name="name" class="form-control" id="name" placeholder="예약자 성명">
+					</div>
+					<div class="mb-3">
+					  <label for="phone" class="form-label">Phone Number.</label>
+					  <input type="text" name="phone" class="form-control" id="phone" placeholder="전화번호('-'제외)">
+					</div>
+	            </div>
+            </form>
+            <div class="modal-footer">
+            	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                <button type="submit" form="reserve-modal-form" class="btn btn-success">확인</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -162,7 +162,7 @@ public class ConsultationController {
 
 
 	@PostMapping("/remove")
-	public String remove(HttpServletRequest request,@RequestParam("lockflg_bef") String lockflg_bef,@RequestParam("no") Long no,@RequestParam("passwd") String passwd,
+	public String remove(HttpServletRequest request,@RequestParam("no") Long no,@RequestParam("passwd") String passwd,
 			Criteria cri, Model model, RedirectAttributes rttr) throws NoSuchAlgorithmException {
 		String authRet = this.auth(request,no,cri,passwd,"remove",model,rttr);
 		

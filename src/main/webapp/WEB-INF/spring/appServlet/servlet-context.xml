@@ -43,6 +43,8 @@
 	        <mvc:mapping path="/roominfo/**" />
 	        <mvc:mapping path="/notice/**" />
 	        <mvc:mapping path="/consultation/**" />
+	        <mvc:mapping path="/options/**" />
+	        <mvc:mapping path="/reserve/**" />
 			<beans:bean class="com.example.demo.interceptor.MenuInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

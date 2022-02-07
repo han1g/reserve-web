@@ -25,6 +25,9 @@
         <li class="nav-item">
           <a class="nav-link ${menu eq 'options' ? 'active' : '' }" aria-current="page" href="/admin/options/list">OPTIONS。</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link ${menu eq 'reserve' ? 'active' : '' }" aria-current="page" href="/admin/reserve/list">RESERVATION。</a>
+        </li>
       </ul>
     </div>
   </div>

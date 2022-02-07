@@ -41,7 +41,12 @@
 							<c:choose>
 								<c:when test="${D eq '01'}"> <!-- undeleted list-->
 									<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
-									<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
+									<c:if test="${admin eq 'admin'}">
+										<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
+									</c:if>
+									<c:if test="${admin ne 'admin'}">
+										<a href="" role="button" class="btn btn-danger" data-oper="delete-consult" id="btnDelete">삭제</a>
+									</c:if>
 									<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
 									<a href="" role="button" class="btn btn-primary" data-oper="reply" id="btnReply">답글</a>
 								</c:when>

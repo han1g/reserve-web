@@ -18,7 +18,6 @@
 	<link href="/resources/lib/jquery-ui-1.13.0/jquery-ui.css" rel="stylesheet"/>
 	
 	<link rel="shortcut icon" href="/resources/img/favicon.ico"/>
-	 	
 </head>
 <body>
 	<tiles:insertAttribute name="header" />

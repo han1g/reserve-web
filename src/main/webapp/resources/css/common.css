@@ -19,6 +19,12 @@ footer {
 	background-color: red;
 }
 
+.navbar-light .navbar-nav .nav-link.active {
+  color: black;
+  font-weight: bold;
+  
+}
+
 #footer {
 	background-color: #c0c0c0;
 }
