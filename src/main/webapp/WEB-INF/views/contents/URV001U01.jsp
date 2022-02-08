@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,26 +18,26 @@
 					<h2 class="write-h2">예약 수정</h2>
 				</div>
 				<div class="background-white">
-					<form action="/reserve/register" name="form" id="form" role="form" method="post">
-						<jsp:include page="/WEB-INF/views/includes/commons/criteria.jsp"/>
-						<input type="hidden" name="roomno" id="roomno" value="${param.roomno}">
+					<form action="/reserve/modify" name="form" id="form" role="form" method="post">
+						<input type="hidden" name="no" id="no" value="${reserve.no}">
+						<input type="hidden" name="roomno" id="roomno" value="${reserve.roomno}">
 						<div class="mb-3">
 							<label for="name">Name.</label> 
 							<input type="text"
-								class="form-control required" name="name" id="name"
+								class="form-control required" name="name" id="name" value="${reserve.name}"
 								placeholder="예약자 성명을 입력해 주세요" required>
 						</div>
 						<div class="mb-3">
 							<label for="phone">Phone Number.</label> 
 							<input type="text"
-								class="form-control required" name="phone" id="phone"
+								class="form-control required" name="phone" id="phone" value="${reserve.phone }"
 								placeholder="전화번호를 입력해 주세요( '-' 제외)" required>
 						</div>
 						<div class="mb-3">
 							<label for="adult">Adult.</label>
 							<div class="input-group w-25"> 
 								<input type="number"
-									class="form-control w-25 required" name="adult" id="adult" min="0" value="" max="9"
+									class="form-control w-25 required" name="adult" id="adult" min="0" value="${reserve.adult}" max="9"
 									placeholder="어른 인원 수를 입력해주세요" required onchange="updateCost()">
 								<span class="input-group-text">人</span>
 							</div>
@@ -45,107 +46,34 @@
 							<label for="child">Child.</label> 
 							<div class="input-group w-25"> 
 								<input type="number"
-									class="form-control required" name="child" id="child" min="0"  value="" max="9"
+									class="form-control required" name="child" id="child" min="0"  value="${reserve.child}" max="9"
 									placeholder="아동 인원 수를 입력해주세요" required onchange="updateCost()">
 								<span class="input-group-text">人</span>
 							</div>
 						</div>
 						
 						<div class="mb-3">
-							<label for="child">Date.</label> 
+							<label>Date.</label>
 							<div class="input-group w-50"> 
 								<input type="text"
-									class="form-control required" name="startdate" id="startdate"
+									class="form-control required" name="startdate" id="startdate" value=""
 									placeholder="" readonly="readonly">
+								<img class="input-group-text"  src="/resources/img/calendar.png" 
+								style="cursor:pointer;" onclick="$( '#startdate' ).datepicker('show');"/>
 								<span class="input-group-text">~</span>
 								<input type="text"
-									class="form-control required" name="enddate" id="enddate"
+									class="form-control required" name="enddate" id="enddate" value=""
 									placeholder="" readonly="readonly">
+								<img class="input-group-text"  src="/resources/img/calendar.png" 
+								style="cursor:pointer;" onclick="$( '#enddate' ).datepicker('show');"/>
+								<input type="button" class="btn btn-sm btn-warning" onclick="event.preventDefault();resett(true);" value="reset date">
 							</div>
 						</div>
-						<script type="text/javascript">
-						//script for datepicker
-						  $( function() {
-						    var dateFormat = "yy-mm-dd",
-						      from = $( "#startdate" )
-						        .datepicker({
-						          dateFormat : "yy-mm-dd",
-						          minDate: 0,
-						          maxDate: "+3Y",
-						          defaultDate: "+1w",
-						          changeMonth: true,
-						          changeYear: true,
-						          showOn: "both",
-						          buttonImage: "/resources/img/calendar.png",
-						          buttonImageOnly: true,
-						          buttonText: "Select date",
-						          beforeShowDay: function(date){
-						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
-						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
-						              var flag = true;
-						              var startdates = ${startdates};
-						              var enddates = ${enddates};
-						              const nineHours = 32400000;
-						              for(var i = 0;i < startdates.length ;i++) {
-						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
-						            		  console.log(date + "   cannnot select this date!!!!!!");
-						            		  flag = false;
-						            		  break;
-						            	  }
-						              }
-						              return [ flag ];
-						          }
-						        })
-						        .on( "change", function() {
-						          console.log("from change " + getDate( this ) );
-						          to.datepicker( "option", "minDate", getDate( this ) );
-						          updateCost();
-						        }),
-						      to = $( "#enddate" ).datepicker({
-						    	  dateFormat : "yy-mm-dd",
-						    	  minDate: 0,
-						          maxDate: "+3Y",
-						        defaultDate: "+1w",
-						        changeMonth: true,
-						        changeYear: true,
-						        showOn: "both",
-						          buttonImage: "/resources/img/calendar.png",
-						          buttonImageOnly: true,
-						          buttonText: "Select date",
-						          beforeShowDay: function(date){
-						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
-						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
-						              var flag = true;
-						              var startdates = ${startdates};
-						              var enddates = ${enddates};
-						              const nineHours = 32400000;
-						              for(var i = 0;i < startdates.length ;i++) {
-						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
-						            		  console.log(date + "   cannnot select this date!!!!!!");
-						            		  flag = false;
-						            		  break;
-						            	  }
-						              }
-						              return [ flag ];
-						          }
-						      })
-						      .on( "change", function() {
-						    	  console.log("to change");
-						        from.datepicker( "option", "maxDate", getDate( this ) );
-						        updateCost();
-						      });
-						 
-						    function getDate( element ) {
-						      var date;
-						      try {
-						        date = $.datepicker.parseDate( dateFormat, element.value );
-						      } catch( error ) {
-						        date = null;
-						      }
-						 
-						      return date;
-						    }
-						  } );
+						<jsp:include page="/WEB-INF/views/includes/URV/datepicker.jsp">
+							<jsp:param value="01" name="U"/>
+						</jsp:include>
+						<script>
+						
 						</script>
 						
 						<div class="mb-3">
@@ -155,12 +83,13 @@
 							  </div>
 							  <div class="card-body">
 								<div class="mb-3">
-									<input type="hidden" name="options" id="options" value="">
+									<input type="hidden" name="options" id="options" value="${reserve.options}">
 									<c:forEach var="option" items="${options}" varStatus="status">
 										<span>
-											<input class="form-check-input options" type="checkbox" value="${option.cost}" id="option-${status.index}" onchange="updateCost()" disabled>
+											<input class="form-check-input options" type="checkbox" value="${option.cost}" id="option-${status.index}" onchange="updateCost()" 
+											${reserve.optionSelected(option.no)}>
 											<label class="form-check-label" for="option-${status.index}">
-											    ${option.item}
+											    ${option.item}&nbsp;(￥ ${option.cost})&nbsp;
 											</label>
 											<input class="optionNo" type="hidden" value="${option.no}">
 										</span>
@@ -183,25 +112,25 @@
 								<div class="mb-3">
 									<label for="bankbranchcd">Bank.</label> 
 									<div class="input-group w-25">
-										<input type="hidden" class="required" name="bankname" id="bankname" value="">
+										<input type="hidden" class="required" name="bankname" id="bankname" value="${reserve.bankname}">
 										<select name="bankbranchcd" id="bankbranchcd" class="form-select" aria-label="Default select example">
-										  <option value="" selected>은행 선택</option>
-										  <option value="001">한국은행</option>
-										  <option value="002">산업은행</option>
-										  <option value="003">기업은행</option>
-										  <option value="004">국민은행</option>
-										  <option value="005">하나은행</option>
-										  <option value="010">농협은행</option>
-										  <option value="020">우리은행</option>
-										  <option value="021">신한은행</option>
-										  <option value="090">카카오뱅크</option>
+										  <option value="" ${empty reserve.bankbranchcd ? 'selected' : ''}>은행 선택</option>
+										  <option value="001" ${reserve.bankbranchcd eq '001' ? 'selected' : ''}>한국은행</option>
+										  <option value="002" ${reserve.bankbranchcd eq '002' ? 'selected' : ''}>산업은행</option>
+										  <option value="003" ${reserve.bankbranchcd eq '003' ? 'selected' : ''}>기업은행</option>
+										  <option value="004" ${reserve.bankbranchcd eq '004' ? 'selected' : ''}>국민은행</option>
+										  <option value="005" ${reserve.bankbranchcd eq '005' ? 'selected' : ''}>하나은행</option>
+										  <option value="010" ${reserve.bankbranchcd eq '010' ? 'selected' : ''}>농협은행</option>
+										  <option value="020" ${reserve.bankbranchcd eq '020' ? 'selected' : ''}>우리은행</option>
+										  <option value="021" ${reserve.bankbranchcd eq '021' ? 'selected' : ''}>신한은행</option>
+										  <option value="090" ${reserve.bankbranchcd eq '090' ? 'selected' : ''}>카카오뱅크</option>
 										</select>
 									</div>
 									
 								</div>
 								<div class="mb-3">
 									<label for="bankbranchcd">계좌번호.</label>
-									<input type="text" class="form-control w-25 required" name="bankno" id="bankno" value="">
+									<input type="text" class="form-control w-25 required" name="bankno" id="bankno" value="${reserve.bankno}">
 								</div>
 								<script>
 									//script for bankname and branch
@@ -212,25 +141,32 @@
 									<div class="input-group w-25"> 
 										<span class="input-group-text">￥</span>
 										<input type="number"
-											class="form-control required" name="totalcost" id="totalcost" min="0"  value="" max="999999999"
+											class="form-control required" name="totalcost" id="totalcost" min="0"  value="${reserve.totalcost}" max="999999999"
 											placeholder="인원수,날짜를 확인하세요" required readonly="readonly" style="font-size:12pt; color:#ff0000; font-weight:bold;">
 									</div>
-									<input type="hidden" name="paymentflg" id="paymentflg" value="0">
+									<input type="hidden" name="paymentflg" id="paymentflg" value="${reserve.paymentflg}">
+									<input type="hidden" name="cancelflg" id="cancelflg" value="${reserve.cancelflg}">
 								</div>
 								<div class="mb-3">
 									<button id="backToListBtn" class="btn btn-danger" onclick="backToList(event);">돌아가기</button>
-									<button id="paymentBtn" class="btn btn-success" onclick="pay(event);">결제하기</button>
-									<button id="registerBtn" class="btn btn-secondary" onclick="register(event);">나중에 결제하기</button>
+									<c:if test="${reserve.paymentflg eq '0'}"> 
+										<button id="paymentBtn" class="btn btn-success" onclick="pay(event);">결제하기</button>
+									</c:if>
+									<button id="cancelBtn" class="btn btn-secondary" onclick="cancel(event);">예약취소</button>
+									<c:if test="${reserve.paymentflg eq '0'}"> 
+										<button id="registerBtn" class="btn btn-warning" onclick="reigster(event);">수정하기</button>
+									</c:if>
 								</div>
 								<!-- script for payment -->
 								<script type="text/javascript"> 
 									function updateCost() {
+										console.log("updateCost");
 										try {
 											var cost;
 											var adult = parseInt($("#adult").val());
 											var child = parseInt($("#child").val());
-											var adultCost = ${roominfo.adultcost};
-											var childCost = ${roominfo.childcost};
+											var adultCost = ${empty reserve.roominfo.adultcost ? 'null' : reserve.roominfo.adultcost};
+											var childCost = ${empty reserve.roominfo.childcost ? 'null' : reserve.roominfo.childcost};
 											
 											if(isNaN(adult) || isNaN(child)) {
 												throw 'error';
@@ -271,6 +207,10 @@
 									function pay(event) {
 										event.preventDefault();
 										
+										if(!confirm("결제 완료 시 이후 예약을 수정 할 수 없습니다.\n 결제 후 변경사항이 있으실 경우 예약 취소 후 다시 등록해야합니다.\n 진행하시겠습니까?")) {
+											return;
+										}
+										
 										console.log("bankbranch : " + $("#bankbranchcd").val());
 										if($("#bankbranchcd").val() === "" || $("#bankno").val() === "" ) {
 											alert("계좌정보를 확인하세요");
@@ -283,14 +223,39 @@
 										$("#paymentflg").val("1");
 										register(event);
 									}
+									
+									function cancel() {
+										event.preventDefault();
+										
+										if(!confirm("예약을 취소합니다.\n결제를 마치신 경우 입력하신 계좌로 수 일 내에 환불됩니다.\n진행하시겠습니까?")) {
+											return;
+										}
+										
+										console.log("bankbranch : " + $("#bankbranchcd").val());
+										if($("#bankbranchcd").val() === "" || $("#bankno").val() === "" ) {
+											alert("계좌정보를 확인하세요");
+											return;
+										}
+										if($("#totalcost").val() === "") {
+											alert("인원수, 날짜를 확인하세요");
+											return;
+										}
+										$("#paymentflg").val("0");
+										$("#cancelflg").val("1");
+										register(event);
+									}
+									
 									function register(event) {
 										event.preventDefault();
-										if($("#name").val() === "") {
+										
+										
+										
+										if($("#form #name").val() === "") {
 											alert("이름을 확인하세요");
 											return;
 										}
 										
-										if($("#phone").val() === "") {
+										if($("#form #phone").val() === "") {
 											alert("전화번호를 확인하세요");
 											return;
 										}
@@ -317,14 +282,39 @@
 										alert("submit");
 										form.submit();
 									}
+									
+									function backToList(event) {
+										event.preventDefault();
+										
+										if(!confirm("변경을 취소하고 목록으로 돌아갑니다\n진행하시겠습니까?")) {
+											return;
+										}
+										
+										var backForm = $('#backToList');
+										var adminURL = "${admin eq 'admin' ? '/admin' : '' }";
+										
+										console.log(adminURL);
+										//alert(adminURL);
+										
+										backForm.attr("action",adminURL + "/roominfo/get");
+										backForm.attr("method","get");
+										
+										backForm.submit();
+									}//돌아가기 클릭
 								</script>
 						      </div>
 							</div>
 						</div>
 					</form>
+					<form id="backToList" action="" method="get" >
+						<input type="hidden" name="name" id="name" value="${reserve.name}">
+						<input type="hidden" name="phone" id="phone" value="${reserve.phone}">
+					</form>
 				</div>
 			</div>
 		</article>
+		<jsp:include page="/WEB-INF/views/includes/commons/ListPage/modal.jsp"/>
+		
 	</body>
 	
 </html>

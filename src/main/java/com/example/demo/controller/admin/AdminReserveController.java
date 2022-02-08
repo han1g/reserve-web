@@ -39,7 +39,7 @@ public class AdminReserveController extends ReserveController{
 	@Override
 	@GetMapping("modify")
 	public String modify(ReserveDTO dto,Model model) {
-		return modify(dto,model,"/admin/URV002U01");
+		return "/admin/URV002U01";
 	}
 	
 	@Override

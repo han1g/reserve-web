@@ -83,7 +83,7 @@
 		}
 		
 		function backToList(form) {
-			//매개변수로 받은 form은 안씀 ㅅㄱ
+			//매개변수로 받은 form은 안씀
 			var backForm = $('#backToList');
 			var adminURL = "${admin eq 'admin' ? '/admin' : '' }"
 			

@@ -52,101 +52,23 @@
 						</div>
 						
 						<div class="mb-3">
-							<label for="child">Date.</label> 
+							<label>Date.</label>
 							<div class="input-group w-50"> 
 								<input type="text"
-									class="form-control required" name="startdate" id="startdate"
+									class="form-control required" name="startdate" id="startdate" value=""
 									placeholder="" readonly="readonly">
+								<img class="input-group-text"  src="/resources/img/calendar.png" 
+								style="cursor:pointer;" onclick="$( '#startdate' ).datepicker('show');"/>
 								<span class="input-group-text">~</span>
 								<input type="text"
-									class="form-control required" name="enddate" id="enddate"
+									class="form-control required" name="enddate" id="enddate" value=""
 									placeholder="" readonly="readonly">
+								<img class="input-group-text"  src="/resources/img/calendar.png" 
+								style="cursor:pointer;" onclick="$( '#enddate' ).datepicker('show');"/>
+								<input type="button" class="btn btn-sm btn-warning" onclick="event.preventDefault();resett(true);" value="reset date">
 							</div>
 						</div>
-						<script type="text/javascript">
-						//script for datepicker
-						  $( function() {
-						    var dateFormat = "yy-mm-dd",
-						      from = $( "#startdate" )
-						        .datepicker({
-						          dateFormat : "yy-mm-dd",
-						          minDate: 0,
-						          maxDate: "+3Y",
-						          defaultDate: "+1w",
-						          changeMonth: true,
-						          changeYear: true,
-						          showOn: "both",
-						          buttonImage: "/resources/img/calendar.png",
-						          buttonImageOnly: true,
-						          buttonText: "Select date",
-						          beforeShowDay: function(date){
-						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
-						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
-						              var flag = true;
-						              var startdates = ${startdates};
-						              var enddates = ${enddates};
-						              const nineHours = 32400000;
-						              for(var i = 0;i < startdates.length ;i++) {
-						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
-						            		  console.log(date + "   cannnot select this date!!!!!!");
-						            		  flag = false;
-						            		  break;
-						            	  }
-						              }
-						              return [ flag ];
-						          }
-						        })
-						        .on( "change", function() {
-						          console.log("from change " + getDate( this ) );
-						          to.datepicker( "option", "minDate", getDate( this ) );
-						          updateCost();
-						        }),
-						      to = $( "#enddate" ).datepicker({
-						    	  dateFormat : "yy-mm-dd",
-						    	  minDate: 0,
-						          maxDate: "+3Y",
-						        defaultDate: "+1w",
-						        changeMonth: true,
-						        changeYear: true,
-						        showOn: "both",
-						          buttonImage: "/resources/img/calendar.png",
-						          buttonImageOnly: true,
-						          buttonText: "Select date",
-						          beforeShowDay: function(date){
-						        	  //date: 달력 날짜 한칸 -> ret[0] : true ->선택가능 ,false -> 선택불가
-						        	  //달력페이지가 바뀔때 마다 각 달력날짜에 대해 호출
-						              var flag = true;
-						              var startdates = ${startdates};
-						              var enddates = ${enddates};
-						              const nineHours = 32400000;
-						              for(var i = 0;i < startdates.length ;i++) {
-						            	  if(new Date(startdates[i]).getTime() - nineHours <= date.getTime() && new Date(enddates[i]).getTime() - nineHours >= date.getTime()) {
-						            		  console.log(date + "   cannnot select this date!!!!!!");
-						            		  flag = false;
-						            		  break;
-						            	  }
-						              }
-						              return [ flag ];
-						          }
-						      })
-						      .on( "change", function() {
-						    	  console.log("to change");
-						        from.datepicker( "option", "maxDate", getDate( this ) );
-						        updateCost();
-						      });
-						 
-						    function getDate( element ) {
-						      var date;
-						      try {
-						        date = $.datepicker.parseDate( dateFormat, element.value );
-						      } catch( error ) {
-						        date = null;
-						      }
-						 
-						      return date;
-						    }
-						  } );
-						</script>
+						<jsp:include page="/WEB-INF/views/includes/URV/datepicker.jsp"/>
 						
 						<div class="mb-3">
 							<div class="card">
@@ -160,7 +82,7 @@
 										<span>
 											<input class="form-check-input options" type="checkbox" value="${option.cost}" id="option-${status.index}" onchange="updateCost()" disabled>
 											<label class="form-check-label" for="option-${status.index}">
-											    ${option.item}
+											    ${option.item}&nbsp;(￥ ${option.cost})&nbsp;
 											</label>
 											<input class="optionNo" type="hidden" value="${option.no}">
 										</span>
@@ -278,7 +200,8 @@
 											});
 											$("#optionsHelp").text("* 인원수,날짜를 확인하세요");
 										}
-									}
+									}//가격계산에 필요한 인자가 바뀔때마다 새로 계산
+									
 									function pay(event) {
 										event.preventDefault();
 										
@@ -293,7 +216,9 @@
 										}
 										$("#paymentflg").val("1");
 										register(event);
-									}
+									}//결제하기 클릭
+									
+									
 									function register(event) {
 										event.preventDefault();
 										if($("#form #name").val() === "") {
@@ -327,11 +252,29 @@
 										
 										alert("submit");
 										form.submit();
-									}
+									}//결제하기,등록하기 클릭
+									
+									function backToList(event) {
+										event.preventDefault();
+										var backForm = $('#backToList');
+										var adminURL = "${admin eq 'admin' ? '/admin' : '' }";
+										
+										console.log(adminURL);
+										//alert(adminURL);
+										
+										backForm.attr("action",adminURL + "/roominfo/get");
+										backForm.attr("method","get");
+										
+										backForm.submit();
+									}//돌아가기 클릭
 								</script>
 						      </div>
 							</div>
 						</div>
+					</form>
+					<form id="backToList" action="" method="get" >
+						<jsp:include page="/WEB-INF/views/includes/commons/criteria.jsp"/>
+						<input type="hidden" name="no" id="roomno" value="${param.roomno}">
 					</form>
 				</div>
 			</div>

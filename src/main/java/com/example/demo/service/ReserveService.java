@@ -11,12 +11,12 @@ public interface ReserveService {
 
 	public List<ReserveDTO> getList(ReserveSearchCriteria cri);
 	
-	public List<String> getStartdates(Long roomno);
-	public List<String> getEnddates(Long roomno);
+	public List<String> getStartdates(Long roomno,Long reserveno);
+	public List<String> getEnddates(Long roomno,Long reserveno);
 	
 	public void register(ReserveDTO board);
 	
-	public boolean modify(ReserveDTO board);
+	public String modify(ReserveDTO board);
 	
 	public boolean remove(Long bno);
 	

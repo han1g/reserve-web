@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.etc.Criteria;
@@ -46,14 +47,14 @@ public class ReserveController {
 	}
 
 	@GetMapping("/register")
-	public String reigster(@RequestParam(name = "roomno",required = true)Long roomno,@ModelAttribute RoomSearchCriteria cri,Model model) {
+	public String reigster(@RequestParam(name = "roomno",required = true)Long roomno,@ModelAttribute("cri") RoomSearchCriteria cri,Model model) {
 		log.info("register-roomno :" + roomno);
 		log.info("register-cri :" + cri.getListLink());
 		
 		model.addAttribute("roominfo", roominfoService.get(roomno));
 		model.addAttribute("options", optionsService.getList(false, true));
-		model.addAttribute("startdates", reserveService.getStartdates(roomno));
-		model.addAttribute("enddates", reserveService.getEnddates(roomno));
+		model.addAttribute("startdates", reserveService.getStartdates(roomno,null));
+		model.addAttribute("enddates", reserveService.getEnddates(roomno,null));
 		
 		return "URV001C01";
 		
@@ -65,34 +66,43 @@ public class ReserveController {
 		if(dto.getPaymentflg().equals("1")) {
 			rttr.addFlashAttribute("result", "결제 완료");
 		} else {
-			rttr.addFlashAttribute("result", "등록 완료");
+			rttr.addFlashAttribute("result", "등록 완료\n(체크인 당일까지 결제 가능합니다.\n원할한 수속을 위해 빠른 시일 내 결제를 진행 해 주세요.)");
 		}
 		
-		return "redirect:/reserve/modify?no=" + dto.getNo() + "&name=" + URLEncoder.encodeParam(dto.getName() , "UTF-8") + "&phone=" + dto.getPhone();
+		return "redirect:/reserve/list?name=" + URLEncoder.encodeParam(dto.getName() , "UTF-8") + "&phone=" + dto.getPhone();
 		
 		
 	}
-	
+		
 	@GetMapping("modify")
 	public String modify(ReserveDTO dto,Model model) {
-		return modify(dto,model,"URV001U01");
-	}
-	
-	public String modify(ReserveDTO dto,Model model,String ret) {
+		// dto : no,name,phone
 		if(dto.getNo() == null) {
 			return "redirect:/";
 		}
 		ReserveDTO retDTO = reserveService.get(dto.getNo());
-		if(!retDTO.getName().equals(dto.getName()) || !retDTO.getPhone().equals(dto.getPhone())) {
+		if(retDTO == null || !retDTO.getName().equals(dto.getName()) || !retDTO.getPhone().equals(dto.getPhone())) {
 			return "redirect:/";
 		}
 		
 		
-		model.addAttribute("roominfo", dto.getRoominfo());
+		model.addAttribute("reserve", retDTO);
 		model.addAttribute("options", optionsService.getList(false, true));
-		model.addAttribute("startdates", reserveService.getStartdates(dto.getRoomno()));
-		model.addAttribute("enddates", reserveService.getEnddates(dto.getRoomno()));
-		return ret;
+		model.addAttribute("startdates", reserveService.getStartdates(retDTO.getRoomno(),retDTO.getNo()));
+		model.addAttribute("enddates", reserveService.getEnddates(retDTO.getRoomno(),retDTO.getNo()));
+		return "URV001U01";
+	}
+	
+	
+	@PostMapping("/modify")
+	public String modify(ReserveDTO dto,RedirectAttributes rttr) {
+		log.info("modify post : " + dto);
+		rttr.addFlashAttribute("result", reserveService.modify(dto));
+		
+		
+		return "redirect:/reserve/list?name=" + URLEncoder.encodeParam(dto.getName() , "UTF-8") + "&phone=" + dto.getPhone();
+		
+		
 	}
 	
 	@GetMapping("/list")
@@ -103,7 +113,7 @@ public class ReserveController {
 			cri.setName("");
 		
 		cri.setDeleteflg("0");
-		
+		cri.setCancelflg("0");
 		return list(cri,model,"URV001L01");
 	}
 	public String list(ReserveSearchCriteria cri,Model model,String ret) {

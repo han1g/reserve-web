@@ -1,6 +1,7 @@
 package com.example.demo.domain.reserve;
 
 import java.sql.Date;
+import java.util.StringTokenizer;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -18,8 +19,10 @@ import com.example.demo.domain.roominfo.RoominfoDTO;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
+@Slf4j
 public class ReserveDTO extends BuildingDTO{
 	    private Long no;
 
@@ -76,5 +79,18 @@ public class ReserveDTO extends BuildingDTO{
 			this.bankbranchcd = bankbranchcd;
 			this.bankno = bankno;
 		}
+	    
+	    public String optionSelected(String no) {
+	    	log.info("options : " + this.options);
+	    	log.info("option.no : " + no);
+	    	StringTokenizer t = new StringTokenizer(this.options,";");
+	    	while(t.hasMoreTokens()) {
+	    		if(t.nextToken().equals(no)) {
+	    			return "checked";
+	    		}
+	    	}
+	    	return "";
+	    }
+	    
 	
 }

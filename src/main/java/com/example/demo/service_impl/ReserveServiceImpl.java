@@ -43,7 +43,7 @@ public class ReserveServiceImpl implements ReserveService{
 		BooleanBuilder builder = new BooleanBuilder();
 		builder.and(qReserve.buildcd.eq("4"));
 		if(cri.getRoomtitle() != null) {
-			builder.and(qReserve.roominfo.roomtitle.eq(cri.getRoomtitle()));
+			builder.and(qReserve.roominfo.roomtitle.eq(cri.getRoomtitle()));//hibernate가 알아서 joinquery생성
 		}
 		if(cri.getName() != null) {
 			builder.and(qReserve.name.eq(cri.getName()));
@@ -96,9 +96,23 @@ public class ReserveServiceImpl implements ReserveService{
 	}
 
 	@Override
-	public boolean modify(ReserveDTO board) {
-		// TODO Auto-generated method stub
-		return false;
+	public String modify(ReserveDTO dto) {
+		Reserve en = repo1.findById(dto.getNo()).get();
+		if(dto.getCancelflg().equals("1")) {
+			//execute only if cancel
+			en.cancel();
+			repo1.save(en);
+			return "취소완료";
+		} else {
+			en.update(dto);
+			repo1.save(en);
+			if(dto.getPaymentflg().equals("1")) {
+				return "결제완료";
+			} else {
+				return "수정완료";
+			} 
+		}
+		
 	}
 
 	@Override
@@ -120,7 +134,7 @@ public class ReserveServiceImpl implements ReserveService{
 	}
 
 	@Override
-	public List<String> getStartdates(Long roomno) {
+	public List<String> getStartdates(Long roomno,Long reserveno) {
 		// TODO Auto-generated method stub
 		QReserve qReserve = QReserve.reserve;
 		
@@ -128,10 +142,14 @@ public class ReserveServiceImpl implements ReserveService{
 		BooleanBuilder builder = new BooleanBuilder();
 		builder.and(qReserve.buildcd.eq("4"));
 		builder.and(qReserve.deleteflg.eq("0"));
+		builder.and(qReserve.cancelflg.eq("0"));
 		
 		if(roomno != null) {
 			builder.and(qReserve.roomno.eq(roomno));
 		}
+		if(reserveno != null) {
+			builder.and(qReserve.no.ne(reserveno));
+		}// 수정페이지에서 이 예약으로 인해 예약된 날짜는 선택 가능해야 함
 		
 		List<String> list = new ArrayList<>();
 		repo1.findAll(builder).forEach(el -> list.add("'" + el.toDTO().getStartdate() + "'"));
@@ -139,7 +157,7 @@ public class ReserveServiceImpl implements ReserveService{
 	}
 
 	@Override
-	public List<String> getEnddates(Long roomno) {
+	public List<String> getEnddates(Long roomno,Long reserveno) {
 		// TODO Auto-generated method stub
 		QReserve qReserve = QReserve.reserve;
 		
@@ -147,10 +165,14 @@ public class ReserveServiceImpl implements ReserveService{
 		BooleanBuilder builder = new BooleanBuilder();
 		builder.and(qReserve.buildcd.eq("4"));
 		builder.and(qReserve.deleteflg.eq("0"));
+		builder.and(qReserve.cancelflg.eq("0"));
 		
 		if(roomno != null) {
 			builder.and(qReserve.roomno.eq(roomno));
 		}
+		if(reserveno != null) {
+			builder.and(qReserve.no.ne(reserveno));
+		}// 수정페이지에서 이 예약으로 인해 예약된 날짜는 선택 가능해야 함
 		
 		List<String> list = new ArrayList<>();
 		repo1.findAll(builder).forEach(el -> list.add("'" + el.toDTO().getEnddate() + "'"));

@@ -17,6 +17,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import com.example.demo.domain.base.BuildingEntity;
 import com.example.demo.domain.roominfo.Roominfo;
+import com.example.demo.domain.roominfo.RoominfoDTO;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -109,4 +110,31 @@ public class Reserve extends BuildingEntity{
 				no,roomno,roominfo, name, phone, adult, child, startdate, enddate, options, paymentflg, totalcost, cancelflg, bankname, bankbranchcd, bankno);
     	
     }
-}
+    
+    public void update(ReserveDTO dto) {
+
+    	this.bankname = dto.getBankname();
+		this.bankbranchcd = dto.getBankbranchcd();
+		this.bankno = dto.getBankno();
+		
+    	this.name = dto.getName();
+		this.roomno = dto.getRoomno();
+		this.phone = dto.getPhone();
+		this.adult = dto.getAdult();
+		this.child = dto.getChild();
+		this.startdate = dto.getStartdate();
+		this.enddate = dto.getEnddate();
+		this.options = dto.getOptions();
+		this.paymentflg = dto.getPaymentflg();
+		this.totalcost = dto.getTotalcost();
+		this.cancelflg = dto.getCancelflg();
+		
+    }
+    public void cancel() {
+    	this.cancelflg = "1";
+    }
+    public void revertCancel() {
+    	this.cancelflg ="0";
+    }
+    
+ }
