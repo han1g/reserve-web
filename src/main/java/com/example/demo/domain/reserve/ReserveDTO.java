@@ -83,6 +83,7 @@ public class ReserveDTO extends BuildingDTO{
 	    public String optionSelected(String no) {
 	    	log.info("options : " + this.options);
 	    	log.info("option.no : " + no);
+	    	if(options == null) return null;
 	    	StringTokenizer t = new StringTokenizer(this.options,";");
 	    	while(t.hasMoreTokens()) {
 	    		if(t.nextToken().equals(no)) {

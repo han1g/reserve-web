@@ -15,6 +15,9 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.example.demo.domain.base.BuildingEntity;
 import com.example.demo.domain.roominfo.Roominfo;
 import com.example.demo.domain.roominfo.RoominfoDTO;
@@ -39,7 +42,8 @@ public class Reserve extends BuildingEntity{
     @Column(nullable = false)
     private Long roomno;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)//연결된 roominfo가 존재하지 않을경우 null
     @JoinColumn(name="roomno",insertable = false,updatable = false)
     private Roominfo roominfo;
     
@@ -132,9 +136,19 @@ public class Reserve extends BuildingEntity{
     }
     public void cancel() {
     	this.cancelflg = "1";
+    	this.paymentflg = "0";
     }
     public void revertCancel() {
     	this.cancelflg ="0";
+    	this.restore();
     }
+    
+    @Override
+    public void delete() {
+    	super.delete();
+    	cancel();
+    }
+    
+    
     
  }

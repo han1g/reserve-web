@@ -16,7 +16,7 @@
 					form.attr("action", adminURL + "/${menu}/modify");
 					break;
 				case "delete":
-					if(!confirm("삭제하시겠습니까?")) {
+					if(!confirm("削除しますか?")) {
 						return;
 					}
 					form.append(`<input type="hidden" name="no" value="${no}"/>`);
@@ -25,7 +25,7 @@
 					break;
 					
 				case "delete-consult":
-					var passwd = prompt("비밀번호 입력: ");
+					var passwd = prompt("パスワード入力: ");
 					if (passwd === null) {
 				        return;
 				    }
@@ -46,8 +46,13 @@
 					form.attr("method","get");
 					break;
 					
+				case "reservelist" : 
+					//only for admin roominfo
+					location.href ="/admin/reserve/list?roomno=${no}";
+					return;
+					
 				case "restore":
-					if(!confirm("복구하시겠습니까?")) {
+					if(!confirm("復旧しますか?")) {
 						return;
 					}
 					form.append(`<input type="hidden" name="no" value="${no}"/>`);

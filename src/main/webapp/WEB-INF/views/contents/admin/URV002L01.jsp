@@ -11,37 +11,34 @@
 </jsp:include>
 </head>
 <body>
-	roomtitle : ${param.roomtitle};<br>
- 	name : ${param.name};<br>
- 	phone : ${param.phone};<br>
- 	cancel : ${param.cancelflg};<br>
- 	payment : ${param.paymentflg};<br>
- 	delete : ${param.deleteflg};<br>
- 	
  	<div class="accordion" id="accordionExample">
 	  <div class="accordion-item">
 	    <h2 class="accordion-header" id="headingTwo">
 	      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-	        Search Menu
+	       	 検索メニュー
 	      </button>
 	    </h2>
 	    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 	      <div class="accordion-body">
 	        <form id="searchForm" action="/admin/reserve/list" method="get">
 	        	<div class="mb-3">
-					  <label for="roomtitle" class="form-label">Room Title.</label>
-					  <input type="text" name="roomtitle" class="form-control" id="roomtitle" placeholder="방 이름" value="${param.roomtitle}">
+					  <label for="roomtitle" class="form-label">部屋番号</label>
+					  <input type="text" name="roomno" class="form-control" id="roomno" placeholder="部屋番号(pk)" value="${param.roomno}">
 				</div>
 	        	<div class="mb-3">
-					  <label for="name" class="form-label">Name.</label>
-					  <input type="text" name="name" class="form-control" id="name" placeholder="예약자 성명" value="${param.name}">
+					  <label for="roomtitle" class="form-label">部屋名</label>
+					  <input type="text" name="roomtitle" class="form-control" id="roomtitle" placeholder="部屋名" value="${param.roomtitle}">
+				</div>
+	        	<div class="mb-3">
+					  <label for="name" class="form-label">姓名</label>
+					  <input type="text" name="name" class="form-control" id="name" placeholder="姓名" value="${param.name}">
 				</div>
 				<div class="mb-3">
-				  <label for="phone" class="form-label">Phone Number.</label>
-				  <input type="text" name="phone" class="form-control" id="phone" placeholder="전화번호('-'제외)" value="${param.phone}">
+				  <label for="phone" class="form-label">電話番号</label>
+				  <input type="text" name="phone" class="form-control" id="phone" placeholder="電話番号('-'無し)" value="${param.phone}">
 				</div>
 				<div class="mb-3">
-				　<label for="phone" class="form-label">CancelFlg : </label>
+				　<label for="phone" class="form-label">キャンセルフラグ : </label>
 					<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 					  <input type="radio" class="btn-check" name="cancelflg" id="canceled1" value="" autocomplete="off" ${empty param.cancelflg ? 'checked' : ''}>
 					  <label class="btn btn-outline-primary" for="canceled1">All</label>
@@ -54,7 +51,7 @@
 					</div>
 				</div>
 				<div class="mb-3">
-				　<label for="phone" class="form-label">PaymentFlg : </label>
+				　<label for="phone" class="form-label">支払いフラグ : </label>
 					<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 					  <input type="radio" class="btn-check" name="paymentflg" id="paid1" value="" autocomplete="off" ${empty param.paymentflg ? 'checked' : ''}>
 					  <label class="btn btn-outline-primary" for="paid1">All</label>
@@ -67,7 +64,7 @@
 					</div>
 				</div>
 				<div class="mb-3">
-				　<label for="phone" class="form-label">DeleteFlg : </label>
+				　<label for="phone" class="form-label">削除フラグ : </label>
 					<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 					  <input type="radio" class="btn-check" name="deleteflg" id="deleted1" value="" autocomplete="off" ${empty param.deleteflg ? 'checked' : ''}>
 					  <label class="btn btn-outline-primary" for="deleted1">All</label>
@@ -80,7 +77,7 @@
 					</div>
 				</div>
 				
-				<button id="#searchFormBtn" class="btn btn-outline-secondary">Search</button>
+				<button id="#searchFormBtn" class="btn btn-outline-secondary">検索</button>
 			</form>
 			<script type="text/javascript">
 				//script for search
@@ -96,5 +93,8 @@
 	  </div>
 	</div>
   	<div id='calendar'></div>
+  	<jsp:include page="/WEB-INF/views/includes/commons/ListPage/modal.jsp">
+		<jsp:param value="admin" name="admin"/>
+	</jsp:include>
 </body>
 </html>

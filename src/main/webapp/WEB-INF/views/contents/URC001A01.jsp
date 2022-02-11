@@ -12,12 +12,12 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">상담</h2>
+					<h2 class="write-h2">相談</h2>
 				</div>
 				<div class="background-white">
 					<c:if test="${method eq 'get'}">
 						<div>
-							비밀글입니다.
+							ロックされています。
 						</div>
 					</c:if>
 					<form id="actionForm" action="/consultation/auth" method="post">
@@ -28,8 +28,8 @@
 						<input type="hidden" name="no" value="${param.no}"/>
 						<input type="hidden" name="method" value="${method}"/>
 						<div>
-							<input type="password" name="passwd" id="passwd" value="" placeholder="패스워드 입력"/>
-							<a id="submitBtn" href="" role="button" class="btn btn-success" data-oper="confirm" id="btnUpdate">확인</a>
+							<input type="password" name="passwd" id="passwd" value="" placeholder="パスワード入力"/>
+							<a id="submitBtn" href="" role="button" class="btn btn-success" data-oper="confirm" id="btnUpdate">確認</a>
 						</div>
 					</form>
 					<script>

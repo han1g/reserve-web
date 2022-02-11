@@ -13,17 +13,17 @@
 <body>
 	<div class="work-area">
 		<div class="card">
-			<div class="card-header">ROOMS.</div>
+			<div class="card-header">部屋リスト</div>
 			
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>#Preview</th>
-						<th>방 번호</th>
-						<th>방 이름</th>
-						<th>최대 인원</th>
-						<th>어른 요금</th>
-						<th>어린이 요금</th>
+						<th>#プリビュー</th>
+						<th>部屋番号</th>
+						<th>部屋名</th>
+						<th>最大人数</th>
+						<th>大人料金</th>
+						<th>小人料金</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -49,7 +49,7 @@
 			  <div class="accordion-item">
 			    <h2 class="accordion-header" id="headingTwo">
 			      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-			        Search Menu
+			        	検索メニュー
 			      </button>
 			    </h2>
 			    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -59,7 +59,7 @@
 						<input type="hidden" name="amount" value="${pageMaker.cri.amount}"/>
 						
 						<jsp:include page="/WEB-INF/views/includes/URR/range_slider.jsp">
-							<jsp:param value="최대 인원" name="labelName"/>
+							<jsp:param value="最大人数" name="labelName"/>
 							<jsp:param value="maxpeople" name="rangeName"/>
 							<jsp:param value="0" name="rangeMin"/>
 							<jsp:param value="100" name="rangeMax"/>
@@ -70,7 +70,7 @@
 						</jsp:include>
 						
 						<jsp:include page="/WEB-INF/views/includes/URR/range_slider.jsp">
-							<jsp:param value="어른 요금" name="labelName"/>
+							<jsp:param value="大人料金" name="labelName"/>
 							<jsp:param value="adultcost" name="rangeName"/>
 							<jsp:param value="0" name="rangeMin"/>
 							<jsp:param value="100000" name="rangeMax"/>
@@ -81,7 +81,7 @@
 						</jsp:include>
 						
 						<jsp:include page="/WEB-INF/views/includes/URR/range_slider.jsp">
-							<jsp:param value="어린이 요금" name="labelName"/>
+							<jsp:param value="小人料金" name="labelName"/>
 							<jsp:param value="childcost" name="rangeName"/>
 							<jsp:param value="0" name="rangeMin"/>
 							<jsp:param value="100000" name="rangeMax"/>
@@ -91,7 +91,7 @@
 							<jsp:param value="${pageMaker.cri.childcost_max}" name="criMax"/>
 						</jsp:include>
 
-						<button id="#searchFormBtn" class="btn btn-outline-secondary">Search</button>
+						<button id="#searchFormBtn" class="btn btn-outline-secondary">検索</button>
 					</form>
 					<script type="text/javascript">
 						//script for search
@@ -117,12 +117,12 @@
 						<%-- admin user --%>
 						<c:when test="${L eq '01'}">
 							<!-- normal list -->
-							<a href="/admin/roominfo/register" class="btn btn-outline-success">글쓰기</a>
-							<a href="/admin/roominfo/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+							<a href="/admin/roominfo/register" class="btn btn-outline-success">登録</a>
+							<a href="/admin/roominfo/deletedList" class="btn btn-outline-warning">削除リスト</a>
 						</c:when>
 						<c:otherwise>
 							<!-- deleted list -->
-							<a href="/admin/roominfo/list" class="btn btn-outline-success">목록</a>
+							<a href="/admin/roominfo/list" class="btn btn-outline-success">リスト</a>
 						</c:otherwise>
 					</c:choose>
 				</c:when>

@@ -44,30 +44,30 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">방 상세정보</h2>
+					<h2 class="write-h2">部屋詳細</h2>
 				</div>
 				<div class="background-white">
 					<form action="" name="form" id="form" role="form" method="post">
 						<div class="mb-3">
-							<label for="roomnum">Room Num.</label> 
+							<label for="roomnum">部屋番号</label> 
 							<input type="number"
 								class="form-control required" name="roomnum" id="roomnum" max="9999"
 								value="${roominfo.roomnum}"readonly="readonly">
 						</div>
 						<div class="mb-3">
-							<label for="roomtitle">Room Title</label> 
+							<label for="roomtitle">部屋名</label> 
 							<input type="text"
 								class="form-control required" name="roomtitle" id="roomtitle"
 								value ="${roominfo.roomtitle}" readonly="readonly">
 						</div>
 						<div class="mb-3">
-							<label for="maxpeople">Maxpeople</label> 
+							<label for="maxpeople">最大人数</label> 
 							<input type="number"
 								class="form-control w-25 required" name="maxpeople" id="maxpeople" value ="${roominfo.maxpeople}"
 								readonly="readonly">
 						</div>
 						<div class="mb-3">
-							<label for="adultcost">Adultcost</label>
+							<label for="adultcost">大人料金</label>
 							<div class="input-group w-25"> 
 								<span class="input-group-text">￥</span>
 								<input type="number"
@@ -76,7 +76,7 @@
 							</div>
 						</div>
 						<div class="mb-3">
-							<label for="childcost">Childcost</label> 
+							<label for="childcost">小人料金</label> 
 							<div class="input-group w-25"> 
 								<span class="input-group-text">￥</span>
 								<input type="number"
@@ -84,16 +84,18 @@
 									 readonly="readonly">
 							</div>
 						</div>
+						<c:if test="${admin eq 'admin'}">
 						<div class="mb-3">
-							<label for="colorcd">Colorcd</label> 
+							<label for="colorcd">色コード</label> 
 							<input type="color"
 								class="form-control form-control-color required" name="colorcd" id="colorcd" value ="${roominfo.colorcd}"
 								disabled>
 						</div>
+						</c:if>
 						<div class="mb-3">
 							<div class="card">
 							  <div class="card-header">
-							    	Preview.
+							    	プレビュー
 							  </div>
 							  <div class="card-body">
 								<div id="carouselExampleIndicators" class="carousel carousel-dark carousel-thumbnail slide" data-bs-ride="carousel">
@@ -132,7 +134,7 @@
 							</div>
 						</div>
 						<div class="mb-3">
-							<label for="explanation">Explanation</label> 
+							<label for="explanation">詳細</label> 
 							<p class="form-control required" id="explanation">${roominfo.explanation}</p>
 						</div>
 					</form>
@@ -141,19 +143,19 @@
 						<div>
 							<c:choose>
 								<c:when test="${D eq '01'}"> <!-- undeleted list-->
-									<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">목록</a>
+									<a href="" role="button" class="btn btn-secondary" data-oper="list" id="btnList">リスト</a>
 									<c:if test="${admin eq 'admin'}">
-										<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">삭제</a>
-										<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">수정</a>
-										<a href="" role="button" class="btn btn-success" data-oper="reservelist" id="btnReserveList">예약 리스트</a>
+										<a href="" role="button" class="btn btn-danger" data-oper="delete" id="btnDelete">削除</a>
+										<a href="" role="button" class="btn btn-warning" data-oper="modify" id="btnUpdate">修正</a>
+										<a href="" role="button" class="btn btn-success" data-oper="reservelist" id="btnReserveList">予約リスト</a>
 									</c:if>
 									<c:if test="${admin ne 'admin'}">
-										<a href="" role="button" class="btn btn-success" data-oper="reserve" id="btnReserve">예약</a>
+										<a href="" role="button" class="btn btn-success" data-oper="reserve" id="btnReserve">予約</a>
 									</c:if>
 								</c:when>
 								<c:otherwise> <!-- deleted list -->
-									<a href="" role="button" class="btn btn-secondary" data-oper="deletedList" id="btnList">목록</a>
-									<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnRestore">복구</a>
+									<a href="" role="button" class="btn btn-secondary" data-oper="deletedList" id="btnList">リスト</a>
+									<a href="" role="button" class="btn btn-warning" data-oper="restore" id="btnRestore">復旧</a>
 								</c:otherwise>
 							</c:choose>
 						</div>

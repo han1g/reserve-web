@@ -92,7 +92,7 @@ public class ConsultationController {
 		}
 		//unlocked
 		
-		model.addAttribute("result","패스워드 오류");
+		model.addAttribute("result","パスワードエラー");
 		return "URC001A02";
 	}
 	
@@ -122,7 +122,7 @@ public class ConsultationController {
 			return "redirect:/consultation/list" + cri.getListLink();
 		}
 		
-		model.addAttribute("result","세션이 없거나 만료되었습니다.");
+		model.addAttribute("result","セッションが無いまたは満了されました。");
 		return "URC001A02";
 	}
 	@GetMapping("/modify")

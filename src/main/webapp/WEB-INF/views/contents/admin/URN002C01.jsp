@@ -14,15 +14,15 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">공지 쓰기</h2>
+					<h2 class="write-h2">お知らせ登録</h2>
 				</div>
 				<div class="background-white">
 					<form action="/admin/notice/register" name="form" id="form" role="form" method="post">
 						<div class="mb-3">
-							<label for="title">Title</label> 
+							<label for="title">タイトル</label> 
 							<input type="text"
 								class="form-control" name="title" id="title"
-								placeholder="제목을 입력해 주세요">
+								placeholder="タイトルを入力してください。">
 								
 						</div>
 						<div class="mb-3">

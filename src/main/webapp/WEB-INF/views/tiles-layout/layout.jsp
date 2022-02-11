@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	
-	<title>UR web test site</title>
+	<title>Reserve site</title>
 	<script src="/resources/lib/jquery/jquery-3.6.0.min.js" ></script>
 	<script src="/resources/lib/jquery-ui-1.13.0/jquery-ui.js"></script>
 	<script src="/resources/lib/bootstrap-5.1.3-dist/js/bootstrap.min.js" ></script>

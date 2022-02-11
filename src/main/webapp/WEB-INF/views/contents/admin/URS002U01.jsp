@@ -18,18 +18,18 @@
 <body>
 	<div class="card">
 	  <div class="card-header">
-	    	사진 업로드
+	    	画像アップロード
 	  </div>
 	  <div class="card-body">
 		<div id="uploadDiv">
 			<form id="uploadForm">
 				<span>
-					<a type="button" href="/admin/deletedSliderimages" class="btn btn-warning">삭제 목록</a>
-					<button id="uploadFileButton" class="btn btn-success">사진 추가</button>
+					<a type="button" href="/admin/deletedSliderimages" class="btn btn-warning">削除リスト</a>
+					<button id="uploadFileButton" class="btn btn-success">画像追加</button>
 				</span>
 				<span>
 					<input type='file' id="uploadFile" name='uploadFile' multiple="multiple" style="display:none" ><!-- 화면에서 숨기기  style="display:none"-->
-					<button class="btn btn-sm btn-primary" onclick="save(event);">저장</button>
+					<button class="btn btn-sm btn-primary" onclick="save(event);">保存</button>
 				</span>
 			</form>
 		</div>
@@ -45,13 +45,13 @@
 					<img src="${image.filename}&thumb=true" class="img-thumbnail carousel-image-target" style="object-fit: contain; width:100px;height:100px" alt="..."
 					onclick="showImage('${image}')">
 					<input type='file' onchange="changeFileListener(event)" style="display:none" ><!-- 화면에서 숨기기  style="display:none"-->
-					<button class="btn btn-warning" onclick="changeFileButtonClick(event)">사진 변경</button>
+					<button class="btn btn-warning" onclick="changeFileButtonClick(event)">画像を変更</button>
 					<div class="input-group-text">
 						<input id="btn-check[${status.index}]" type="checkbox" class="form-check-input" autocomplete="off"  name="sliderimages[${status.index}].activity" value="1" ${image.activity eq '1' ? 'checked' : ''}>
 						&nbsp;&nbsp;
-						<label for="btn-check[${status.index}]">ACTIVITY</label>
+						<label for="btn-check[${status.index}]">活性化</label>
 					</div>
-					<button class="btn btn-danger" onclick="deleteImageClick(event,true)" >삭제</button>
+					<button class="btn btn-danger" onclick="deleteImageClick(event,true)" >削除</button>
 				</li>
 			</c:forEach>
 		</ul>
@@ -144,13 +144,13 @@
 				<img src="${'${el}'}&thumb=true" class="img-thumbnail carousel-image-target" style="object-fit: contain; width:100px;height:100px" alt="..."
 				onclick="showImage('${'${el}'}')">
 				<input type='file' name='uploadFile' onchange="changeFileListener(event)" style="display:none"><!-- 화면에서 숨기기  style="display:none"-->
-				<button class="btn btn-warning" onclick="changeFileButtonClick(event)">사진 변경</button>
+				<button class="btn btn-warning" onclick="changeFileButtonClick(event)">画像を変更</button>
 				<div class="input-group-text">
 					<input id="btn-check[${'${length}'}]" type="checkbox" class="form-check-input" autocomplete="off"  name="sliderimages[${'${length}'}].activity" value="1" checked>
 					&nbsp;&nbsp;
-					<label for="btn-check[${'${length}'}]">ACTIVITY</label>
+					<label for="btn-check[${'${length}'}]">活性化</label>
 				</div>
-				<button class="btn btn-danger" onclick="deleteImageClick(event,true)" >삭제</button>
+				<button class="btn btn-danger" onclick="deleteImageClick(event,true)" >削除</button>
 				</li>`;
 				$(".uploadResult").append(str);
 				length++;

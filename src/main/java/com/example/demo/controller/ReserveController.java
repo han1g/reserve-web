@@ -34,11 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReserveController {
 	@Autowired
-	RoominfoService roominfoService;
+	protected RoominfoService roominfoService;
 	@Autowired
-	ReserveService reserveService;
+	protected ReserveService reserveService;
 	@Autowired
-	OptionsService optionsService;
+	protected OptionsService optionsService;
+	
 	
 	
 	@RequestMapping("")
@@ -64,9 +65,9 @@ public class ReserveController {
 		log.info("register post : " + dto);
 		reserveService.register(dto);
 		if(dto.getPaymentflg().equals("1")) {
-			rttr.addFlashAttribute("result", "결제 완료");
+			rttr.addFlashAttribute("result", "支払い完了");
 		} else {
-			rttr.addFlashAttribute("result", "등록 완료\n(체크인 당일까지 결제 가능합니다.\n원할한 수속을 위해 빠른 시일 내 결제를 진행 해 주세요.)");
+			rttr.addFlashAttribute("result", "登録完了\n(支払い無し)");
 		}
 		
 		return "redirect:/reserve/list?name=" + URLEncoder.encodeParam(dto.getName() , "UTF-8") + "&phone=" + dto.getPhone();
@@ -74,7 +75,7 @@ public class ReserveController {
 		
 	}
 		
-	@GetMapping("modify")
+	@GetMapping("/modify")
 	public String modify(ReserveDTO dto,Model model) {
 		// dto : no,name,phone
 		if(dto.getNo() == null) {

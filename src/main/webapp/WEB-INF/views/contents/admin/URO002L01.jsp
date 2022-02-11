@@ -17,19 +17,19 @@
 	<div class="work-area">
 		<div class="card">
 			<div class="card-header">
-				<span>Options.</span>
+				<span>オプション</span>
 				<span>
 					<button class="btn btn-sm btn-success" onclick="addOption()">+</button>
-					<button class="btn btn-sm btn-primary" onclick="submit()">저장</button>
+					<button class="btn btn-sm btn-primary" onclick="submit()">保存</button>
 				</span>
 			</div>
 			<form id="options_register_form" action="/admin/options/register" method="post">
 				<table id="optionsTable" class="table table-striped table-sm" >
 					<thead>
 						<tr>
-							<th>ITEM</th>
-							<th>COST</th>
-							<th>ACTIVITY</th>
+							<th>オプション名</th>
+							<th>料金</th>
+							<th>活性化</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -44,10 +44,10 @@
 							 <!-- date받아서 포매팅하기 -->
 							 <!-- cout 을 쓰면 자동으로escape처리되기 때문에 특수문자 오류나 xss에 대응가능 -->
 							 <td><div class="input-group-text">
-							 		<input id="radio[${status.index}]1" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="1" ${option.activity eq '1' ? 'checked' : ''}><label for="radio[${status.index}]1">&nbsp; ON</label>
+							 		<input id="radio[${status.index}]1" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="1" ${option.activity eq '1' ? 'checked' : ''}><label for="radio[${status.index}]1">&nbsp; オン</label>
 							 		&nbsp;
-							 		<input id="radio[${status.index}]2" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="0" ${option.activity eq '0' ? 'checked' : ''}><label for="radio[${status.index}]2">&nbsp; OFF</label> </div></td>
-							<td><button class="btn btn-danger" onclick="deleteOptionClick(event,true)" >삭제</button><td>
+							 		<input id="radio[${status.index}]2" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="0" ${option.activity eq '0' ? 'checked' : ''}><label for="radio[${status.index}]2">&nbsp; オフ</label> </div></td>
+							<td><button class="btn btn-danger" onclick="deleteOptionClick(event,true)" >削除</button><td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -55,7 +55,7 @@
 			</form>
 		</div>
 		<div>
-			<a href="/admin/options/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+			<a href="/admin/options/deletedList" class="btn btn-outline-warning">削除リスト</a>
 		</div>
 	</div>
 	<script>
@@ -116,10 +116,10 @@
 					 <input class="form-control" name="options[${'${length}'}].item" value="item"></td>
 					 <td><input class="form-control" name="options[${'${length}'}].cost" value="0"></td>
 					 <td><div class="input-group-text">
-					 		<input id="radio[${'${length}'}]1" class="form-check-input mt-0" type="radio" name="options[${'${length}'}].activity" value="1" checked><label for="radio[${'${length}'}]1">&nbsp; ON</label>
+					 		<input id="radio[${'${length}'}]1" class="form-check-input mt-0" type="radio" name="options[${'${length}'}].activity" value="1" checked><label for="radio[${'${length}'}]1">&nbsp; オン</label>
 					 		&nbsp;
-					 		<input id="radio[${'${length}'}]2" class="form-check-input mt-0" type="radio" name="options[${'${length}'}].activity" value="0"><label for="radio[${'${length}'}]2">&nbsp; OFF</label> </div></td>
-					 <td><button class="btn btn-danger" onclick="deleteOptionClick(event)" >삭제</button><td>
+					 		<input id="radio[${'${length}'}]2" class="form-check-input mt-0" type="radio" name="options[${'${length}'}].activity" value="0"><label for="radio[${'${length}'}]2">&nbsp; オフ</label> </div></td>
+					 <td><button class="btn btn-danger" onclick="deleteOptionClick(event)" >削除</button><td>
 					</tr>
 			`);
 			length++;

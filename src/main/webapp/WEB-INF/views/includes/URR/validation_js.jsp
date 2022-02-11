@@ -9,7 +9,7 @@
 				console.log($(el));
 				if($(el).val().trim() == '' ) {
 					console.log("trim");
-					alert("잘못된 필드가 있습니다");
+					alert("フィールドに誤りがあります。");
 					return false;
 				}
 				if($(el).attr("type") === "number") {
@@ -22,17 +22,17 @@
 					console.log(parseInt($(el).attr("min")));
 					
 					if(isNaN(parseInt($(el).val()))) {
-						alert("잘못된 필드가 있습니다");
+						alert("フィールドに誤りがあります。");
 						return false;
 					}
 					$(el).val(parseInt($(el).val()));
 					console.log($(el).val());
 					if($(el).val() > parseInt($(el).attr("max"))) {
-						alert("잘못된 필드가 있습니다");
+						alert("フィールドに誤りがあります。");
 						return false;
 					}
 					if($(el).val() < parseInt($(el).attr("min"))) {
-						alert("잘못된 필드가 있습니다");
+						alert("フィールドに誤りがあります。");
 						return false;
 					}
 				}

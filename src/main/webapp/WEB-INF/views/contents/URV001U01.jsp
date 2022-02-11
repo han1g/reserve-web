@@ -15,45 +15,51 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">예약 수정</h2>
+					<h2 class="write-h2">予約修正</h2>
 				</div>
 				<div class="background-white">
 					<form action="/reserve/modify" name="form" id="form" role="form" method="post">
 						<input type="hidden" name="no" id="no" value="${reserve.no}">
 						<input type="hidden" name="roomno" id="roomno" value="${reserve.roomno}">
 						<div class="mb-3">
-							<label for="name">Name.</label> 
+							<label>部屋名</label> 
+							<input type="text"
+								class="form-control" value="${reserve.roominfo.roomtitle}" readonly>
+						</div>
+						
+						<div class="mb-3">
+							<label for="name">姓名</label> 
 							<input type="text"
 								class="form-control required" name="name" id="name" value="${reserve.name}"
-								placeholder="예약자 성명을 입력해 주세요" required>
+								placeholder="名前を入力してください。" required>
 						</div>
 						<div class="mb-3">
-							<label for="phone">Phone Number.</label> 
+							<label for="phone">電話番号</label> 
 							<input type="text"
 								class="form-control required" name="phone" id="phone" value="${reserve.phone }"
-								placeholder="전화번호를 입력해 주세요( '-' 제외)" required>
+								placeholder="電話番号( '-' 無し)" required>
 						</div>
 						<div class="mb-3">
-							<label for="adult">Adult.</label>
+							<label for="adult">大人.</label>
 							<div class="input-group w-25"> 
 								<input type="number"
 									class="form-control w-25 required" name="adult" id="adult" min="0" value="${reserve.adult}" max="9"
-									placeholder="어른 인원 수를 입력해주세요" required onchange="updateCost()">
+									placeholder="大人人数 (0 - 9)" required onchange="updateCost()">
 								<span class="input-group-text">人</span>
 							</div>
 						</div>
 						<div class="mb-3">
-							<label for="child">Child.</label> 
+							<label for="child">小人</label> 
 							<div class="input-group w-25"> 
 								<input type="number"
 									class="form-control required" name="child" id="child" min="0"  value="${reserve.child}" max="9"
-									placeholder="아동 인원 수를 입력해주세요" required onchange="updateCost()">
+									placeholder="小人人数(0 - 9)" required onchange="updateCost()">
 								<span class="input-group-text">人</span>
 							</div>
 						</div>
 						
 						<div class="mb-3">
-							<label>Date.</label>
+							<label>日付</label>
 							<div class="input-group w-50"> 
 								<input type="text"
 									class="form-control required" name="startdate" id="startdate" value=""
@@ -79,7 +85,7 @@
 						<div class="mb-3">
 							<div class="card">
 							  <div class="card-header">
-							    	Options.
+							    	オプション。
 							  </div>
 							  <div class="card-body">
 								<div class="mb-3">
@@ -96,7 +102,7 @@
 									</c:forEach>
 								</div>
 								<div id="optionsHelp" class="mb-3">
-									* 인원수,날짜를 입력하세요
+									* 人数、日付を確認してください。
 								</div>
 								<!-- script for options -->
 							  </div>
@@ -106,15 +112,15 @@
 						<div class="mb-3">
 							<div class="card">
 							  <div class="card-header">
-							    	결제 메뉴.
+							    	支払いメニュー
 							  </div>
 							  <div class="card-body">
 								<div class="mb-3">
-									<label for="bankbranchcd">Bank.</label> 
+									<label for="bankbranchcd">銀行</label> 
 									<div class="input-group w-25">
 										<input type="hidden" class="required" name="bankname" id="bankname" value="${reserve.bankname}">
-										<select name="bankbranchcd" id="bankbranchcd" class="form-select" aria-label="Default select example">
-										  <option value="" ${empty reserve.bankbranchcd ? 'selected' : ''}>은행 선택</option>
+										<select name="bankbranchcd" id="bankbranchcd" class="form-select" aria-label="Default select example" onchange="bankSelect(event);">
+										  <option value="" ${empty reserve.bankbranchcd ? 'selected' : ''}>銀行選択</option>
 										  <option value="001" ${reserve.bankbranchcd eq '001' ? 'selected' : ''}>한국은행</option>
 										  <option value="002" ${reserve.bankbranchcd eq '002' ? 'selected' : ''}>산업은행</option>
 										  <option value="003" ${reserve.bankbranchcd eq '003' ? 'selected' : ''}>기업은행</option>
@@ -129,32 +135,44 @@
 									
 								</div>
 								<div class="mb-3">
-									<label for="bankbranchcd">계좌번호.</label>
+									<label for="bankbranchcd">口座番号</label>
 									<input type="text" class="form-control w-25 required" name="bankno" id="bankno" value="${reserve.bankno}">
 								</div>
 								<script>
 									//script for bankname and branch
+									function bankSelect() {
+										$('#bankbranchcd > option').each(function() {
+											if($(this).prop("selected")) {
+												if($(this).val() === "") {
+													$("#bankname").val("");
+												} else {
+													$("#bankname").val($(this).text());
+												}
+											}
+										});
+										console.log("bankname : " + $("#bankname").val());
+									}
 								</script>
 								
 								<div class="mb-3">
-									<label for="totalcost">Cost.</label> 
+									<label for="totalcost">料金。</label> 
 									<div class="input-group w-25"> 
 										<span class="input-group-text">￥</span>
 										<input type="number"
 											class="form-control required" name="totalcost" id="totalcost" min="0"  value="${reserve.totalcost}" max="999999999"
-											placeholder="인원수,날짜를 확인하세요" required readonly="readonly" style="font-size:12pt; color:#ff0000; font-weight:bold;">
+											placeholder="人数、日付を確認してください。" required readonly="readonly" style="font-size:12pt; color:#ff0000; font-weight:bold;">
 									</div>
 									<input type="hidden" name="paymentflg" id="paymentflg" value="${reserve.paymentflg}">
 									<input type="hidden" name="cancelflg" id="cancelflg" value="${reserve.cancelflg}">
 								</div>
 								<div class="mb-3">
-									<button id="backToListBtn" class="btn btn-danger" onclick="backToList(event);">돌아가기</button>
+									<button id="backToListBtn" class="btn btn-secondary" onclick="backToList(event);">戻る</button>
 									<c:if test="${reserve.paymentflg eq '0'}"> 
-										<button id="paymentBtn" class="btn btn-success" onclick="pay(event);">결제하기</button>
+										<button id="paymentBtn" class="btn btn-success" onclick="pay(event);">支払う</button>
 									</c:if>
-									<button id="cancelBtn" class="btn btn-secondary" onclick="cancel(event);">예약취소</button>
+									<button id="cancelBtn" class="btn btn-dark" onclick="cancel(event);">予約取消</button>
 									<c:if test="${reserve.paymentflg eq '0'}"> 
-										<button id="registerBtn" class="btn btn-warning" onclick="reigster(event);">수정하기</button>
+										<button id="registerBtn" class="btn btn-warning" onclick="reigster(event);">修正</button>
 									</c:if>
 								</div>
 								<!-- script for payment -->
@@ -201,23 +219,23 @@
 												console.log( index + ": " + $( this ).val());
 												$(this).attr("disabled","disabled");
 											});
-											$("#optionsHelp").text("* 인원수,날짜를 확인하세요");
+											$("#optionsHelp").text("* 人数、日付を確認してください。");
 										}
 									}
 									function pay(event) {
 										event.preventDefault();
 										
-										if(!confirm("결제 완료 시 이후 예약을 수정 할 수 없습니다.\n 결제 후 변경사항이 있으실 경우 예약 취소 후 다시 등록해야합니다.\n 진행하시겠습니까?")) {
+										if(!confirm("支払い完了後は予約修正出来ません。\n その後変更事項があった場合は取消した後再登録してください。\n 続きますか?")) {
 											return;
 										}
 										
 										console.log("bankbranch : " + $("#bankbranchcd").val());
 										if($("#bankbranchcd").val() === "" || $("#bankno").val() === "" ) {
-											alert("계좌정보를 확인하세요");
+											alert("口座情報を確認してください。");
 											return;
 										}
 										if($("#totalcost").val() === "") {
-											alert("인원수, 날짜를 확인하세요");
+											alert("人数、日付を確認してください。");
 											return;
 										}
 										$("#paymentflg").val("1");
@@ -227,17 +245,17 @@
 									function cancel() {
 										event.preventDefault();
 										
-										if(!confirm("예약을 취소합니다.\n결제를 마치신 경우 입력하신 계좌로 수 일 내에 환불됩니다.\n진행하시겠습니까?")) {
+										if(!confirm("予約を取り消します。\n支払い済みの場合入力した口座に数日内に払い戻されます。\n続きますか?")) {
 											return;
 										}
 										
 										console.log("bankbranch : " + $("#bankbranchcd").val());
 										if($("#bankbranchcd").val() === "" || $("#bankno").val() === "" ) {
-											alert("계좌정보를 확인하세요");
+											alert("口座情報を確認してください。");
 											return;
 										}
 										if($("#totalcost").val() === "") {
-											alert("인원수, 날짜를 확인하세요");
+											alert("人数、日付を確認してください。");
 											return;
 										}
 										$("#paymentflg").val("0");
@@ -251,17 +269,17 @@
 										
 										
 										if($("#form #name").val() === "") {
-											alert("이름을 확인하세요");
+											alert("名前を確認してください。");
 											return;
 										}
 										
 										if($("#form #phone").val() === "") {
-											alert("전화번호를 확인하세요");
+											alert("電話番号を確認してください。");
 											return;
 										}
 										
 										if($("#totalcost").val() === "") {
-											alert("인원수, 날짜를 확인하세요");
+											alert("人数、日付を確認してください。");
 											return;
 										}
 										
@@ -279,14 +297,14 @@
 										$("#options").val(options);
 										console.log(options);
 										
-										alert("submit");
+										alert(form);
 										form.submit();
 									}
 									
 									function backToList(event) {
 										event.preventDefault();
 										
-										if(!confirm("변경을 취소하고 목록으로 돌아갑니다\n진행하시겠습니까?")) {
+										if(!confirm("変更事項を取り消してリストに戻りますか?")) {
 											return;
 										}
 										
@@ -296,7 +314,7 @@
 										console.log(adminURL);
 										//alert(adminURL);
 										
-										backForm.attr("action",adminURL + "/roominfo/get");
+										backForm.attr("action",adminURL + "/reserve/list");
 										backForm.attr("method","get");
 										
 										backForm.submit();
@@ -313,7 +331,6 @@
 				</div>
 			</div>
 		</article>
-		<jsp:include page="/WEB-INF/views/includes/commons/ListPage/modal.jsp"/>
 		
 	</body>
 	

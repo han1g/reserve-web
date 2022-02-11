@@ -17,7 +17,7 @@
 	            <div class="modal-body">
 	            </div>
 	            <div class="modal-footer">
-	                <button id="okButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+	                <button id="okButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">確認</button>
 	            </div>
 	        </div>
 	        <!-- /.modal-content -->

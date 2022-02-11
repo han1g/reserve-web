@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title></title>
 </head>
 <body>
-	<a href="/admin/sliderimages" role="button" class="btn btn-warning" id="btnList">슬라이더 수정</a>
+	<a href="/admin/sliderimages" role="button" class="btn btn-warning" id="btnList">スライダーイメージ修正</a>
 	<jsp:include page="/WEB-INF/views/includes/URS/URS000D00.jsp"></jsp:include>
 </body>
 </html>

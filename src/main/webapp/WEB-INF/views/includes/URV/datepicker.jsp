@@ -4,13 +4,14 @@
 <script src="/resources/lib/jquery-ui-1.13.0/datepicker-ja.js"></script>
 <script type="text/javascript">
 //script for datepicker
+    var startdates = ${startdates};
+    var enddates = ${enddates};
+
   function resett(resetflg) { $( function () {
 	$( "#startdate" ).datepicker( "destroy" );
 	$( "#enddate" ).datepicker( "destroy" );
 	var cannot_select_after = new Date('9999-12-31');
 	var cannot_select_before = new Date('1970-01-01');
-    var startdates = ${startdates};
-    var enddates = ${enddates};
     var dateFormat = "yy-mm-dd",
       from = $( "#startdate" )
         .datepicker({

@@ -5,13 +5,13 @@
 
 <div>
 	<c:if test="${not empty C}">
-		<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '${admin eq 'admin' ? '/admin' : ''}/${menu}/list';">목록</button>
+		<button type="button" class="btn btn-secondary" id="btnList" onclick="location.href = '${admin eq 'admin' ? '/admin' : ''}/${menu}/list';">リスト</button>
 	</c:if>
 	<c:if test="${not empty U}">
-		<button type="button" class="btn btn-secondary" id="btnList" onclick="backToList($('#form'));">목록</button>
+		<button type="button" class="btn btn-secondary" id="btnList" onclick="backToList($('#form'));">リスト</button>
 	</c:if>
 
-	<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">등록</button>
+	<button type="submit" class="btn btn-success" id="btnSave" onclick="sendReviewForm($('#form'));">登録</button>
 </div>
 <form id="backToList" action="" method="get" >
 	<jsp:include page="/WEB-INF/views/includes/commons/criteria.jsp"/>
@@ -59,7 +59,7 @@
 				frm.append(`<input type="hidden" name="no" value="${no}"/>`);
 			</c:if>
 			console.log("confriM???");
-			if(!confirm("등록하시겠습니까?")) {
+			if(!confirm("登録しますか?")) {
 				return false;
 			}
 			<c:if test="${menu eq 'roominfo'}">

@@ -116,7 +116,7 @@ public class Consultation extends BuildingEntity{
 		if(passwd != null && !passwd.equals(""))
 			this.passwd = SHA256Util.encrypt(passwd);
 		//null이면 pw 유지
-		if(name.contains("운영자"))
+		if(name.contains("Admin"))
 			this.passwd = null;
 		super.updatedAt();
 			

@@ -1,5 +1,8 @@
 package com.example.demo.domain.reserve;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -7,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.example.demo.domain.BaseConfiguration;
+import com.example.demo.service.ReserveService;
+
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +26,10 @@ public class ReserveTests extends BaseConfiguration {
 	
 	@Setter(onMethod_ = @Autowired)
 	JpaTransactionManager tm;
+	
+	@Autowired
+	ReserveService rc;
+	
 	
 	@Test
 	public void ppp() {
@@ -81,4 +91,11 @@ public class ReserveTests extends BaseConfiguration {
     public void deleteAll() {
     	p.deleteAllInBatch();
     }
+    
+    @Test
+    @Transactional
+    public void validateDateTest() {
+    	assertTrue(rc.validateDate(64L, "2022-03-02", "2022-03-02"));
+    }
+    
 }

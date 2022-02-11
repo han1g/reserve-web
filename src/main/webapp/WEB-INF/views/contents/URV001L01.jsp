@@ -9,7 +9,6 @@
 <jsp:include page="/WEB-INF/views/includes/URV/fullcalendar.jsp"/>
 </head>
 <body>
- 	name : ${param.name};<br>phone : ${param.phone};
   <div id='calendar'></div>
   <jsp:include page="/WEB-INF/views/includes/commons/ListPage/modal.jsp"/>
 </body>

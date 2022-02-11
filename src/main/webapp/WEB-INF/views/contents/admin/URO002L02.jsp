@@ -17,18 +17,18 @@
 	<div class="work-area">
 		<div class="card">
 			<div class="card-header">
-				<span>Options.</span>
+				<span>オプション</span>
 				<span>
-					<button class="btn btn-sm btn-primary" onclick="submit()">저장</button>
+					<button class="btn btn-sm btn-primary" onclick="submit()">保存</button>
 				</span>
 			</div>
 			<form id="options_register_form" action="/admin/options/register" method="post">
 				<table id="optionsTable" class="table table-striped table-sm" >
 					<thead>
 						<tr>
-							<th>ITEM</th>
-							<th>COST</th>
-							<th>ACTIVITY</th>
+							<th>オプション名</th>
+							<th>料金</th>
+							<th>活性化</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -43,10 +43,10 @@
 							 <!-- date받아서 포매팅하기 -->
 							 <!-- cout 을 쓰면 자동으로escape처리되기 때문에 특수문자 오류나 xss에 대응가능 -->
 							 <td><div class="input-group-text">
-							 		<input id="radio[${status.index}]1" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="1" ${option.activity eq '1' ? 'checked' : ''}><label for="radio[${status.index}]1">&nbsp; ON</label>
+							 		<input id="radio[${status.index}]1" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="1" ${option.activity eq '1' ? 'checked' : ''}><label for="radio[${status.index}]1">&nbsp; オン</label>
 							 		&nbsp;
-							 		<input id="radio[${status.index}]2" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="0" ${option.activity eq '0' ? 'checked' : ''}><label for="radio[${status.index}]2">&nbsp; OFF</label> </div></td>
-							<td><button class="btn btn-warning" onclick="deleteOptionClick(event,false)" >복구</button><td>
+							 		<input id="radio[${status.index}]2" class="form-check-input mt-0" type="radio" name="options[${status.index}].activity" value="0" ${option.activity eq '0' ? 'checked' : ''}><label for="radio[${status.index}]2">&nbsp; オフ</label> </div></td>
+							<td><button class="btn btn-warning" onclick="deleteOptionClick(event,false)" >復旧</button><td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -54,7 +54,7 @@
 			</form>
 		</div>
 		<div>
-			<a href="/admin/options/list" class="btn btn-outline-success">목록</a>
+			<a href="/admin/options/list" class="btn btn-outline-success">リスト</a>
 		</div>
 	</div>
 	<script>

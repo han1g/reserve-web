@@ -9,14 +9,14 @@
 <body>
 	<div class="work-area">
 		<div class="card">
-			<div class="card-header">Notice.</div>
+			<div class="card-header">お知らせ。</div>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>#번호</th>
-						<th>제목</th>
-						<th>작성일</th>
-						<th>수정일</th>
+						<th>#No.</th>
+						<th>タイトル</th>
+						<th>作成日</th>
+						<th>修正日</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,12 +47,12 @@
 						<%-- admin user --%>
 						<c:when test="${L eq '01'}">
 							<!-- normal list -->
-							<a href="/admin/notice/register" class="btn btn-outline-success">글쓰기</a>
-							<a href="/admin/notice/deletedList" class="btn btn-outline-warning">삭제 목록</a>
+							<a href="/admin/notice/register" class="btn btn-outline-success">登録</a>
+							<a href="/admin/notice/deletedList" class="btn btn-outline-warning">削除リスト</a>
 						</c:when>
 						<c:otherwise>
 							<!-- deleted list -->
-							<a href="/admin/notice/list" class="btn btn-outline-success">목록</a>
+							<a href="/admin/notice/list" class="btn btn-outline-success">リスト</a>
 						</c:otherwise>
 					</c:choose>
 				</c:when>

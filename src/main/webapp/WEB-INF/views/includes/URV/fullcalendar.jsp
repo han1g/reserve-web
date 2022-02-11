@@ -75,7 +75,14 @@
 		    title: '${reserve.roominfo.roomtitle}-${reserve.name}',
 		    backgroundColor: '${reserve.roominfo.colorcd}',
 		    textColor: setTextColor('${reserve.roominfo.colorcd}'),
+		    <c:if test="${admin eq 'admin'}">
+		    url: adminURL + '/reserve/modify?cri_roomno=${cri.roomno}&cri_roomtitle=${cri.roomtitle}'+
+		    '&cri_name=${cri.name}&cri_phone=${cri.phone}&cri_cancelflg=${cri.cancelflg}&cri_paymentflg=${cri.paymentflg}&cri_deleteflg=${cri.deleteflg}'+
+		    '&no=${reserve.no}&name=${reserve.name}&phone=${reserve.phone}',
+		    </c:if>
+		    <c:if test="${admin ne 'admin'}">
 		    url: adminURL + '/reserve/modify?no=${reserve.no}&name=${reserve.name}&phone=${reserve.phone}',
+		    </c:if>
 		    start: '${reserve.startdate}',
 		    end: '${reserve.enddate}T23:59:59'
 		  },

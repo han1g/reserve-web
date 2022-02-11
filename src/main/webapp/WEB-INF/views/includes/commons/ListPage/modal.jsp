@@ -10,7 +10,7 @@
 	                
 	            </div>
 	            <div class="modal-footer">
-	                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+	                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">確認</button>
 	            </div>
 	        </div>
 	        <!-- /.modal-content -->
@@ -33,10 +33,10 @@
 					return;
 				}
 				if(parseInt(result) > 0) {
-					$(".modal-body").html("게시글" + result + "번이 등록 되었습니다");
+					$(".modal-body").html( result + "番が登録されました。");
 					$("#myModal").modal("show");
 				} else if(result === "success") {
-					$(".modal-body").html("처리 완료");
+					$(".modal-body").html("処理完了");
 					$("#myModal").modal("show");
 				} else {
 					$(".modal-body").html(result);

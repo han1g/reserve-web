@@ -15,7 +15,7 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">방 수정</h2>
+					<h2 class="write-h2">部屋修正</h2>
 				</div>
 				<div class="background-white">
 					<form action="/admin/roominfo/modify" name="form" id="form" role="form" method="post">
@@ -23,49 +23,49 @@
 						<!-- criteria to return to previous list -->
 							
 						<div class="mb-3">
-							<label for="roomnum">Room Num.</label> 
+							<label for="roomnum">部屋番号</label> 
 							<input type="number"
 								class="form-control required" name="roomnum" min="0" id="roomnum" max="9999" value="${roominfo.roomnum}"
-								placeholder="방 번호를 입력해 주세요" required>
+								placeholder="部屋番号を入力してください。 (0 - 9999)" required>
 						</div>
 						<div class="mb-3">
-							<label for="roomtitle">Room Title</label> 
+							<label for="roomtitle">部屋名</label> 
 							<input type="text"
 								class="form-control required" name="roomtitle" id="roomtitle" value="${roominfo.roomtitle}"
-								placeholder="방 이름을 입력해 주세요" required>
+								placeholder="部屋名を入力してください。" required>
 						</div>
 						<div class="mb-3">
-							<label for="explanation">Explanation</label> 
+							<label for="explanation">詳細情報</label> 
 							<textarea 
 								class="form-control required" name="explanation" id="explanation"
-								placeholder="설명을 입력해 주세요" rows="3" required>${roominfo.explanation}</textarea>
+								placeholder="詳細情報を入力してください。"" rows="3" required>${roominfo.explanation}</textarea>
 						</div>
 						<div class="mb-3">
-							<label for="maxpeople">Maxpeople</label> 
+							<label for="maxpeople">最大人数</label> 
 							<input type="number"
 								class="form-control w-25 required" name="maxpeople" id="maxpeople" min="0" value="${roominfo.maxpeople}" max="100"
-								placeholder="최대 인원수를 입력해주세요" required>
+								placeholder="最大人数 (0 - 100)" required>
 						</div>
 						<div class="mb-3">
-							<label for="adultcost">Adultcost</label>
+							<label for="adultcost">大人料金</label>
 							<div class="input-group w-25"> 
 								<span class="input-group-text">￥</span>
 								<input type="number"
 									class="form-control w-25 required" name="adultcost" id="adultcost" min="0" value="${roominfo.adultcost}" max="100000"
-									placeholder="어른 1명당 가격" required>
+									placeholder="大人1人当たりの料金 (0 - 100000)" required>
 							</div>
 						</div>
 						<div class="mb-3">
-							<label for="childcost">Childcost</label> 
+							<label for="childcost">小人料金</label> 
 							<div class="input-group w-25"> 
 								<span class="input-group-text">￥</span>
 								<input type="number"
 									class="form-control required" name="childcost" id="childcost" min="0" value="${roominfo.childcost}" max="100000"
-									placeholder="어린이 1명당 가격" required>
+									placeholder="小人1人当たりの料金 (0 - 100000)" required>
 							</div>
 						</div>
 						<div class="mb-3">
-							<label for="colorcd">Colorcd(색을 선택해주세요)</label> 
+							<label for="colorcd">色コード</label> 
 							<input type="color"
 								class="form-control form-control-color required" name="colorcd" id="colorcd" value="${roominfo.colorcd}"
 								placeholder="" required>

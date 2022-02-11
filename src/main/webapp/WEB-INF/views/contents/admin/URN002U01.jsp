@@ -14,17 +14,17 @@
 		<article>
 			<div class="container" role="main">
 				<div class="h2">
-					<h2 class="write-h2">공지 수정</h2>
+					<h2 class="write-h2">お知らせ修正</h2>
 				</div>
 				<div class="background-white">
 					<form action="/admin/notice/modify" name="form" id="form" role="form" method="post">
 						<jsp:include page="/WEB-INF/views/includes/commons/criteria.jsp"/>
 						
 						<div class="mb-3">
-							<label for="title">Title</label> 
+							<label for="title">タイトル</label> 
 							<input type="text"
 								class="form-control" name="title" id="title"
-								value ="${notice.title}"placeholder="제목을 입력해 주세요">
+								value ="${notice.title}"placeholder="タイトルを入力してください。">
 						</div>
 						<div class="mb-3">
 							<textarea id="summernote" name="contents">${notice.contents}</textarea>

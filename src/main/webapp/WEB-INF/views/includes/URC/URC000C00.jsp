@@ -23,25 +23,25 @@
 							<input type="hidden" name="ref_no" value="${consultation.no}"/>
 						</c:if>
 						<div class="mb-3">
-							<label for="title">Title</label> 
+							<label for="title">タイトル</label> 
 							<input type="text"
 								class="form-control" name="title" id="title" value="${C eq '02' ? ('Re: '.concat(consultation.title)) : ''}"
-								placeholder="제목을 입력해 주세요">
+								placeholder="タイトルを入力してください。">
 						</div>
 						<div class="mb-3">
-							<label for="name">Name</label> 
+							<label for="name">姓名</label> 
 							<input type="text"
-								class="form-control" name="name" id="name" value="${admin eq 'admin' ? '운영자' : ''}" ${admin eq 'admin' ? 'readonly' : ''}
-								placeholder="이름을 입력해 주세요">
+								class="form-control" name="name" id="name" value="${admin eq 'admin' ? 'Admin' : ''}" ${admin eq 'admin' ? 'readonly' : ''}
+								placeholder="名前を入力してください。">
 						</div>
 						<div id="div_lock" class="form-check mb-3">
 							<input type="hidden" class="form-check-input" name="lockflg" value="0" id="chk_lock_hidden"/><!-- checkbox가 언체크드면 이게 감-->
-							<label for="chk_lock" class="form-check-label">비밀글</label>
+							<label for="chk_lock" class="form-check-label">ロック</label>
 							<input type="checkbox" class="" name="lockflg" id="chk_lock"
 								value="1" ${consultation.lockflg eq 1 ? 'checked' : ''}>
 
 							<c:if test="${admin ne 'admin'}">
-								<label for="passwd"> &nbsp;&nbsp;pw: </label> 
+								<label for="passwd"> &nbsp;&nbsp;パスワード: </label> 
 								<input type="password" id="passwd" name="passwd" value="">
 							</c:if> 
 						</div>

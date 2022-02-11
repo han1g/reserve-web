@@ -9,7 +9,7 @@ ${imagesList}
   <div class="card-body">
 	<div id="uploadForm">
 		<form id="uploadForm">
-			<button id="uploadFileButton" class="btn btn-success">사진 추가</button>
+			<button id="uploadFileButton" class="btn btn-success">画像追加</button>
 			<input type='file' id="uploadFile" name='uploadFile' multiple="multiple" style="display:none" ><!-- 화면에서 숨기기  style="display:none"-->
 		</form>
 	</div>
@@ -20,9 +20,9 @@ ${imagesList}
 					<img src="${image}&thumb=true" class="img-thumbnail carousel-image-target" style="object-fit: contain; width:100px;height:100px;cursor: zoom-in;" alt="..."
 					onclick="showImage('${image}')">
 					<form>
-						<button class="btn btn-warning" onclick="changeFileButtonClick(event)">변경</button>
+						<button class="btn btn-warning" onclick="changeFileButtonClick(event)">変更</button>
 						<input type='file' name='uploadFile' onchange="changeFileListener(event)" style="display:none"><!-- 화면에서 숨기기  style="display:none"-->
-						<button class="btn btn-danger" onclick="deleteImageClick(event)" >삭제</button>
+						<button class="btn btn-danger" onclick="deleteImageClick(event)" >削除</button>
 					</form>
 			</li>
 		</c:forEach>
@@ -178,11 +178,11 @@ ${imagesList}
 		console.log(fileName);
 		console.log(fileSize);
 		if(fileSize >= maxSize) {
-			alert("파일사이즈 초과");
+			alert("ファイルサイズ超過");
 			return false;
 		}
 		if(regex.test(fileName)) {
-			alert("업로드 불가능한 확장자")
+			alert("この拡張子はアプロード出来ません。")
 			return false;
 		}
 		return true;

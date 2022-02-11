@@ -42,6 +42,11 @@ public class ReserveServiceImpl implements ReserveService{
 		
 		BooleanBuilder builder = new BooleanBuilder();
 		builder.and(qReserve.buildcd.eq("4"));
+		builder.and(qReserve.roominfo.deleteflg.ne("1"));// null ne "1" = true , "0" ne "1" = true
+		if(cri.getRoomno() != null) {
+			builder.and(qReserve.roomno.eq(cri.getRoomno()));
+		}
+		
 		if(cri.getRoomtitle() != null) {
 			builder.and(qReserve.roominfo.roomtitle.eq(cri.getRoomtitle()));//hibernate가 알아서 joinquery생성
 		}
@@ -102,37 +107,58 @@ public class ReserveServiceImpl implements ReserveService{
 			//execute only if cancel
 			en.cancel();
 			repo1.save(en);
-			return "취소완료";
+			return "取消完了";
 		} else {
 			en.update(dto);
 			repo1.save(en);
 			if(dto.getPaymentflg().equals("1")) {
-				return "결제완료";
+				return "支払い完了";
 			} else {
-				return "수정완료";
+				return "修正完了";
 			} 
 		}
 		
 	}
+	@Override
+	public String modifyAdmin(ReserveDTO dto) {
+		Reserve en = repo1.findById(dto.getNo()).get();
+		en.update(dto);
+		repo1.save(en);
+		return "修正完了";
+	}
+	
+	@Override
+	public String cancelAdmin(ReserveDTO dto) {
+		Reserve en = repo1.findById(dto.getNo()).get();
+		en.cancel();
+		
+		return "取消完了";
+	}
 
 	@Override
-	public boolean remove(Long bno) {
+	public String removeAdmin(ReserveDTO dto) {
+		Reserve en = repo1.findById(dto.getNo()).get();
+		en.delete();
+		
+		return "削除完了";
+	}
+	
+	@Override
+	public boolean restore(ReserveDTO dto) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+
+	
+	
 	@Override
 	public ReserveDTO get(Long bno) {
 		// TODO Auto-generated method stub
 		return repo1.findById(bno).get().toDTO();
 	}
 
-	@Override
-	public boolean restore(Long no) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	@Override
 	public List<String> getStartdates(Long roomno,Long reserveno) {
 		// TODO Auto-generated method stub
@@ -178,5 +204,24 @@ public class ReserveServiceImpl implements ReserveService{
 		repo1.findAll(builder).forEach(el -> list.add("'" + el.toDTO().getEnddate() + "'"));
 		return list;
 	}
+
+	@Override
+	public boolean validateDate(Long roomno, String startdate, String enddate) {
+		// TODO Auto-generated method stub
+		QReserve qReserve = QReserve.reserve;
+		log.info("validateDate - roomno : " + roomno);
+		log.info("validateDate - startdate : " + startdate);
+		log.info("validateDate - enddate : " + enddate);
+		BooleanBuilder builder = new BooleanBuilder();
+		builder.and(qReserve.buildcd.eq("4"));//
+		builder.and(qReserve.cancelflg.eq("0"));//삭제 안된애들 중에서
+		builder.and(qReserve.roomno.eq(roomno));
+		builder.and(qReserve.enddate.goe(startdate));
+		builder.and(qReserve.startdate.loe(enddate));
+		return !repo1.exists(builder); // 복원하려는 애랑 날짜 겹치는 애가 없으면 true
+	}
+
+	
+	
 	
 }

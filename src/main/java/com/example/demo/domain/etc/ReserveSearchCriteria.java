@@ -13,6 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReserveSearchCriteria extends Criteria{
+	private Long roomno;
 	private String roomtitle;
 	private String name;
 	private String phone;

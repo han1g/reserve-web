@@ -6,12 +6,12 @@
 			var title = $('#title').val();
 			var contents = $("#summernote").summernote('code');
 			if (title.trim() == ''){
-				alert("제목을 입력해주세요");
+				alert("タイトルを入力してください。");
 				return false;
 			}
 			
 			if (contents.trim() == ''){
-				alert("내용을 입력해주세요");
+				alert("内容を入力してください。");
 				return false;
 			}
 			

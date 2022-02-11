@@ -17,10 +17,19 @@ public interface ReserveService {
 	public void register(ReserveDTO board);
 	
 	public String modify(ReserveDTO board);
-	
-	public boolean remove(Long bno);
+	public String modifyAdmin(ReserveDTO dto);
+	public String cancelAdmin(ReserveDTO dto);
+	public String removeAdmin(ReserveDTO dto);
+	public boolean restore(ReserveDTO dto);
 	
 	public ReserveDTO get(Long bno);
+
+	public boolean validateDate(Long roomno, String startdate, String enddate);
 	
-	public boolean restore(Long no);
+	
+
+	
+
+	
+	
 }

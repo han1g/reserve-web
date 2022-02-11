@@ -11,19 +11,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       	<li class="nav-item">
-          <a class="nav-link ${menu eq 'home' ? 'active' : '' }" aria-current="page" href="/">HOME。</a>
+          <a class="nav-link ${menu eq 'home' ? 'active' : '' }" aria-current="page" href="/">ホーム。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'roominfo' ? 'active' : '' }" aria-current="page" href="/roominfo/list">ROOMS。</a>
+          <a class="nav-link ${menu eq 'roominfo' ? 'active' : '' }" aria-current="page" href="/roominfo/list">部屋リスト。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/notice/list">NOTICE。</a>
+          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/notice/list">お知らせ。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/consultation/list">CONSULTATION。</a>
+          <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/consultation/list">相談。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'reserve' ? 'active' : '' }" aria-current="page" href="/"  data-bs-toggle="modal" data-bs-target="#reserveModal">MY RESERVATION。</a>
+          <a class="nav-link ${menu eq 'reserve' ? 'active' : '' }" aria-current="page" href="/"  data-bs-toggle="modal" data-bs-target="#reserveModal">予約確認。</a>
         </li>
       </ul>
     </div>
@@ -35,23 +35,23 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            	예약자 정보 입력
+            	予約者情報入力
             </div>
             <form action="/reserve/list" id="reserve-modal-form" method="get">
 	            <div class="modal-body">
 	                <div class="mb-3">
-					  <label for="name" class="form-label">Name.</label>
-					  <input type="text" name="name" class="form-control" id="name" placeholder="예약자 성명">
+					  <label for="name" class="form-label">姓名</label>
+					  <input type="text" name="name" class="form-control" id="name" placeholder="名前入力">
 					</div>
 					<div class="mb-3">
-					  <label for="phone" class="form-label">Phone Number.</label>
-					  <input type="text" name="phone" class="form-control" id="phone" placeholder="전화번호('-'제외)">
+					  <label for="phone" class="form-label">電話番号</label>
+					  <input type="text" name="phone" class="form-control" id="phone" placeholder="電話番号('-'無し)">
 					</div>
 	            </div>
             </form>
             <div class="modal-footer">
-            	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
-                <button type="submit" form="reserve-modal-form" class="btn btn-success">확인</button>
+            	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">取消</button>
+                <button type="submit" form="reserve-modal-form" class="btn btn-success">確認</button>
             </div>
         </div>
         <!-- /.modal-content -->

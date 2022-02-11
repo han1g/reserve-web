@@ -11,22 +11,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       	<li class="nav-item">
-          <a class="nav-link ${menu eq 'home' ? 'active' : '' }" aria-current="page" href="/admin/">HOME。</a>
+          <a class="nav-link ${menu eq 'home' ? 'active' : '' }" aria-current="page" href="/admin/">ホーム。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'roominfo' ? 'active' : '' }" aria-current="page" href="/admin/roominfo/list">ROOMS。</a>
+          <a class="nav-link ${menu eq 'roominfo' ? 'active' : '' }" aria-current="page" href="/admin/roominfo/list">部屋リスト。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/admin/notice/list">NOTICE。</a>
+          <a class="nav-link ${menu eq 'notice' ? 'active' : '' }" aria-current="page" href="/admin/notice/list">お知らせ。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/admin/consultation/list">CONSULTATION。</a>
+          <a class="nav-link ${menu eq 'consultation' ? 'active' : '' }" aria-current="page" href="/admin/consultation/list">相談。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'options' ? 'active' : '' }" aria-current="page" href="/admin/options/list">OPTIONS。</a>
+          <a class="nav-link ${menu eq 'options' ? 'active' : '' }" aria-current="page" href="/admin/options/list">オプション。</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link ${menu eq 'reserve' ? 'active' : '' }" aria-current="page" href="/admin/reserve/list">RESERVATION。</a>
+          <a class="nav-link ${menu eq 'reserve' ? 'active' : '' }" aria-current="page" href="/admin/reserve/list">予約リスト。</a>
         </li>
       </ul>
     </div>
